@@ -1,7 +1,7 @@
 ---
 name: To-do list
-about: Suggest an idea for this project
-title: "[To-do]"
+about: 구현에 따라 체크박스를 하나씩 체크해가면서, 프로젝트의 필수 혹은 권장할 만한 진행 상황을 확인할 수 있습니다.
+title: "[TO-DO]"
 labels: ''
 assignees: ''
 
