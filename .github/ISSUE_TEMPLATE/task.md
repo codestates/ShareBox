@@ -1,13 +1,13 @@
 ---
 name: Task
 about: Suggest an idea for this project
-title: ''
+title: "[TASK]"
 labels: ''
 assignees: ''
 
 ---
 
-> ### Issue 타입(하나 이상의 Issue 타입을 선택해주세요)
+> ### Issue 타입(하나 이상의 Issue 타입을 선택해 주세요)
 > * [ ]  기능 추가
 > * [ ]  기능 삭제
 > * [ ]  버그 수정
@@ -22,13 +22,9 @@ assignees: ''
 > * [ ]  `1.5h`
 > * [x]  `2h`
 > * [ ]  `2.5h`
-> * [] `3h`
+> * [ ] `3h`
 > 
 > ### 라벨
 > * 예상 소요 시간: `E: 2h`
 > * 그룹: `client`, `server`
-> * 긴급도: `High`
-
-
-
->
+> * 긴급도: `High`, `Medium`, `Low`
