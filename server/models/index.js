@@ -11,7 +11,7 @@ db.query(schema, (error, result) => {
   if (error) {
     return console.log(error);
   } else {
-    return console.log(null, result);
+    return console.log("ok");
   }
 });
 db.query(seed, (error, result) => {

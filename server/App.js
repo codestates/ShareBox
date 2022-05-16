@@ -1,10 +1,12 @@
-const express = require("express");
-const indexRouter = require("./route");
-const cors = require("cors");
+const express = require('express');
+const indexRouter = require('./route/index');
+const cors = require('cors')
+const cookieParser = require("cookie-parser");
 const app = express();
 const port = 4000;
 
 app.use(cors());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
