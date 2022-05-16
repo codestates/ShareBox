@@ -10,11 +10,9 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// app.get('/', (req,res)=>{
-//   res.send("hello")
-// })
+app.use("/images", express.static("public/images"));
 
-app.use('/', indexRouter);
+app.use("/", indexRouter);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
