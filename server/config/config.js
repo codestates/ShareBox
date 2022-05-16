@@ -7,6 +7,7 @@ const config = {
     user: "root",
     password: process.env.DATABASE_PASSWORD,
     database: "ShareBox",
+    multipleStatements: true,
   },
 };
 

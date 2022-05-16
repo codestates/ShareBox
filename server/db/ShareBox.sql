@@ -1,37 +1,54 @@
 CREATE TABLE `users` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `userId` varchar(255),
-  `email` varchar(255),
-  `password` varchar(255),
-  `country` varchar(255),
-  `createdDate` timestamp,
-  `modifiedDate` timestamp
+  `userId` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `country` varchar(255) NOT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT (now()), -- 수정
+  `updatedDate` timestamp NOT NULL DEFAULT (now())  -- 수정
 );
 
-CREATE TABLE `post` (
+CREATE TABLE `posts` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `userId` int,
-  `title` varchar(255),
-  `picture` varchar(255),
-  `content` varchar(255),
-  `category` varchar(255),
-  `country` varchar(255),
-  `complete` boolean,
-  `createdDate` timestamp,
-  `modifiedDate` timestamp
+  `title` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `category` varchar(255) NOT NULL,
+  `country` varchar(255) NOT NULL,
+  `complete` boolean NOT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT (now()),
+  `updatedDate` timestamp NOT NULL DEFAULT (now())
 );
 
-CREATE TABLE `comment` (
+CREATE TABLE `comments` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `postId` int,
-  `userId` int,
-  `content` varchar(255),
-  `createdDate` timestamp,
-  `modifiedDate` timestamp
+  `postId` int NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT (now()),
+  `updatedDate` timestamp NOT NULL DEFAULT (now())
 );
 
-ALTER TABLE `comment` ADD FOREIGN KEY (`postId`) REFERENCES `post` (`id`);
+CREATE TABLE `users_comments` (
+  `id` int PRIMARY KEY AUTO_INCREMENT, -- 수정
+  `usersId` int NOT NULL,
+  `commentId` int NOT NULL 
+);
 
-ALTER TABLE `comment` ADD FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
+CREATE TABLE `users_posts` (
+  `id` int PRIMARY KEY AUTO_INCREMENT, -- 수정
+  `usersId` int NOT NULL,
+  `postId` int NOT NULL
+);
 
-ALTER TABLE `post` ADD FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
+ALTER TABLE `comments` ADD FOREIGN KEY (`postId`) REFERENCES `posts` (`id`);
+
+ALTER TABLE `comments` ADD FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
+
+ALTER TABLE `users_comments` ADD FOREIGN KEY (`usersId`) REFERENCES `users` (`id`);
+
+ALTER TABLE `users_comments` ADD FOREIGN KEY (`commentId`) REFERENCES `comments` (`id`);
+
+ALTER TABLE `users_posts` ADD FOREIGN KEY (`usersId`) REFERENCES `users` (`id`);
+
+ALTER TABLE `users_posts` ADD FOREIGN KEY (`postId`) REFERENCES `posts` (`id`);
+
