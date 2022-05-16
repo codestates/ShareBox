@@ -1,0 +1,72 @@
+* {
+  box-sizing: border-box;
+}
+
+.background {
+  background-color: #f6efea;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
+}
+
+.App {
+  text-align: center;
+}
+
+form > div > span:first-child {
+  display: inline-block;
+  width: 10ch;
+  text-align: right;
+  padding: 0 1ch;
+}
+
+form > input.ip-search {
+  width: 30rem;
+  font-size: 1.1rem;
+  padding: 0.4rem;
+  margin: 0.4rem;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="password"] {
+  width: 400px;
+  font-size: 1rem;
+  padding: 0.4rem;
+  margin: 0.4rem;
+}
+
+.btn {
+  font-size: 1rem;
+  padding: 0.4rem;
+  margin: 0.4rem 0;
+}
+
+.btn-search {
+  border: 0;
+  background-color: transparent;
+}
+
+button > img {
+  width: 1rem;
+}
+
+form {
+  display: inline-block;
+}
+
+.alert-box {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
