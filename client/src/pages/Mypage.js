@@ -1,209 +1,248 @@
-<<<<<<< HEAD
-import Title from "../components/Title"
-import axios from "axios"
-import { useEffect, useState } from "react"
-import styled from "styled-components"
-import Subheading from "../components/Subheading"
+import Title from "../components/Title";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+import Subheading from "../components/Subheading";
 
 const Wrapper = styled.div`
-  display : flex ;
+  display: flex;
   height: 100vh;
   width: 100vw;
   justify-content: center;
   align-items: center;
-  background-color: rgb(241 212 202 );
-  `
+  background-color: rgb(241 212 202);
+`;
 
 const Input = styled.input`
   height: 6vh;
   width: 20vw;
   background-color: rgb(228 140 113);
   border-radius: 3vh;
-  margin : 1vh;
-  font-size: 2vh ;
-  color : white;
-  align-content: center ;
-  `
+  margin: 1vh;
+  font-size: 2vh;
+  color: white;
+  align-content: center;
+`;
 
+function MyPage() {
+  const [passwordMessage, setPassWordMessage] = useState("");
+  const [emailMessage, setEmailMessage] = useState("");
+  const [mobileMessage, setMobileMessage] = useState("");
+  const [regionMessage, setRegionMessage] = useState("");
 
-function MyPage () {
+  const [isPassword, setIsPassword] = useState(false);
+  const [isEmail, setIsEmail] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isRegion, setIsRegion] = useState(false);
 
-  
+  const regions = [
+    "지역 선택",
+    "강남구",
+    "강동구",
+    "강북구",
+    "강서구",
+    "관악구",
+    "광진구",
+    "구로구",
+    "금천구",
+    "노원구",
+    "도봉구",
+    "동대문구",
+    "동작구",
+    "마포구",
+    "서대문구",
+    "서초구",
+    "성동구",
+    "성북구",
+    "송파구",
+    "양천구",
+    "영등포구",
+    "용산구",
+    "은평구",
+    "종로구",
+    "중구",
+    "중랑구",
+  ];
 
-const [passwordMessage, setPassWordMessage] = useState('')
-const [emailMessage, setEmailMessage] = useState('')
-const [mobileMessage, setMobileMessage] = useState('')
-const [regionMessage, setRegionMessage] = useState('')
-
-
-const [isPassword, setIsPassword] = useState(false)
-const [isEmail, setIsEmail] = useState(false)
-const [isMobile, setIsMobile] = useState(false)
-const [isRegion, setIsRegion] = useState(false)
-
-
-  const regions = ['지역 선택','강남구','강동구','강북구','강서구','관악구','광진구','구로구','금천구','노원구','도봉구','동대문구','동작구','마포구','서대문구','서초구','성동구','성북구','송파구','양천구','영등포구','용산구','은평구','종로구','중구','중랑구']
-
-  const [userId, setUserId] = useState('')
-  const [password, setPassword] = useState('')
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
   // const [password2, setPassword2] = useState('')
-  const [email, setEmail] = useState('')
-  const [region, setRegion] = useState('')
-  const [mobile, setMobile] = useState('')
-  const [isLoading , setIsLoading] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('')
+  const [email, setEmail] = useState("");
+  const [region, setRegion] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-async function getUserInfo () {
-    const data = await axios.get('FILL_ME_IN/userinfo')
-    setUserId(data.userid)
-    setPassword(data.password)
-    setEmail(data.email)
-    setMobile(data.mobile)
-    setRegion(data.region)
-    setIsLoading(true)
+  async function getUserInfo() {
+    const data = await axios.get("FILL_ME_IN/userinfo");
+    setUserId(data.userid);
+    setPassword(data.password);
+    setEmail(data.email);
+    setMobile(data.mobile);
+    setRegion(data.region);
+    setIsLoading(true);
   }
 
-useEffect(()=> {
-  // getUserInfo()
-  test()
-})
+  useEffect(() => {
+    // getUserInfo()
+    test();
+  });
 
+  function test() {
+    const data = {
+      userId: "Kimdeokbea",
+      password: "1234",
+      region: "강남구",
+      email: "kimdeokbea@naver.com",
+      mobile: "010-0000-0000",
+    };
 
-function test() {
-  const data = {
-    'userId' : 'Kimdeokbea',
-    'password' : '1234',
-    'region' : '강남구',
-    'email' : 'kimdeokbea@naver.com',
-    'mobile' : '010-0000-0000'}
+    setUserId(data.userId);
+    setPassword(data.password);
+    setEmail(data.email);
+    setMobile(data.mobile);
+    setRegion(data.region);
 
-  setUserId(data.userId)
-  setPassword(data.password)
-  setEmail(data.email)
-  setMobile(data.mobile)
-  setRegion(data.region)
- 
-
-  console.log(`i:${userId} p:${password} E:${email}, M:${mobile}, R:${region}`)
-}
-
-function test2 () {
-  setIsLoading(true)
-}
-
-
-function handleUserInfo () {
-  if (!password || !email || !mobile || !region){
-    setErrorMessage('사용자 정보가 올바르지 않습니다.')
-
-  } else {
-
-    axios.put ('FILL_ME_IN/userinfo',{password,email,region,mobile})
-    .then((res) => {})
-    .catch((err) => console.log(err))
+    console.log(`i:${userId} p:${password} E:${email}, M:${mobile}, R:${region}`);
   }
-}
 
-
-function onPasswordChange(e) {
-  const value = e.target.value
-  setPassword(value)
-  console.log(`비밀번호1:${value}`)
-
-  if (value.length < 4) {
-    setPassWordMessage('비밀번호는 4글자 이상이여야 합니다.')
-    setIsPassword(false)
-  } else {
-    setPassWordMessage('')
-    setIsPassword(true)
+  function test2() {
+    setIsLoading(true);
   }
-}
 
-function onEmailChange(e) {
-  const value = e.target.value
-  const emailRegex = 	/([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
-  setEmail(value)
-    if (!emailRegex.test(value)) {
-      setEmailMessage('올바르지 못 한 이메일 형식입니다.')
-      setIsEmail(false)
-  } else {
-      setEmailMessage('')
-      setIsEmail(true)
-  }
-}
-
-function onMobileChange(e) {
-  const value = e.target.value
-  const mobileRegex = /[0-9]{2,3}-[0-9]{3,4}-[0-9]{3,4}/
-  setMobile(value)
-  
-    if(!mobileRegex.test(value)) {
-      setMobileMessage('올바르지 못 한 전화번호 형식입니다.')
-      setIsMobile(false)
+  function handleUserInfo() {
+    if (!password || !email || !mobile || !region) {
+      setErrorMessage("사용자 정보가 올바르지 않습니다.");
     } else {
-      setMobileMessage('')
-      setIsMobile(true)
+      axios
+        .put("FILL_ME_IN/userinfo", { password, email, region, mobile })
+        .then((res) => {})
+        .catch((err) => console.log(err));
     }
   }
 
-function onRegionSelect(e) {
-  const value = e.target.value
-    setRegion(value);
-      
-    if (value === '지역 선택') {
-      setRegionMessage('지역을 선택해주세요')
-      setIsRegion(false)
-      setRegion('')
-  } else {
-      setRegionMessage('')
-      setIsRegion(true)
+  function onPasswordChange(e) {
+    const value = e.target.value;
+    setPassword(value);
+    console.log(`비밀번호1:${value}`);
+
+    if (value.length < 4) {
+      setPassWordMessage("비밀번호는 4글자 이상이여야 합니다.");
+      setIsPassword(false);
+    } else {
+      setPassWordMessage("");
+      setIsPassword(true);
+    }
   }
-};
+
+  function onEmailChange(e) {
+    const value = e.target.value;
+    const emailRegex =
+      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    setEmail(value);
+    if (!emailRegex.test(value)) {
+      setEmailMessage("올바르지 못 한 이메일 형식입니다.");
+      setIsEmail(false);
+    } else {
+      setEmailMessage("");
+      setIsEmail(true);
+    }
+  }
+
+  function onMobileChange(e) {
+    const value = e.target.value;
+    const mobileRegex = /[0-9]{2,3}-[0-9]{3,4}-[0-9]{3,4}/;
+    setMobile(value);
+
+    if (!mobileRegex.test(value)) {
+      setMobileMessage("올바르지 못 한 전화번호 형식입니다.");
+      setIsMobile(false);
+    } else {
+      setMobileMessage("");
+      setIsMobile(true);
+    }
+  }
+
+  function onRegionSelect(e) {
+    const value = e.target.value;
+    setRegion(value);
+
+    if (value === "지역 선택") {
+      setRegionMessage("지역을 선택해주세요");
+      setIsRegion(false);
+      setRegion("");
+    } else {
+      setRegionMessage("");
+      setIsRegion(true);
+    }
+  }
 
   return (
-    
     <Wrapper>
       <Title />
       <Subheading body=" 내 정보 보기 / 변경" />
-      {isLoading ? 
-      <div>
+      {isLoading ? (
         <div>
-          아이디 : <Input defaultValue={userId} disabled={true}/> 
+          <div>
+            아이디 : <Input defaultValue={userId} disabled={true} />
+          </div>
+          <div>
+            비밀번호 :{" "}
+            <Input
+              onChage={onPasswordChange}
+              defaultValue={password}
+              placeholder="변경을 원하시는 비밀번호를 입력하세요"
+            />
+            {passwordMessage}
+          </div>
+          <div>
+            이메일 :{" "}
+            <Input
+              onChage={onEmailChange}
+              defaultValue={email}
+              placeholder="원하시는 이메일 주소를 입력하세요"
+            />
+            {emailMessage}
+          </div>
+          <div>
+            휴대폰번호 :{" "}
+            <Input
+              onChage={onMobileChange}
+              defaultValue={mobile}
+              placeholder="사용하시는 휴대폰 번호를 입력 해주세요"
+            />
+            {mobileMessage}
+          </div>
+          <div>
+            지역 :{" "}
+            <Input as="select" defaultValue={region} onChange={onRegionSelect}>
+              {" "}
+              {region}
+              {regions.map((regions) => (
+                <option
+                  key={regions}
+                  value={regions}
+                  // defaultValue={region}
+                >
+                  {regions}
+                </option>
+              ))}
+            </Input>
+            <div> {regionMessage} </div>
+          </div>
+          <button onClick={handleUserInfo}> 회원정보 수정 </button>
+          <div> {errorMessage}</div>
         </div>
-        <div>
-          비밀번호 : <Input onChage={onPasswordChange} defaultValue={password} placeholder='변경을 원하시는 비밀번호를 입력하세요'/> 
-          {passwordMessage}
-        </div>
-        <div>
-          이메일 : <Input onChage={onEmailChange} defaultValue={email} placeholder='원하시는 이메일 주소를 입력하세요'/> 
-          {emailMessage}
-        </div>
-        <div>
-          휴대폰번호 : <Input onChage={onMobileChange} defaultValue={mobile} placeholder='사용하시는 휴대폰 번호를 입력 해주세요'/>  
-          {mobileMessage}
-        </div>
-        <div>
-          지역 : <Input as='select' defaultValue={region} onChange={onRegionSelect}> {region} 
-            {regions.map((regions) => <option 
-              key={regions}
-              value={regions}
-              // defaultValue={region}
-              >{regions}</option>)}
-          </Input>
-         <div> {regionMessage} </div>
-        </div>
-        <button onClick={handleUserInfo}> 회원정보 수정 </button>
-        <div> {errorMessage}</div>
-      </div>
-     : 'Loading...' }
+      ) : (
+        "Loading..."
+      )}
 
-     <button onClick={test2}>테스트 </button>
+      <button onClick={test2}>테스트 </button>
     </Wrapper>
-  )
+  );
 }
 
-export default MyPage
-
+export default MyPage;
 
 /* mypage 버튼을 클릭하면 
   axios.get을 통해서 /userinfo api로 요청을 진행
@@ -225,80 +264,3 @@ export default MyPage
       수정 된 개인정보는 비밀번호, 이메일, 모바일, 사는 지역이 전달 / Id는 변경없음. 
 
 */
-=======
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Modal } from '../components/Modal';
-import { Sign } from '../components/Sign';
-
-axios.defaults.withCredentials = true;
-
-export default function Mypage (props) {
-  /* const [userId, setUserId] = useState();
-  const [email, setEmail] = useState();
-  const [mobile], setMobile] = useState();
-  const accessTokenRequest = () => {
-    axios
-      .get("https://localhost:4000/accesstokenrequest", {
-        headers: {
-          Authorization: `Bearer ${props.accessToken}`,
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      })
-      .then((res) => {
-        if (res.data.message !== "ok") {
-          const message =
-            "access token이 만료되어 불러올 수 없습니다. refresh token을 사용해주시기 바랍니다.";
-          setEmail(message);
-          setMobile(message);
-          return;
-        }
-        const userinfo = res.data.data.userInfo;
-        setUserId(userinfo.userId);
-        setEmail(userinfo.email);
-        setMobile(userinfo.mobile);
-      });
-  }
-  const refreshTokenRequest = () => {
-    axios
-      .get("https://localhost:4000/refreshtokenrequest", {
-        withCredentials: true,
-      })
-      .then((res) => {
-        if (res.data.message !== "ok") {
-          const message =
-            "refresh token이 만료되어 불러올 수 없습니다. 다시 로그인 해주시기 바랍니다.";
-            setEmail(message);
-            setMobile(message);
-            return;
-        }
-        const userinfo = res.data.data.userInfo;
-        setUserId(userinfo.userId);
-        setEmail(userinfo.email);
-        setMobile(userinfo.mobile);
-        props.issueAccessToken(res.data.data.accessToken);
-      });
-  } */
-  return (
-    <div className='background'>
-      { props.userinfo && [
-        <Sign
-          // key={1}
-          handleSignin={props.handleSignin}
-          handleSignout={props.handleSignout}
-        />,
-        <Modal className='btn btn-dropout' handleDropout={props.handleDropout} />,
-        {/* <div className='btnContainer'>
-          <button className='tokenBtn red' onClick={accessTokenRequest}>
-            access token request
-          </button>
-          <button className='tokenBtn navy' onClick={refreshTokenRequest}>
-            refresh token request
-          </button>
-        </div> */}
-      ] }
-    </div>
-  );
-}
->>>>>>> 99908b15d701153b425239de571f84f9b36cd9f2
