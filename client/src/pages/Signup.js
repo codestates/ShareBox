@@ -4,6 +4,7 @@ import history from  'react'
 // import Input from '../components/input'
 import styled from 'styled-components'
 import Title from '../components/Title'
+import Subheading from '../components/Subheading'
 
 const Wrapper = styled.div`
   display : flex ;
@@ -194,6 +195,7 @@ function onRegionSelect(e) {
   return ( 
     <Wrapper>
       <Title />
+      <Subheading body='회원가입' />
     <form onSubmit={(e) => 
       {e.preventDefault()
         if(password !== password2) {
@@ -205,6 +207,7 @@ function onRegionSelect(e) {
           type="text"
           placeholder='아이디를 입력해주세요'
           onChange={onUserIdChange} 
+          maxLength = {11}
           required />
           {isUserId ? null : <div>{userIdMessage}</div>}
         </div>
@@ -215,6 +218,7 @@ function onRegionSelect(e) {
           placeholder='비밀번호를 입력해주세요'
           onChange={onPasswordChange}
           value={password}
+          maxLength = {15}
           required />
           {isPassword ? null : <div>{passwordMessage}</div>}
       </div>
@@ -225,6 +229,7 @@ function onRegionSelect(e) {
           placeholder='비밀번호를 다시 입력해주세요'
           onChange={onPassword2Change}
           value={password2}
+          maxLength = {15}
           required />
           {isPassword2 ? null : <div>{passwordMessage2}</div>}
       </div>
