@@ -5,6 +5,8 @@ import history from  'react'
 import styled from 'styled-components'
 import Title from '../components/Title'
 import Subheading from '../components/Subheading'
+import dotenv from 'dotenv'
+dotenv.config()
 
 const Wrapper = styled.div`
   display : flex ;
@@ -92,7 +94,7 @@ console.log(mobile)
 // 유효한 상태의 값을 가진 경우 ? 
 // 서버로 name을 포함한 개인 정보를 전달해주고 
 // history를 통해 메인 페이지로 이동한다. 
-    axios.post ('FILL_ME_IN', {userId,password,email,region,mobile})
+    axios.post (`${process.env.SERVER}/signup`, {userId,password,email,region,mobile})
     .then((res) =>{
       console.log(res)
     })

@@ -40,5 +40,11 @@ export default Category
   해당 버튼은 각각의 get 요청을 보내게 된다. 
 
 
+  컴포넌트 끌어올리기를 통해서 
+  Main 에서 Category 로 data를 변경 할 수 있는 함수를 내려주기
+  Category 의  함수는 내려 받은 Props 함수를 실행시키는 함수를 만들기 
+
+  props.내려받은함수() 의 파라미터에 카테고리을 전달해주기? 
+  State 끌어올리기 좀 복습해야겠다. 
 
 */

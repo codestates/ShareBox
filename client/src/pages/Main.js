@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import Title from "../components/Title"
 import Category from "../components/Category"
 import Product from "../components/Product"
@@ -20,7 +19,7 @@ const [isloading,setIsLoaidng] = useState(false)
   // const data =  await axios.get('FILL_ME_IN')
   // setImage(data.picture)
   // setTitle(data.title)
-  // setRegion(data.region)
+  // setRegion(data.region)git 
   // setCreatedAt(data.createdAt)
   const data = [
     {
@@ -69,17 +68,3 @@ axios.get을 통해 받아온 data를 props로 전달을 위해서 상태를 마
 
 
 */
-=======
-import React from 'react';
-import axios from 'axios';
-
-axios.defaults.withCredentials = true;
-
-export default function Main () {
-  return (
-    <div className='background'>
-      Hello, World!
-    </div>
-  );
-}
->>>>>>> 99908b15d701153b425239de571f84f9b36cd9f2

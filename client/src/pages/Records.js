@@ -82,8 +82,9 @@ const onRecords = ()  => {
       reader.onload = function (e){
         console.log(e.target.result)
         setPreview(e.target.result)
+      // ! 버퍼 데이터를 post의 image로 
       }
-      setPost({...post, [key]: file })
+      setPost({...post, [key]: e.target.value })
     }
     console.log(post)
     console.log(preview)
