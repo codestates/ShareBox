@@ -5,7 +5,7 @@ axios.defaults.withCredentials = true;
 
 export default function Main () {
   return (
-    <div>
+    <div className='background'>
       Hello, World!
     </div>
   );

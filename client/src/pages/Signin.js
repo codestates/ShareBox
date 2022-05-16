@@ -5,9 +5,9 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
-export default function Signin ({ handleResponseSuccess }) {
+export default function Signin (props) {
   const [signinInfo, setSigninInfo] = useState({
-    id: '',
+    userId: '',
     password: ''
   });
   const [errorMessage, setErrorMessage] = useState('');
@@ -15,38 +15,61 @@ export default function Signin ({ handleResponseSuccess }) {
   const handleInputValue = (key) => (e) => {
     setSigninInfo({ ...signinInfo, [key]: e.target.value });
   };
+  const inputHandler = (e) => {
+    setSigninInfo({ [e.target.name]: e.target.value });
+  }
+  const signinRequestHandler = () => {
+    const { userId, password } = this.state;
+    axios
+      .post(
+        "https://localhost:4000/signin",
+        signinInfo,
+        { headers: { "Content-Type": "application/json" }, withCredentials: true }
+      )
+      .then((res) => {
+        props.signinHandler(res.data);
+      })
+      .catch((err) => console.log(err));
+  }
   const handleSignin = () => {
-    const { id, password } = signinInfo;
-    if (id === '' || password === '') setErrorMessage('ID와 비밀번호를 입력하세요.');
-    /* else if (!validId(id) || !strongPassword(password)) setErrorMessage('ID 또는 비밀번호가 올바르지 않습니다.'); */
+    const { userId, password } = signinInfo;
+    if (userId === '' || password === '') setErrorMessage('ID와 비밀번호를 입력하세요.');
+    /* else if (!validId(userId) || !strongPassword(password)) setErrorMessage('ID 또는 비밀번호가 올바르지 않습니다.'); */
     else axios
     .post(
       'https://localhost:4000/signin',
-      { id, password },
+      { userId, password },
     )
-    .then(handleResponseSuccess)
+    .then(props.handleResponseSuccess)
     .catch(err => console.log(err));
   };
   const handleOauth = () => {
     window.location.assign(GITHUB_LOGIN_URL);
   }
   return (
-    <div>
+    <div className='background'>
       <center>
         <h1>로그인</h1>
-        <form onSubmit={(e) => e.preventDefault()}>
-          <div>
+        <form className='signinContainer' onSubmit={(e) => e.preventDefault()}>
+          <div className='inputField'>
             <span>ID</span>
-            <input type='text' onChange={handleInputValue('id')} />
-          </div>
-          <div>
-            <span>비밀번호</span>
             <input
-              type='password'
-              onChange={handleInputValue('password')}
+              name='userId'
+              type='text'
+              onChange={handleInputValue('userId')}
+              value={signinInfo.userId}
             />
           </div>
-          <button className='btn btn-signin' type='submit' onClick={handleSignin}>
+          <div className='inputField'>
+            <span>비밀번호</span>
+            <input
+              name='password'
+              type='password'
+              onChange={handleInputValue('password')}
+              value={signinInfo.password}
+            />
+          </div>
+          <button className='btn btn-signin' type='submit' onClick={signinRequestHandler}>
             로그인
           </button>
           <div>
@@ -55,7 +78,9 @@ export default function Signin ({ handleResponseSuccess }) {
             </button>
           </div>
           <div>
-            <Link to='/signup'>회원가입</Link>
+            <button className='btn btn-signup'>
+              <Link to='/signup'>회원가입</Link>
+            </button>
           </div>
           <div className='alert-box'>{errorMessage}</div>
         </form>

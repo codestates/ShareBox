@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Link, Routes, useNavigate, Navigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
+import axios from 'axios';
 import Main from './pages/Main';
+import Item from './pages/Item';
 import Signin from './pages/Signin';
 import Mypage from './pages/Mypage';
-import axios from 'axios';
 import './App.css';
 
 export default function App() {
-  const [isSignin, setIsSignin] = useState(false);
+  const [signedIn, setSignedIn] = useState(false);
+  const [accessToken, setAccessToken] = useState();
   const [userinfo, setUserinfo] = useState(null);
-  const history = useNavigate();
+  const navigate = useNavigate();
+  const signinHandler = (data) => {
+    setSignedIn(true);
+    issueAccessToken(data.data.accessToken);
+  }
+
+  const issueAccessToken = (token) => {
+    setAccessToken(token);
+  }
   const isAuthenticated = () => {
     axios
     .get(
@@ -20,8 +30,8 @@ export default function App() {
       if (res.data.data.userInfo !== null) {
         const { email, mobile, username } = res.data.data.userInfo;
         setUserinfo({ email, mobile, username });
-        setIsSignin(true);
-        history.push('/');
+        setSignedIn(true);
+        navigate('/');
       } else {
         setUserinfo(null);
       }
@@ -35,8 +45,8 @@ export default function App() {
     .post('https://localhost:4000/signout')
     .then(res => {
       setUserinfo(null);
-      setIsSignin(false);
-      history.push('/');
+      setSignedIn(false);
+      navigate('/');
     });
   }
   const handleDropout = () => {
@@ -44,8 +54,8 @@ export default function App() {
     .post('https://localhost:4000/dropout')
     .then(res => {
       setUserinfo(null);
-      setIsSignin(false);
-      history.push('/');
+      setSignedIn(false);
+      navigate('/');
     });
   }
   useEffect(() => {
@@ -53,16 +63,22 @@ export default function App() {
   }, []);
   return (
       <Routes>
-        <Route path='/signin' element={<Signin
-          isSignin={isSignin}
-          handleResponseSuccess={handleResponseSuccess}
-        />}/>
-        <Route path='/mypage' element={<Mypage
-          userinfo={userinfo}
-          handleSignout={handleSignout}
-          handleDropout={handleDropout}
-        />} />
         <Route path='/' element={<Main />} />
+        <Route path='/item' element={<Item userinfo={userinfo} />} />
+        <Route path='/signin' element={ signedIn ?
+          <Navigate replace to='/' /> :
+          <Signin
+            signinHandler={signinHandler}
+            handleResponseSuccess={handleResponseSuccess}
+          />} />
+        <Route path='/mypage' element={ signedIn ?
+          <Mypage
+            accessToken={accessToken}
+            issueAccessToken={issueAccessToken}
+            userinfo={userinfo}
+            handleSignout={handleSignout}
+            handleDropout={handleDropout}
+          /> : <Navigate replace to='/' /> } />
       </Routes>
   );
 }
