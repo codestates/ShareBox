@@ -1,60 +1,62 @@
-<<<<<<< HEAD
-import Title from "../components/Title"
-import Category from "../components/Category"
-import Product from "../components/Product"
-import { useEffect, useState } from "react"
-import axios from "axios"
+import Title from "../components/Title";
+import Category from "../components/Category";
+import Product from "../components/Product";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
+function Main() {
+  const [isloading, setIsLoaidng] = useState(false);
+  // const [image, setImage] = useState('')
+  // const [title, setTitle] = useState('')
+  // const [region, setRegion] = useState('')
+  // const [createdAt, setCreatedAt] = useState('')
+  const [post, setPost] = useState([]);
 
+  const getData = async () => {
+    // const data =  await axios.get('FILL_ME_IN')
+    // setImage(data.picture)
+    // setTitle(data.title)
+    // setRegion(data.region)
+    // setCreatedAt(data.createdAt)
+    const data = [
+      {
+        id: "id",
+        title: "title",
+        picture: "picture",
+        createdAt: "createdAt",
+        updatedAt: "updatedAt",
+      },
+    ];
+    //  get 요청을 했다고 가정하고 임의의 데이터를 만들어두기
+    //  이
 
-function Main () {
+    setPost([post, ...data]);
+    setIsLoaidng(true);
+  };
 
-const [isloading,setIsLoaidng] = useState(false)
-// const [image, setImage] = useState('')
-// const [title, setTitle] = useState('')
-// const [region, setRegion] = useState('')
-// const [createdAt, setCreatedAt] = useState('')
-    const [post , setPost] = useState([])
-
- const getData = async () => {
-  // const data =  await axios.get('FILL_ME_IN')
-  // setImage(data.picture)
-  // setTitle(data.title)
-  // setRegion(data.region)
-  // setCreatedAt(data.createdAt)
-  const data = [
-    {
-      id : 'id',
-      title : 'title',
-      picture :'picture',
-      createdAt: 'createdAt',
-      updatedAt : 'updatedAt'
-    }
-  ]
-  //  get 요청을 했다고 가정하고 임의의 데이터를 만들어두기 
-  //  이
-
-  setPost([post, ...data])
-  setIsLoaidng(true)
-}
-
-useEffect(() => {
-  // getData()
-})
-
+  useEffect(() => {
+    // getData()
+  });
 
   return (
     <div>
       {/* <Title /> */}
-      <Category name={['냉동', '신선', '양곡', '축산', '수산', '음료', '스낵', '가공식품', '조미료']}/>
+      <Category
+        name={["냉동", "신선", "양곡", "축산", "수산", "음료", "스낵", "가공식품", "조미료"]}
+      />
 
       {/* {isloading ?  'code' : 'Loading...' } */}
-      <Product image={post.image} region={post.region} title={post.title} createdAt={post.createdAt} />
+      <Product
+        image={post.image}
+        region={post.region}
+        title={post.title}
+        createdAt={post.createdAt}
+      />
     </div>
-  )
+  );
 }
 
-export default Main
+export default Main;
 
 /*
 메인 페이지의 구상에 대해서
@@ -69,17 +71,3 @@ axios.get을 통해 받아온 data를 props로 전달을 위해서 상태를 마
 
 
 */
-=======
-import React from 'react';
-import axios from 'axios';
-
-axios.defaults.withCredentials = true;
-
-export default function Main () {
-  return (
-    <div className='background'>
-      Hello, World!
-    </div>
-  );
-}
->>>>>>> 99908b15d701153b425239de571f84f9b36cd9f2
