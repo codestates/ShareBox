@@ -43,11 +43,7 @@ CREATE TABLE `users_posts` (
   `postsId` int NOT NULL
 );
 
-<<<<<<< HEAD
-ALTER TABLE `comments` ADD FOREIGN KEY (`postsId`) REFERENCES `posts` (`id`); --수정
-=======
 ALTER TABLE `comments` ADD FOREIGN KEY (`postsId`) REFERENCES `posts` (`id`);
->>>>>>> 7a9957ceec02cff9ecc889d37f4d9bb19abd8fc1
 
 ALTER TABLE `users_comments` ADD FOREIGN KEY (`usersId`) REFERENCES `users` (`id`);
 
