@@ -45,7 +45,7 @@ function Product (props) {
         <Body> 
           <span>[{props.region}]</span>
           {props.title.length < 13 ? props.title : `${props.title.slice(0,12)}...` }
-          <TextRight>{props.createdAt}</TextRight>
+          <TextRight>{props.createdAt.slice(0,10)}</TextRight>
         </Body>
       </Box>
     </Wrapper>

@@ -1,4 +1,3 @@
-import {useState} from 'react'
 import styled from 'styled-components';
 
 const TabMenu = styled.ul`
@@ -33,36 +32,14 @@ const TabMenu = styled.ul`
 
 
 function Category (props) {
-  const [category,setCategory] = useState('')
-  const [currentTab, setCurrentTab] = useState('');
-
-  
-
-  const selectMenuHandler = (index) => {
-    setCurrentTab(index);
-  };
-
-  
-  const handleCategory = (e) => {
-    const value = e.target.value
-    setCategory(value)
-    setCurrentTab(value)
-    
-    props.handleCategory({category})
-    // category 정보를 메인 페이지로 전달 
-  }
-
-
-
 
   return (
-
     <div>
       <TabMenu>
         {props.name.map((menu,index) =>  <button 
           key={index}
           className={'submenu selected'}
-          onClick={handleCategory}
+          onClick={props.handleCategory}
           value={menu} > {menu}</button> )}
       </TabMenu>
     </div>
