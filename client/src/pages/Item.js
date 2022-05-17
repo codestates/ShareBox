@@ -9,7 +9,10 @@ import LoadingIndicator from "../components/LoadingIndicator";
 
 export default function Item() {
   const navigate = useNavigate();
+
   const [isLoading, setIsLoaidng] = useState(false);
+
+  //const [data, setData] = useState();
   const [text, setText] = useState();
   const [editingComment, setEditingComment] = useState();
   let userId = "kimcoding";
@@ -42,6 +45,8 @@ export default function Item() {
       },
     ],
   };
+  // 
+
   const handleArticleEdit = () => {
     const token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcklkIjoia2ltY29kaW5nIiwiZW1haWwiOiJraW1jb2RpbmdAU2hhcmVCb3guY29tIiwiY291bnRyeSI6IuyYgeuTse2PrOq1rCIsImlhdCI6MTY1Mjc5Njg0OCwiZXhwIjoxNjUyODgzMjQ4fQ.l0AzBxbthHHer-VdPSUcqmAw-dgi2kTsYKwEBZITS5M";
@@ -132,19 +137,14 @@ export default function Item() {
             </div>
             <div className="comment">
               <div className="write-comment">
-                <textarea
-                  className="ip-comment"
-                  type="text"
-                  onChange={handleTextValue}
-                  onKeyPress={handleKeyPress}
-                >
-                  {text}
+                <textarea className='ip-comment' type='text' value={text} onChange={handleTextValue} onKeyPress={handleKeyPress}>
                 </textarea>
                 <button className="btn btn-post-comment" type="submit" onClick={handleSubmitButton}>
                   등록
                 </button>
               </div>
               <div className="comment-list">
+
                 {dummy.comment.map((ele, index) => {
                   return (
                     <ul key={index} className="comment">
@@ -173,6 +173,7 @@ export default function Item() {
                         )
                       }
                       <div className="text-comment">{ele.content}</div>
+
                     </ul>
                   );
                 })}
