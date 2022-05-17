@@ -1,13 +1,17 @@
 import styled from "styled-components"
+import { Link } from "react-router-dom"
+
 
 const Wrapper = styled.div`
-  margin :0;
-  padding : 0;
+  display: flex;
+  justify-content: space-around ;
+  flex-direction: row;
+  
 `
 
 const Img = styled.img`
   width: 250px;
-  height: 250px;
+  height: 200px;
   background-image: ${(props) => props.image};
   background-color: salmon ;
   z-index: 1;
@@ -16,25 +20,46 @@ const Img = styled.img`
 const Body = styled.div`
   width: 250px;
   height: 50px;
-  background-color: green ;
-  z-index: 9;
+  background-color: cornsilk ;
 `
+
+const TextRight = styled.div`
+  text-align: right;
+`
+
+const Box = styled(Body)`
+  height: 300px ;
+  background-color: white ;
+`
+
 
 
 function Product (props) {
 
-  return (
-    <Wrapper>
-      <Img image='null' alt='상품사진'/>
-      <Body> 
-        {props.region} , {props.title} , {props.createdAt}
-      </Body>
-    </Wrapper>
 
+  return (
+    <Link to = {`/records/${props.id}`} >
+    <Wrapper>
+      <Box>
+        <Img src={props.image} alt='상품사진'/>
+        <Body> 
+          <span>[{props.region}]</span>
+          {props.title.length < 13 ? props.title : `${props.title.slice(0,12)}...` }
+          <TextRight>{props.createdAt}</TextRight>
+        </Body>
+      </Box>
+    </Wrapper>
+    </Link>
 
     
   )
 }
+
+// id = {item.id}
+// key = {item.id}
+// title = {item.title}
+// image = {item.picture}
+// createdAt = {item.createdAt} 
 
 
 export default Product

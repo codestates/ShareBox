@@ -1,23 +1,28 @@
 import logo from '../assets/logo.png'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 
-const Title1 = styled.div`
+const Wrapper = styled.div`
 display: flex ;
 justify-content: center;
   width : 100%;
   height : 20%;
   font-size: 7vh ;
-  position: fixed ;
-  top : 0;
-  left : 0;
-  right : 0;
+  position: static ;
+`
+
+const Title1 = styled.span`
+  width : 100vw;
+  height : 10vh;
+  font-size: 7vh ;
+  background-color:  white ;
+  text-align: center ;
 `
 
 const Img = styled.img`
-  width:  20%;
-  height : 15%;
-  /* float: left ; */
+  width:  15vw;
+  height : 10vh;
   margin: 0 ;
   padding: 0 ;
 `
@@ -25,14 +30,21 @@ const Img = styled.img`
 
 
 
-function Title () {
+function Title (props) {
+  
+  const resetData = () => {
+    props.getData()
+}
+  
   return (
-    <div>
-    <Img alt = 'sharebox' src={logo}/>
-    <Title1>
-      S H A R E B O X 
-    </Title1>
-    </div>
+    <Link to ='/'>
+      <Wrapper onClick={resetData}>
+        <Img alt = 'sharebox' src={logo}/>
+        <Title1>
+          S H A R E B O X 
+        </Title1>
+      </Wrapper>
+    </Link>
   )
 }
 

@@ -1,8 +1,18 @@
 import Title from "../components/Title";
+import SearchBar from "../components/SearchBar";
 import Category from "../components/Category";
 import Product from "../components/Product";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom"
+import LoadingIndicator from "../components/LoadingIndicator";
+import SSS from "../assets/sss";
+import Kingfoot from "../assets/kingfoot";
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+  /* position: fixed; */
+  `
 
 function Main() {
   const [isloading, setIsLoaidng] = useState(false);
@@ -10,49 +20,128 @@ function Main() {
   // const [title, setTitle] = useState('')
   // const [region, setRegion] = useState('')
   // const [createdAt, setCreatedAt] = useState('')
-  const [post, setPost] = useState([]);
+  const [data, setData] = useState('');
+  const [category, setCatgory] = useState('')
 
-  const getData = async () => {
-    // const data =  await axios.get('FILL_ME_IN')
-    // setImage(data.picture)
-    // setTitle(data.title)
-    // setRegion(data.region)
-    // setCreatedAt(data.createdAt)
+  const handleCategory = (element) => {
+    setCatgory(element.category)
+    console.log(category)  
+       //! const data = await axios.get(`https://localhost:4000/categorys?category=${category}`)
+       const data =[{
+        id : 3,
+        title : '왕발과 함께 하실 분 모십니다',
+        picture : SSS,
+        createdAt : '2022-1-11',
+        updatedAt : '2022-1-11',
+        country : '종로구'
+      },
+      {
+        id : 4,
+        title : '삼겹살 좀 나눠주실분 계신가요? ',
+        picture : Kingfoot,
+        createdAt : '2022-2-22',
+        updatedAt : '2022-2-22',
+        country : '강남구'
+      }]
+
+      setData(data);
+      console.log(data)
+      console.log(data.length)
+      setIsLoaidng(true)
+  }
+
+  const getData =  async () => {
+    //! const data = await axios.get('https://localhost:4000/main')
     const data = [
       {
-        id: "id",
-        title: "title",
-        picture: "picture",
-        createdAt: "createdAt",
-        updatedAt: "updatedAt",
+        id : 1,
+        title : '왕발 나눔 하실 분',
+        picture : Kingfoot,
+        createdAt : '2022-1-11',
+        updatedAt : '2022-1-11',
+        country : '종로구'
       },
-    ];
-    //  get 요청을 했다고 가정하고 임의의 데이터를 만들어두기
-    //  이
+      {
+        id : 2,
+        title : '삼겹살 나눔합니다',
+        picture : SSS,
+        createdAt : '2022-2-22',
+        updatedAt : '2022-2-22',
+        country : '강남구'
+      },
+      {
+        id : 3,
+        title : '글자수제한이어디까지 되는지 테스트 좀 해보려고 길게 써보는 중 ',
+        picture : '',
+        createdAt : '2022-3-3',
+        updatedAt : '2022-3-3',
+        country : '서초구'
+      }
+  ]
 
-    setPost([post, ...data]);
-    setIsLoaidng(true);
+    setData(data);
+    console.log(data)
+    console.log(data.length)
+    setIsLoaidng(true)  
   };
 
   useEffect(() => {
-    // getData()
-  });
+     getData()
+  },[]);
+
+
+/*
+  카테고리 컴포넌트에서 카테고리 값은 받아왔음
+  그럼 카테고리의 값이 변경 되는 경우는 유저가 카테고리를 눌렀을때이다.
+  카테고리를 누른 순간 axios를 통해 데이터를 받아오게 된다.
+*/
+
+
+
 
   return (
     <div>
-      {/* <Title /> */}
+      <Wrapper>
+      <Title getData={getData}/>
+      {/* <SearchBar /> */}
       <Category
         name={["냉동", "신선", "양곡", "축산", "수산", "음료", "스낵", "가공식품", "조미료"]}
+        handleCategory={handleCategory}
       />
+      </Wrapper>
+      <div>
+        {isloading ? <div> {data.map((item) => 
+        <Product
+          id = {item.id}
+          key = {item.id}
+          title = {item.title}
+          image = {item.picture}
+          region = {item.country}
+          createdAt = {item.createdAt} /> )} </div>
+          
+          : <LoadingIndicator /> }
+      </div>
 
-      {/* {isloading ?  'code' : 'Loading...' } */}
-      <Product
-        image={post.image}
-        region={post.region}
-        title={post.title}
-        createdAt={post.createdAt}
-      />
+  
+      <button onClick={getData}> 테스트 버튼 </button>
+
+      <div>
+      <Link to = '/signup'> 
+        <button> 회원가입 </button>
+      </Link>    
+      <Link to = '/record'>
+        <button> 상품등록 </button>
+      </Link>
+      <Link to = '/mypage'>
+        <button> 내 정보 </button>
+      </Link>
+
+      <Link to = '/'>
+        <button> 메인 </button>
+      </Link>
     </div>
+    </div>
+    
   );
 }
 
