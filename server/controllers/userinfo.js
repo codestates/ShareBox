@@ -9,12 +9,15 @@ module.exports = {
     if (!req.headers.authorization) {
       res.status(404).send({ "data": null, "message": "로그인을 하세요." })
     } else {
+
       const authorization = req.headers['authorization'];
       const token = authorization.split(' ')[1];
       const tokenData = jwt.verify(token, process.env.ACCESS_SECRET);
+
       if (!tokenData) {
         res.status(400).send({ "data": null, "message": "회원 정보가 없습니다." })
       } else {
+        // console.log(tokenData)
         res.status(200).send({
           data: {
             userInfo: {
@@ -22,8 +25,7 @@ module.exports = {
               userId: tokenData.userId,
               email: tokenData.email,
               country: tokenData.country,
-              createdDate: tokenData.createdDate,
-              modifiedDate: tokenData.modifiedDate
+              mobile: tokenData.mobile
             }
           }, message: '유저 정보를 불러왔습니다.'
         })
@@ -39,9 +41,9 @@ module.exports = {
   //다시 토큰발급해준다.
 
   put: (req, res) => {
-    const { password, country, email } = req.body;
+    const { password, mobile, email } = req.body; //지역빠져있음
 
-    if (!password || !country || !email) {
+    if (!password || !mobile || !email) {
       return res.status(400).send({ 'data': null, 'message': '입력값이 잘못 되었습니다.' });
     }
 
@@ -49,17 +51,17 @@ module.exports = {
     const token = authorization.split(' ')[1];
     const tokenData = jwt.verify(token, process.env.ACCESS_SECRET);
 
-    models.put(password, country, email, tokenData, (error, result) => {
+    models.put(password, mobile, email, tokenData, (error, result) => {
       if (error) {
-        console.log(error.message)
         return res.status(500).send({ 'data': null, 'message': '서버에러' });
       } else {
-        // console.log(result)
+        console.log(result)
         const payload = {
-          id: result[0].id,
-          userId: result[0].userId,
-          email: result[0].email,
-          country: result[0].country
+          id: tokenData.id,
+          userId: tokenData.userId,
+          country: tokenData.country,
+          email: email,
+          mobile: mobile
         }
 
         const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: '1d' });
