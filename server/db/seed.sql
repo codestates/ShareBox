@@ -1,9 +1,14 @@
-INSERT INTO `users` (`userId`, `email`, `password`, `country`)
+-- drop database ShareBox;
+-- create database ShareBox;
+-- mysql -u root -p < ./server/db/ShareBox.sql -DShareBox;
+-- mysql -u root -p < server/db/seed.sql -DShareBox;
+
+INSERT INTO `users` (`userId`, `email`, `password`, `country`,`mobile`)
  VALUES 
- ("kimcoding", "kimcoding@ShareBox.com", "1234", "영등포구"), 
- ("cheacoding", "cheacoding@ShareBox.com", "1234", "마포구"), 
- ("choecoding", "choecoding@ShareBox.com", "1234", "영등포구"), 
- ("leecoding", "leecoding@ShareBox.com", "1234", "강서구");
+ ("kimcoding", "kimcoding@ShareBox.com", "1234", "영등포구", "010123456789"), 
+ ("cheacoding", "cheacoding@ShareBox.com", "1234", "마포구", "010123456789"), 
+ ("choecoding", "choecoding@ShareBox.com", "1234", "영등포구", "010123456789"), 
+ ("leecoding", "leecoding@ShareBox.com", "1234", "강서구", "010123456789");
 
 INSERT INTO `posts` (`title`, `image`, `content`, `category`, `country`, `complete`)
  VALUES 
