@@ -1,5 +1,4 @@
 import Title from "../components/Title";
-// import SearchBar from "../components/SearchBar"; //삭제
 import Category from "../components/Category";
 import Product from "../components/Product";
 import { useEffect, useState } from "react";
@@ -17,89 +16,61 @@ const Wrapper = styled.div`
 
 function Main() {
   const [isloading, setIsLoaidng] = useState(false);
-
-  // records라는 값으로 저장하면 안되나요?
-
-  // const [image, setImage] = useState('')
-  // const [title, setTitle] = useState('')
-  // const [region, setRegion] = useState('')
-  // const [createdAt, setCreatedAt] = useState('')
   const [data, setData] = useState('');
   const [category, setCatgory] = useState('')
 
   //카테고리요청
   const handleCategory = (element) => {
-    setCatgory(element.category)
-    console.log(category)  
-       //! const data = await axios.get(`https://localhost:4000/categorys?category=${category}`)
-       const data =[{
-        id : 3,
-        title : '왕발과 함께 하실 분 모십니다',
-        picture : SSS,
-        createdAt : '2022-1-11',
-        updatedAt : '2022-1-11',
-        country : '종로구'
-      },
-      {
-        id : 4,
-        title : '삼겹살 좀 나눠주실분 계신가요? ',
-        picture : Kingfoot,
-        createdAt : '2022-2-22',
-        updatedAt : '2022-2-22',
-        country : '강남구'
-      }]
 
-      setData(data);
-      console.log(data)
-      console.log(data.length)
-      setIsLoaidng(true)
   }
 
-  const getData =  async () => {
-    //! const data = await axios.get('https://localhost:4000/main')
-    const data = [
-      {
-        id : 1,
-        title : '왕발 나눔 하실 분',
-        picture : Kingfoot,
-        createdAt : '2022-1-11',
-        updatedAt : '2022-1-11',
-        country : '종로구'
-      },
-      {
-        id : 2,
-        title : '삼겹살 나눔합니다',
-        picture : SSS,
-        createdAt : '2022-2-22',
-        updatedAt : '2022-2-22',
-        country : '강남구'
-      },
-      {
-        id : 3,
-        title : '글자수제한이어디까지 되는지 테스트 좀 해보려고 길게 써보는 중 ',
-        picture : '',
-        createdAt : '2022-3-3',
-        updatedAt : '2022-3-3',
-        country : '서초구'
-      }
-  ]
+  const getData = async () => {
+    const a = await axios.get(`http://localhost:4000/main`)
+    console.log(a)
 
-    setData(data);
-    console.log(data)
-    console.log(data.length)
-    setIsLoaidng(true)  
+    // const data = [
+    //   {
+    //     id: 1,
+    //     title: '왕발 나눔 하실 분',
+    //     picture: Kingfoot,
+    //     createdAt: '2022-1-11',
+    //     updatedAt: '2022-1-11',
+    //     country: '종로구'
+    //   },
+    //   {
+    //     id: 2,
+    //     title: '삼겹살 나눔합니다',
+    //     picture: SSS,
+    //     createdAt: '2022-2-22',
+    //     updatedAt: '2022-2-22',
+    //     country: '강남구'
+    //   },
+    //   {
+    //     id: 3,
+    //     title: '글자수제한이어디까지 되는지 테스트 좀 해보려고 길게 써보는 중 ',
+    //     picture: '',
+    //     createdAt: '2022-3-3',
+    //     updatedAt: '2022-3-3',
+    //     country: '서초구'
+    //   }
+    // ]
+
+    // setData(data);
+    // console.log(data)
+    // console.log(data.length)
+    // setIsLoaidng(true)
   };
 
   useEffect(() => {
-     getData()
-  },[]);
+    getData()
+  }, []);
 
 
-/*
-  카테고리 컴포넌트에서 카테고리 값은 받아왔음
-  그럼 카테고리의 값이 변경 되는 경우는 유저가 카테고리를 눌렀을때이다.
-  카테고리를 누른 순간 axios를 통해 데이터를 받아오게 된다.
-*/
+  /*
+    카테고리 컴포넌트에서 카테고리 값은 받아왔음
+    그럼 카테고리의 값이 변경 되는 경우는 유저가 카테고리를 눌렀을때이다.
+    카테고리를 누른 순간 axios를 통해 데이터를 받아오게 된다.
+  */
 
 
 
@@ -107,46 +78,46 @@ function Main() {
   return (
     <div>
       <Wrapper>
-      <Title getData={getData}/>
-      {/* <SearchBar /> */}
-      <Category
-        name={["냉동", "신선", "양곡", "축산", "수산", "음료", "스낵", "가공식품", "조미료"]}
-        handleCategory={handleCategory}
-      />
+        <Title getData={getData} />
+        {/* <SearchBar /> */}
+        <Category
+          name={["냉동", "신선", "양곡", "축산", "수산", "음료", "스낵", "가공식품", "조미료"]}
+          handleCategory={handleCategory}
+        />
       </Wrapper>
       <div>
-        {isloading ? <div> {data.map((item) => 
-        <Product
-          id = {item.id}
-          key = {item.id}
-          title = {item.title}
-          image = {item.picture}
-          region = {item.country}
-          createdAt = {item.createdAt} /> )} </div>
-          
-          : <LoadingIndicator /> }
+        {isloading ? <div> {data.map((item) =>
+          <Product
+            id={item.id}
+            key={item.id}
+            title={item.title}
+            image={item.picture}
+            region={item.country}
+            createdAt={item.createdAt} />)} </div>
+
+          : <LoadingIndicator />}
       </div>
 
-  
+
       <button onClick={getData}> 테스트 버튼 </button>
 
       <div>
-      <Link to = '/signup'> 
-        <button> 회원가입 </button>
-      </Link>    
-      <Link to = '/record'>
-        <button> 상품등록 </button>
-      </Link>
-      <Link to = '/mypage'>
-        <button> 내 정보 </button>
-      </Link>
+        <Link to='/signup'>
+          <button> 회원가입 </button>
+        </Link>
+        <Link to='/record'>
+          <button> 상품등록 </button>
+        </Link>
+        <Link to='/mypage'>
+          <button> 내 정보 </button>
+        </Link>
 
-      <Link to = '/'>
-        <button> 메인 </button>
-      </Link>
+        <Link to='/'>
+          <button> 메인 </button>
+        </Link>
+      </div>
     </div>
-    </div>
-    
+
   );
 }
 

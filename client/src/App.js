@@ -7,18 +7,19 @@ import Signup from './pages/Signup';
 import Signin from "./pages/Signin";
 import Mypage from "./pages/Mypage";
 import Record from "./pages/Records";
-// import Signup from "./pages/Signup";
 
 import "./App.css";
 
 export default function App() {
-  const [signedIn, setSignedIn] = useState(false);
-  const [accessToken, setAccessToken] = useState();
-  const [userinfo, setUserinfo] = useState(null);
+  const [signedIn, setSignedIn] = useState(false); //로그인여부????
+  const [accessToken, setAccessToken] = useState(); //엑세스토큰
+  const [userinfo, setUserinfo] = useState(null); //유저정보
+  
   const navigate = useNavigate();
+  
   const signinHandler = (data) => {
     setSignedIn(true);
-    issueAccessToken(data.data.accessToken);
+    issueAccessToken(data);
   };
 
   const issueAccessToken = (token) => {
