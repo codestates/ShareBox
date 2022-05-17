@@ -1,17 +1,21 @@
 const con = require("../db/index");
-const users = require("./users");
 
 module.exports = {
   get: (callback) => {
-    con.query(`SELECT * FROM posts`, (err, result) => {
-      if (err) {
-        return callback(err);
-      } else {
-        return callback(null, result);
+    const users_postsTB = `users_posts ON posts.id = users_posts.postsId`;
+    const users = `users ON users_posts.usersId = users.id`;
+    con.query(
+      `SELECT posts.id, userId, title, image, content, category, posts.country, complete, posts.createdDate, posts.updatedDate FROM posts LEFT JOIN ${users_postsTB} LEFT JOIN ${users}`,
+      (err, result) => {
+        if (err) {
+          return callback(err);
+        } else {
+          return callback(null, result);
+        }
       }
-    });
+    );
   },
-  post: (body, callback) => {
+  post: (body, tokenData, callback) => {
     const { title, image, content, category, country, complete } = body;
     con.query(
       `INSERT INTO posts (title, image, content, category, country, complete) VALUES ("${title}","${image}","${content}","${category}","${country}","${complete}")`,
@@ -19,39 +23,81 @@ module.exports = {
         if (err) {
           return callback(err);
         } else {
+          const postsId = result.insertId;
+          con.query(
+            `INSERT INTO users_posts (usersId, postsId) VALUES (${tokenData.id}, ${postsId})`
+          );
           return callback(null, result);
         }
       }
     );
   },
-  put: (params, body, callback) => {
+  put: (params, body, tokenData, callback) => {
     const { recordsId } = params;
     const { title, image, content, category, country, complete } = body;
-    con.query(`SET foreign_key_checks = 0`);
-    con.query(
-      `UPDATE posts SET title = "${title}", image = "${image}", content = "${content}", category = "${category}", country = "${country}", complete = ${complete} WHERE posts.id = ${recordsId}`,
+    const a = con.query(
+      `SELECT * FROM users_posts WHERE users_posts.usersId = ${tokenData.id} AND users_posts.usersId = ${recordsId}`,
       (err, result) => {
         if (err) {
           return callback(err);
         } else {
-          return callback(null, result);
+          if (result.length === 0) {
+            return callback(null, result);
+          } else {
+            con.query(`SET foreign_key_checks = 0`);
+            con.query(
+              `UPDATE posts SET title = "${title}", image = "${image}", content = "${content}", category = "${category}", country = "${country}", complete = ${complete} WHERE posts.id = ${recordsId}`,
+              (err, result) => {
+                if (err) {
+                  return callback(err);
+                } else {
+                  return callback(null, result);
+                }
+              }
+            );
+            con.query(`SET foreign_key_checks = 1`);
+          }
         }
       }
     );
-    con.query(`SET foreign_key_checks = 1`);
   },
-  delete: (params, callback) => {
+  delete: (params, tokenData, callback) => {
     const { recordsId } = params;
-    con.query(`SET foreign_key_checks = 0`);
-    con.query(`DELETE FROM posts WHERE posts.id = ${recordsId}`, (err, result) => {
-      if (err) {
-        return callback(err);
-      } else {
-        return callback(null, result);
+    const a = con.query(
+      `SELECT * FROM users_posts WHERE users_posts.usersId = ${tokenData.id} AND users_posts.usersId = ${recordsId}`,
+      (err, result) => {
+        if (err) {
+          return callback(err);
+        } else {
+          if (result.length === 0) {
+            return callback(null, result);
+          } else {
+            con.query(`SET foreign_key_checks = 0`);
+            con.query(`DELETE FROM posts WHERE posts.id = ${recordsId}`, (err, result) => {
+              if (err) {
+                return callback(err);
+              } else {
+                return callback(null, result);
+              }
+            });
+            con.query(
+              `DELETE FROM users_posts WHERE usersId = ${tokenData.id} AND postsId = ${recordsId}`
+            );
+            con.query(`DELETE FROM comments WHERE postsId = ${recordsId}`);
+
+            con.query(`SELECT * FROM comments WHERE postsId = ${recordsId}`, (err, comments) => {
+              comments.forEach((comment) => {
+                // users_comments 관계테이블 삭제 아직 안됨
+                con.query(`SET foreign_key_checks = 0`);
+                con.query(`DELETE FROM users_comments WHERE id = ${comment.id}`);
+                con.query(`SET foreign_key_checks = 1`);
+              });
+            });
+            con.query(`SET foreign_key_checks = 1`);
+          }
+        }
       }
-    });
-    con.query(`DELETE FROM comments WHERE comments.postsId = ${recordsId}`);
-    con.query(`SET foreign_key_checks = 1`);
+    );
   },
   comments: con,
   records: con,
