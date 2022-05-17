@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const signupRouter = require("./signup");
 const logoutRouter = require("./logout");
@@ -28,6 +28,5 @@ router.use("/login", loginRouter);
 router.use("/comments", commentsRouter);
 router.use("/users", usersRouter);
 router.use("/userinfo", userinfoRouter);
-
 
 module.exports = router;

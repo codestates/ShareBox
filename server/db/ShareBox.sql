@@ -4,8 +4,11 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `country` varchar(255) NOT NULL,
-  `createdDate` timestamp NOT NULL DEFAULT (now()), -- 수정
-  `updatedDate` timestamp NOT NULL DEFAULT (now())  -- 수정
+  `mobile` varchar(255) NOT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT (now()), 
+  `updatedDate` timestamp NOT NULL DEFAULT (now()) 
+
+  -- 모바일번호추가해야됨 
 );
 
 CREATE TABLE `posts` (
@@ -22,33 +25,35 @@ CREATE TABLE `posts` (
 
 CREATE TABLE `comments` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `postId` int NOT NULL,
+  `postsId` int NOT NULL,
   `content` varchar(255) NOT NULL,
   `createdDate` timestamp NOT NULL DEFAULT (now()),
   `updatedDate` timestamp NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE `users_comments` (
-  `id` int PRIMARY KEY AUTO_INCREMENT, -- 수정
+  `id` int PRIMARY KEY AUTO_INCREMENT, 
   `usersId` int NOT NULL,
-  `commentId` int NOT NULL 
+  `commentsId` int NOT NULL 
 );
 
 CREATE TABLE `users_posts` (
-  `id` int PRIMARY KEY AUTO_INCREMENT, -- 수정
+  `id` int PRIMARY KEY AUTO_INCREMENT, 
   `usersId` int NOT NULL,
-  `postId` int NOT NULL
+  `postsId` int NOT NULL
 );
 
-ALTER TABLE `comments` ADD FOREIGN KEY (`postId`) REFERENCES `posts` (`id`);
-
-ALTER TABLE `comments` ADD FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
+<<<<<<< HEAD
+ALTER TABLE `comments` ADD FOREIGN KEY (`postsId`) REFERENCES `posts` (`id`); --수정
+=======
+ALTER TABLE `comments` ADD FOREIGN KEY (`postsId`) REFERENCES `posts` (`id`);
+>>>>>>> 7a9957ceec02cff9ecc889d37f4d9bb19abd8fc1
 
 ALTER TABLE `users_comments` ADD FOREIGN KEY (`usersId`) REFERENCES `users` (`id`);
 
-ALTER TABLE `users_comments` ADD FOREIGN KEY (`commentId`) REFERENCES `comments` (`id`);
+ALTER TABLE `users_comments` ADD FOREIGN KEY (`commentsId`) REFERENCES `comments` (`id`);
 
 ALTER TABLE `users_posts` ADD FOREIGN KEY (`usersId`) REFERENCES `users` (`id`);
 
-ALTER TABLE `users_posts` ADD FOREIGN KEY (`postId`) REFERENCES `posts` (`id`);
+ALTER TABLE `users_posts` ADD FOREIGN KEY (`postsId`) REFERENCES `posts` (`id`);
 

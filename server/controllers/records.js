@@ -9,6 +9,7 @@ module.exports = {
       } else {
         const { recordsId } = req.params;
         const record = result.filter((record) => record.id === Number(recordsId));
+        //???
         const comments = `SELECT commentsId, userId, postsId, content, comments.createdDate, comments.updatedDate FROM comments LEFT JOIN users_comments ON comments.id = users_comments.commentsId LEFT JOIN users ON users_comments.usersId = users.id WHERE comments.postsId = "${recordsId}"`;
         records.comments.query(comments, (error, comments) => {
           if (error) {
