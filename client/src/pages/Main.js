@@ -1,13 +1,11 @@
 import Title from "../components/Title";
-import SearchBar from "../components/SearchBar";
 import Category from "../components/Category";
 import Product from "../components/Product";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom"
 import LoadingIndicator from "../components/LoadingIndicator";
-import SSS from "../assets/sss";
-import Kingfoot from "../assets/kingfoot";
+
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -16,77 +14,31 @@ const Wrapper = styled.div`
 
 function Main() {
   const [isloading, setIsLoaidng] = useState(false);
-  // const [image, setImage] = useState('')
-  // const [title, setTitle] = useState('')
-  // const [region, setRegion] = useState('')
-  // const [createdAt, setCreatedAt] = useState('')
   const [data, setData] = useState('');
-  const [category, setCatgory] = useState('')
 
-  const handleCategory = (element) => {
-    setCatgory(element.category)
-    console.log(category)  
-       //! const data = await axios.get(`https://localhost:4000/categorys?category=${category}`)
-       const data =[{
-        id : 3,
-        title : '왕발과 함께 하실 분 모십니다',
-        picture : SSS,
-        createdAt : '2022-1-11',
-        updatedAt : '2022-1-11',
-        country : '종로구'
-      },
-      {
-        id : 4,
-        title : '삼겹살 좀 나눠주실분 계신가요? ',
-        picture : Kingfoot,
-        createdAt : '2022-2-22',
-        updatedAt : '2022-2-22',
-        country : '강남구'
-      }]
 
-      setData(data);
-      console.log(data)
-      console.log(data.length)
+  const handleCategory = (e) => {
+    const menu = e.target.value
+    axios.get(`http://localhost:4000/categorys?category=${menu}`)
+      .then((res) => {
+
+      console.log(res.data.data)
+      setData(res.data.data)
       setIsLoaidng(true)
+      })
+      .catch((err) => alert(err))
   }
 
-  const getData =  async () => {
-    //! const data = await axios.get('https://localhost:4000/main')
-    const data = [
-      {
-        id : 1,
-        title : '왕발 나눔 하실 분',
-        picture : Kingfoot,
-        createdAt : '2022-1-11',
-        updatedAt : '2022-1-11',
-        country : '종로구'
-      },
-      {
-        id : 2,
-        title : '삼겹살 나눔합니다',
-        picture : SSS,
-        createdAt : '2022-2-22',
-        updatedAt : '2022-2-22',
-        country : '강남구'
-      },
-      {
-        id : 3,
-        title : '글자수제한이어디까지 되는지 테스트 좀 해보려고 길게 써보는 중 ',
-        picture : '',
-        createdAt : '2022-3-3',
-        updatedAt : '2022-3-3',
-        country : '서초구'
-      }
-  ]
-
-    setData(data);
-    console.log(data)
-    console.log(data.length)
-    setIsLoaidng(true)  
+  const getData = () => {
+    axios.get('http://localhost:4000/main')
+      .then((res) => { setData(res.data.data)
+      console.log(res.data.data)
+      setIsLoaidng(true)})
+      .catch((err) => console.log(err))
   };
 
   useEffect(() => {
-     getData()
+    getData()
   },[]);
 
 
@@ -117,7 +69,7 @@ function Main() {
           title = {item.title}
           image = {item.picture}
           region = {item.country}
-          createdAt = {item.createdAt} /> )} </div>
+          createdAt = {item.createdDate} /> )} </div>
           
           : <LoadingIndicator /> }
       </div>

@@ -5,7 +5,13 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const port = 4000;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ['http://localhost:3000'],
+    credentials: true,
+    methods: ['GET', 'POST', 'OPTIONS','PUT', 'PATCH']
+  })
+)
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
