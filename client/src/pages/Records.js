@@ -85,8 +85,7 @@ const onRecords = ()  => {
       }
  
     }
-    console.log(post)
-    console.log(preview)
+
   }
 
 

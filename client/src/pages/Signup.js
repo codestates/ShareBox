@@ -109,15 +109,6 @@ const onPasswordChange = (e) => {
 const onPassword2Change = (e) => {
   const value = e.target.value
     setPassword2(value)
-    console.log(`비밀번호2:${value}`)
-    // if (password !== password2) {
-    //   setPassWordMessage2('비밀번호가 일치하지 않습니다.')
-    //   setIsPassword2(false)
-      
-    // } else {
-    //   setPassWordMessage2('')
-    //   setIsPassword2(true)
-    // }
   }
 
 const onEmailChange = (e) => {
@@ -138,7 +129,6 @@ const onMobileChange = (e) => {
     setMobile(value)
     setMobileMessage('')
     setIsMobile(true)
-
   }
 
 const oncountrySelect = (e) => {

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Subheading from "../components/Subheading";
 
-
 const Wrapper = styled.div`
   display: flex;
   height: 100vh;
@@ -26,8 +25,34 @@ const Input = styled.input`
 `;
 
 function MyPage() {
-
-  const regions = ["지역 선택", "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"];
+  const regions = [
+    "지역 선택",
+    "강남구",
+    "강동구",
+    "강북구",
+    "강서구",
+    "관악구",
+    "광진구",
+    "구로구",
+    "금천구",
+    "노원구",
+    "도봉구",
+    "동대문구",
+    "동작구",
+    "마포구",
+    "서대문구",
+    "서초구",
+    "성동구",
+    "성북구",
+    "송파구",
+    "양천구",
+    "영등포구",
+    "용산구",
+    "은평구",
+    "종로구",
+    "중구",
+    "중랑구",
+  ];
 
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
@@ -163,20 +188,31 @@ const getUserInfo = () => {
           {isEmail ? null : <div>{emailMessage}</div>}
       </div>
 
+          <div>
+            이메일 :
+            <Input
+              type="email"
+              placeholder="이메일을 입력 해주세요"
+              onChange={onEmailChange}
+              maxLength={25}
+              defaultValue={email}
+              required
+            />
+            {isEmail ? null : <div>{emailMessage}</div>}
+          </div>
 
-                
-      <div>
-        휴대폰 번호 : 
-        <Input
-          type='text'
-          placeholder='휴대폰 번호를 입력해주세요'
-          onChange={onMobileChange}
-          defaultValue={mobile}
-          required />
-          {isMobile ? null : <div>{mobileMessage}</div>}
-      </div>
-        
-          
+          <div>
+            휴대폰 번호 :
+            <Input
+              type="text"
+              placeholder="휴대폰 번호를 입력해주세요"
+              onChange={onMobileChange}
+              defaultValue={mobile}
+              required
+            />
+            {isMobile ? null : <div>{mobileMessage}</div>}
+          </div>
+
           <div>
             지역 : 
             <Input as="select" key={country} defaultValue={country}  onChange={onCountrySelect}>

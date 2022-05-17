@@ -3,29 +3,31 @@ import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import axios from "axios";
 import Main from "./pages/Main";
 import Item from "./pages/Item";
-import Signup from './pages/Signup';
+import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import Mypage from "./pages/Mypage";
 import Record from "./pages/Records";
 
-
 import "./App.css";
 
 export default function App() {
-  const [signedIn, setSignedIn] = useState(false);
-  const [accessToken, setAccessToken] = useState();
-  const [userinfo, setUserinfo] = useState(null);
+  const [signedIn, setSignedIn] = useState(false); //로그인여부????
+  const [accessToken, setAccessToken] = useState(); //엑세스토큰
+  const [userinfo, setUserinfo] = useState(null); //유저정보
+  
   const navigate = useNavigate();
+  
   const signinHandler = (data) => {
     setSignedIn(true);
-    issueAccessToken(data.data.accessToken);
+    issueAccessToken(data);
   };
 
   const issueAccessToken = (token) => {
     setAccessToken(token);
   };
-  const handleSignout = () => {
-    axios.post("https://localhost:4000/signout").then((res) => {
+  const handleLogout = () => {
+    axios.post("http://localhost:4000/logout").then((res) => {
+      console.log(res);
       setUserinfo(null);
       setSignedIn(false);
       navigate("/");
@@ -48,13 +50,7 @@ export default function App() {
       <Route path="/mypage" element={<Mypage />} />
       <Route
         path="/signin"
-        element={
-          signedIn ? (
-            <Navigate replace to="/" />
-          ) : (
-            <Signin signinHandler={signinHandler} />
-          )
-        }
+        element={signedIn ? <Navigate replace to="/" /> : <Signin signinHandler={signinHandler} />}
       />
       <Route
         path="/mypage"
@@ -64,7 +60,7 @@ export default function App() {
               accessToken={accessToken}
               issueAccessToken={issueAccessToken}
               userinfo={userinfo}
-              handleSignout={handleSignout}
+              handleLogout={handleLogout}
               handleDropout={handleDropout}
             />
           ) : (
