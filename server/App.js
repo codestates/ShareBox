@@ -7,9 +7,9 @@ const port = 4000;
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000"],
     credentials: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "OPTIONS"],
+    methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH"],
   })
 );
 app.use(cookieParser());

@@ -46,7 +46,7 @@ export default function App() {
       <Route path="/signup" element={<Signup />} />
       <Route path="/record" element={<Record />} />
       <Route path="/mypage" element={<Mypage />} />
-      <Route
+      {/* <Route
         path="/signin"
         element={signedIn ? <Navigate replace to="/" /> : <Signin signinHandler={signinHandler} />}
       />
@@ -65,7 +65,7 @@ export default function App() {
             <Navigate replace to="/" />
           )
         }
-      />
+      /> */}
     </Routes>
   );
 }

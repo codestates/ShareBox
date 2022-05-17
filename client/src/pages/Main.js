@@ -5,8 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import LoadingIndicator from "../components/LoadingIndicator";
-import SSS from "../assets/sss";
-import Kingfoot from "../assets/kingfoot";
+
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -15,54 +14,33 @@ const Wrapper = styled.div`
 
 function Main() {
   const [isloading, setIsLoaidng] = useState(false);
-  const [data, setData] = useState("");
+  const [data, setData] = useState('');
+
 
   const handleCategory = (e) => {
-    const menu = e.target.value;
-    const category = `http://localhost:4000/categorys?category=${menu}`;
-    axios.get(category).then((response) => {
-      console.log(response);
-    });
-  };
+    const menu = e.target.value
+    axios.get(`http://localhost:4000/categorys?category=${menu}`)
+      .then((res) => {
 
-  const getData = async () => {
-    //! const data = await axios.get('https://localhost:4000/main')
-    const data = [
-      {
-        id: 1,
-        title: "왕발 나눔 하실 분",
-        picture: Kingfoot,
-        createdAt: "2022-1-11",
-        updatedAt: "2022-1-11",
-        country: "종로구",
-      },
-      {
-        id: 2,
-        title: "삼겹살 나눔합니다",
-        picture: SSS,
-        createdAt: "2022-2-22",
-        updatedAt: "2022-2-22",
-        country: "강남구",
-      },
-      {
-        id: 3,
-        title: "글자수제한이어디까지 되는지 테스트 좀 해보려고 길게 써보는 중 ",
-        picture: "",
-        createdAt: "2022-3-3",
-        updatedAt: "2022-3-3",
-        country: "서초구",
-      },
-    ];
+      console.log(res.data.data)
+      setData(res.data.data)
+      setIsLoaidng(true)
+      })
+      .catch((err) => alert(err))
+  }
 
-    setData(data);
-    console.log(data);
-    console.log(data.length);
-    setIsLoaidng(true);
+  const getData = () => {
+    axios.get('http://localhost:4000/main')
+      .then((res) => { setData(res.data.data)
+      console.log(res.data.data)
+      setIsLoaidng(true)})
+      .catch((err) => console.log(err))
   };
 
   useEffect(() => {
-    getData();
-  }, []);
+    getData()
+  },[]);
+
 
   /*
   카테고리 컴포넌트에서 카테고리 값은 받아왔음
@@ -81,6 +59,7 @@ function Main() {
         />
       </Wrapper>
       <div>
+<<<<<<< HEAD
         {isloading ? (
           <div>
             {" "}
@@ -98,6 +77,18 @@ function Main() {
         ) : (
           <LoadingIndicator />
         )}
+=======
+        {isloading ? <div> {data.map((item) => 
+        <Product
+          id = {item.id}
+          key = {item.id}
+          title = {item.title}
+          image = {item.picture}
+          region = {item.country}
+          createdAt = {item.createdDate} /> )} </div>
+          
+          : <LoadingIndicator /> }
+>>>>>>> 729efaf606f6c679b1e9db9a7514a659f174d94c
       </div>
 
       <button onClick={getData}> 테스트 버튼 </button>

@@ -84,7 +84,7 @@ function MyPage() {
   }
 
   useEffect(() => {
-    // getUserInfo()
+    getUserInfo()
     test();
   });
 
@@ -115,7 +115,7 @@ function MyPage() {
       setErrorMessage("사용자 정보가 올바르지 않습니다.");
     } else {
       axios
-        .put("https://localhost:4000/userinfo", { password, email, region, mobile })
+        .put("http://localhost:4000/userinfo", { password, email, region, mobile })
         .then((res) => {})
         .catch((err) => console.log(err));
     }
