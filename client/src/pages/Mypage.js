@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Subheading from "../components/Subheading";
 
+
 const Wrapper = styled.div`
   display: flex;
   height: 100vh;
@@ -25,15 +26,6 @@ const Input = styled.input`
 `;
 
 function MyPage() {
-  const [passwordMessage, setPassWordMessage] = useState("");
-  const [emailMessage, setEmailMessage] = useState("");
-  const [mobileMessage, setMobileMessage] = useState("");
-  const [regionMessage, setRegionMessage] = useState("");
-
-  const [isPassword, setIsPassword] = useState(false);
-  const [isEmail, setIsEmail] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isRegion, setIsRegion] = useState(false);
 
   const regions = [
     "지역 선택",
@@ -73,8 +65,19 @@ function MyPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const [passwordMessage, setPassWordMessage] = useState("");
+  const [emailMessage, setEmailMessage] = useState("");
+  const [mobileMessage, setMobileMessage] = useState("");
+  const [regionMessage, setRegionMessage] = useState("");
+
+  const [isPassword, setIsPassword] = useState(false);
+  const [isEmail, setIsEmail] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isRegion, setIsRegion] = useState(false);
+
+
   async function getUserInfo() {
-    const data = await axios.get("FILL_ME_IN/userinfo");
+    const data = await axios.get(`https://localhost:4000/userinfo`);
     setUserId(data.userid);
     setPassword(data.password);
     setEmail(data.email);
@@ -115,7 +118,7 @@ function MyPage() {
       setErrorMessage("사용자 정보가 올바르지 않습니다.");
     } else {
       axios
-        .put("FILL_ME_IN/userinfo", { password, email, region, mobile })
+        .put("https://localhost:4000/userinfo", { password, email, region, mobile })
         .then((res) => {})
         .catch((err) => console.log(err));
     }
@@ -186,33 +189,46 @@ function MyPage() {
           <div>
             아이디 : <Input defaultValue={userId} disabled={true} />
           </div>
-          <div>
-            비밀번호 :{" "}
-            <Input
-              onChage={onPasswordChange}
-              defaultValue={password}
-              placeholder="변경을 원하시는 비밀번호를 입력하세요"
-            />
-            {passwordMessage}
-          </div>
-          <div>
-            이메일 :{" "}
-            <Input
-              onChage={onEmailChange}
-              defaultValue={email}
-              placeholder="원하시는 이메일 주소를 입력하세요"
-            />
-            {emailMessage}
-          </div>
-          <div>
-            휴대폰번호 :{" "}
-            <Input
-              onChage={onMobileChange}
-              defaultValue={mobile}
-              placeholder="사용하시는 휴대폰 번호를 입력 해주세요"
-            />
-            {mobileMessage}
-          </div>
+
+        <div>
+        비밀번호 : 
+        <Input
+          type='password'
+          placeholder='비밀번호를 입력해주세요'
+          onChange={onPasswordChange}
+          defaultValue={password}
+          maxLength = {15}
+          required />
+          {isPassword ? null : <div>{passwordMessage}</div>}
+      </div>
+        
+                
+      <div>
+        이메일 : 
+        <Input
+          type='email'
+          placeholder='이메일을 입력 해주세요'
+          onChange={onEmailChange}
+          maxLength = {25}
+          defaultValue={email}
+          required />
+          {isEmail ? null : <div>{emailMessage}</div>}
+      </div>
+
+
+                
+      <div>
+        휴대폰 번호 : 
+        <Input
+          type='text'
+          placeholder='휴대폰 번호를 입력해주세요'
+          onChange={onMobileChange}
+          defaultValue={mobile}
+          required />
+          {isMobile ? null : <div>{mobileMessage}</div>}
+      </div>
+        
+          
           <div>
             지역 :{" "}
             <Input as="select" defaultValue={region} onChange={onRegionSelect}>
@@ -221,8 +237,7 @@ function MyPage() {
               {regions.map((regions) => (
                 <option
                   key={regions}
-                  value={regions}
-                  // defaultValue={region}
+                  defaultValue={regions}
                 >
                   {regions}
                 </option>
@@ -230,7 +245,12 @@ function MyPage() {
             </Input>
             <div> {regionMessage} </div>
           </div>
-          <button onClick={handleUserInfo}> 회원정보 수정 </button>
+
+
+          <button 
+          onClick={handleUserInfo}
+            disabled={isEmail && isMobile && isPassword && isRegion ? false : true }
+          > 회원정보 수정 </button>
           <div> {errorMessage}</div>
         </div>
       ) : (

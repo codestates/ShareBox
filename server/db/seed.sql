@@ -40,6 +40,7 @@ VALUES
         "010123456789"
     );
 
+
 INSERT INTO
     `posts` (
         `title`,
@@ -99,6 +100,7 @@ VALUES
         false
     );
 
+
 INSERT INTO
     `comments` (`postsId`, `content`)
 VALUES
@@ -134,3 +136,14 @@ VALUES
     (3, 12),
     (4, 13),
     (3, 14);
+
+
+ INSERT INTO `users_posts` (`usersId`, `postsId`)
+ VALUES
+ (1, 1),
+ (2, 2),
+ (3, 3),
+ (4, 4),
+ (1, 5),
+ (2, 6);
+

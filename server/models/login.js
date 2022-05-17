@@ -1,9 +1,9 @@
-const db = require('../db')
+const db = require("../db");
 
 module.exports = {
-    get: () => {
-        //작성할 필요없음
-    },
+  get: () => {
+    //작성할 필요없음
+  },
 
     post: (userId, password, callback) => {
         // 실험용 쿼리
@@ -16,3 +16,4 @@ module.exports = {
         })
     }
 }
+

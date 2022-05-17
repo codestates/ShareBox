@@ -3,8 +3,10 @@ import ShareBox from './ShareBox.png';
 
 export default function Header1 () {
   return (
-    <center>
-      <img src={ShareBox} alt='logo' />
-    </center>
+    <div className='background-top'>
+      <center>
+        <img src={ShareBox} alt='logo' />
+      </center>
+    </div>
   );
 }
