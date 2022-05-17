@@ -5,8 +5,8 @@ module.exports = {
         //db할 필요없음
     },
 
-    put: (password, mobile, email, tokenData, callback) => {
-        const queryString = `UPDATE users SET password = "${password}", mobile = "${mobile}", email = "${email}" WHERE id = ${tokenData.id}`
+    put: (password, mobile, email, country, tokenData, callback) => {
+        const queryString = `UPDATE users SET password = "${password}", mobile = "${mobile}", email = "${email}", country = "${country}" WHERE id = ${tokenData.id}`
 
         db.query(queryString, (error, result) => {
             callback(error, result)
@@ -16,16 +16,12 @@ module.exports = {
     delete: (tokenData, callback) => {
         db.query(`SET foreign_key_checks = 0`);
 
-        const queryString = `DELETE FROM users WHERE userId = "${tokenData.userId}"`;
+        const queryString = `DELETE FROM users WHERE id = ${tokenData.id}`;
         db.query(queryString, (error, result) => {
-            if (error) {
-                console.log(error.message)
-            } else {
-                callback(result)
-            }
+            callback(error, result)
+            db.query(`SET foreign_key_checks = 1`);
         });
 
-        db.query(`SET foreign_key_checks = 1`);
     }
 }
 

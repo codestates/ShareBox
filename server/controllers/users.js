@@ -13,7 +13,7 @@ module.exports = {
                 return res.status(500).send({ 'data': null, 'message': '서버에러' });
             } else {
                 //db돌고나온값들
-                //result
+                console.log(result)
                 res.status(200).send({
                     'data': {
                         'record': result,
