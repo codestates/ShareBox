@@ -9,7 +9,7 @@ app.use(
   cors({
     origin: ["http://localhost:3000"],
     credentials: true,
-    methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
+    methods: ['GET', 'POST', 'OPTIONS','PUT', 'PATCH', 'DELETE']
   })
 );
 app.use(cookieParser());
@@ -17,14 +17,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/images", express.static("public/images"));
-app.use(
-  cors({
-    origin: ['http://localhost:3000'],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'OPTIONS']
-  })
-);
-
 
 app.use("/", indexRouter);
 

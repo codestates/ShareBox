@@ -27,6 +27,7 @@ module.exports = {
             userId: result[0].userId,
             email: result[0].email,
             country: result[0].country,
+            mobile: result[0].mobile
           };
 
           const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: "1d" });

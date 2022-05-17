@@ -14,7 +14,7 @@ module.exports = {
             .status(200)
             .json({ data: post, total: post.length, message: "페이지 게시물들을 가져왔습니다." });
         } else {
-          res.status(400).json({ messgae: "검색 결과 게시물이 존재하지 않습니다." });
+          res.status(200).json({ messgae: "검색 결과 게시물이 존재하지 않습니다." });
         }
       }
     });
