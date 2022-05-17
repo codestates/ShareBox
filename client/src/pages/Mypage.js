@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Subheading from "../components/Subheading";
 
-
 const Wrapper = styled.div`
   display: flex;
   height: 100vh;
@@ -26,7 +25,6 @@ const Input = styled.input`
 `;
 
 function MyPage() {
-
   const regions = [
     "지역 선택",
     "강남구",
@@ -74,7 +72,6 @@ function MyPage() {
   const [isEmail, setIsEmail] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isRegion, setIsRegion] = useState(false);
-
 
   async function getUserInfo() {
     const data = await axios.get(`https://localhost:4000/userinfo`);
@@ -190,55 +187,51 @@ function MyPage() {
             아이디 : <Input defaultValue={userId} disabled={true} />
           </div>
 
-        <div>
-        비밀번호 : 
-        <Input
-          type='password'
-          placeholder='비밀번호를 입력해주세요'
-          onChange={onPasswordChange}
-          defaultValue={password}
-          maxLength = {15}
-          required />
-          {isPassword ? null : <div>{passwordMessage}</div>}
-      </div>
-        
-                
-      <div>
-        이메일 : 
-        <Input
-          type='email'
-          placeholder='이메일을 입력 해주세요'
-          onChange={onEmailChange}
-          maxLength = {25}
-          defaultValue={email}
-          required />
-          {isEmail ? null : <div>{emailMessage}</div>}
-      </div>
+          <div>
+            비밀번호 :
+            <Input
+              type="password"
+              placeholder="비밀번호를 입력해주세요"
+              onChange={onPasswordChange}
+              defaultValue={password}
+              maxLength={15}
+              required
+            />
+            {isPassword ? null : <div>{passwordMessage}</div>}
+          </div>
 
+          <div>
+            이메일 :
+            <Input
+              type="email"
+              placeholder="이메일을 입력 해주세요"
+              onChange={onEmailChange}
+              maxLength={25}
+              defaultValue={email}
+              required
+            />
+            {isEmail ? null : <div>{emailMessage}</div>}
+          </div>
 
-                
-      <div>
-        휴대폰 번호 : 
-        <Input
-          type='text'
-          placeholder='휴대폰 번호를 입력해주세요'
-          onChange={onMobileChange}
-          defaultValue={mobile}
-          required />
-          {isMobile ? null : <div>{mobileMessage}</div>}
-      </div>
-        
-          
+          <div>
+            휴대폰 번호 :
+            <Input
+              type="text"
+              placeholder="휴대폰 번호를 입력해주세요"
+              onChange={onMobileChange}
+              defaultValue={mobile}
+              required
+            />
+            {isMobile ? null : <div>{mobileMessage}</div>}
+          </div>
+
           <div>
             지역 :{" "}
             <Input as="select" defaultValue={region} onChange={onRegionSelect}>
               {" "}
               {region}
               {regions.map((regions) => (
-                <option
-                  key={regions}
-                  defaultValue={regions}
-                >
+                <option key={regions} defaultValue={regions}>
                   {regions}
                 </option>
               ))}
@@ -246,17 +239,18 @@ function MyPage() {
             <div> {regionMessage} </div>
           </div>
 
-
-          <button 
-          onClick={handleUserInfo}
-            disabled={isEmail && isMobile && isPassword && isRegion ? false : true }
-          > 회원정보 수정 </button>
+          <button
+            onClick={handleUserInfo}
+            disabled={isEmail && isMobile && isPassword && isRegion ? false : true}
+          >
+            {" "}
+            회원정보 수정{" "}
+          </button>
           <div> {errorMessage}</div>
         </div>
       ) : (
         "Loading..."
       )}
-
       <button onClick={test2}>테스트 </button>
     </Wrapper>
   );

@@ -1,11 +1,17 @@
-const express = require('express');
-const indexRouter = require('./route/index');
-const cors = require('cors')
+const express = require("express");
+const indexRouter = require("./route/index");
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const app = express();
 const port = 4000;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "OPTIONS"],
+  })
+);
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
