@@ -3,97 +3,104 @@ import Category from "../components/Category";
 import Product from "../components/Product";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import LoadingIndicator from "../components/LoadingIndicator";
 
 import styled from "styled-components";
 
 const Wrapper = styled.div`
   /* position: fixed; */
-  `
+`;
 
 function Main() {
   const [isloading, setIsLoaidng] = useState(false);
-  const [data, setData] = useState('');
-
+  const [data, setData] = useState("");
 
   const handleCategory = (e) => {
-    const menu = e.target.value
-    axios.get(`http://localhost:4000/categorys?category=${menu}`)
+    const menu = e.target.value;
+    axios
+      .get(`http://localhost:4000/categorys?category=${menu}`)
       .then((res) => {
-
-      console.log(res.data.data)
-      setData(res.data.data)
-      setIsLoaidng(true)
+        console.log(res.data.data);
+        setData(res.data.data);
+        setIsLoaidng(true);
       })
-      .catch((err) => alert(err))
-  }
+      .catch((err) => alert(err));
+  };
 
   const getData = () => {
-    axios.get('http://localhost:4000/main')
-      .then((res) => { setData(res.data.data)
-      console.log(res.data.data)
-      setIsLoaidng(true)})
-      .catch((err) => console.log(err))
+    axios
+      .get("http://localhost:4000/main")
+      .then((res) => {
+        setData(res.data.data);
+        console.log(res.data.data);
+        setIsLoaidng(true);
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    getData()
-  },[]);
+    getData();
+  }, []);
 
-
-/*
+  /*
   카테고리 컴포넌트에서 카테고리 값은 받아왔음
   그럼 카테고리의 값이 변경 되는 경우는 유저가 카테고리를 눌렀을때이다.
   카테고리를 누른 순간 axios를 통해 데이터를 받아오게 된다.
 */
 
-
-
-
   return (
     <div>
       <Wrapper>
-      <Title getData={getData}/>
-      {/* <SearchBar /> */}
-      <Category
-        name={["냉동", "신선", "양곡", "축산", "수산", "음료", "스낵", "가공식품", "조미료"]}
-        handleCategory={handleCategory}
-      />
+        <Title getData={getData} />
+        {/* <SearchBar /> */}
+        <Category
+          name={["냉동", "신선", "양곡", "축산", "수산", "음료", "스낵", "가공식품", "조미료"]}
+          handleCategory={handleCategory}
+        />
       </Wrapper>
       <div>
-        {isloading ? <div> {data.map((item) => 
-        <Product
-          id = {item.id}
-          key = {item.id}
-          title = {item.title}
-          image = {item.picture}
-          region = {item.country}
-          createdAt = {item.createdDate} /> )} </div>
-          
-          : <LoadingIndicator /> }
+        {isloading ? (
+          <div>
+            {" "}
+            {data === undefined ? (
+              <h1>게시글이 없습니다.</h1>
+            ) : (
+              data.map((item) => (
+                <Product
+                  id={item.id}
+                  key={item.id}
+                  title={item.title}
+                  image={item.picture}
+                  region={item.country}
+                  createdAt={item.createdDate}
+                />
+              ))
+            )}{" "}
+          </div>
+        ) : (
+          <LoadingIndicator />
+        )}
       </div>
 
-  
       <button onClick={getData}> 테스트 버튼 </button>
 
       <div>
-      <Link to = '/signup'> 
-        <button> 회원가입 </button>
-      </Link>    
-      <Link to = '/record'>
-        <button> 상품등록 </button>
-      </Link>
-      <Link to = '/mypage'>
-        <button> 내 정보 </button>
-      </Link>
+        <Link to="/signup">
+          <button> 회원가입 </button>
+        </Link>
+        <Link to="/record">
+          <button> 상품등록 </button>
+        </Link>
+        <Link to="/mypage">
+          <button> 내 정보 </button>
+        </Link>
 
-      <Link to = '/'>
-        <button> 메인 </button>
-      </Link>
+        <Link to="/">
+          <button> 메인 </button>
+        </Link>
+      </div>
     </div>
-    </div>
-    
   );
 }
 
