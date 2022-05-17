@@ -1,5 +1,4 @@
-import {useState} from 'react'
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const TabMenu = styled.ul`
   background-color: #dcdcdc;
@@ -11,13 +10,12 @@ const TabMenu = styled.ul`
   align-items: center;
   list-style: none;
   margin-bottom: 7rem;
-  position : static;
+  position: static;
 
-  .submenu { 
+  .submenu {
     width: 100%;
     padding: 15px 10px;
     cursor: pointer;
-  
   }
 
   .selected {
@@ -28,50 +26,30 @@ const TabMenu = styled.ul`
 
   & div.desc {
     text-align: center;
-  } 
+  }
 `;
 
-
-function Category (props) {
-  const [category,setCategory] = useState('')
-  const [currentTab, setCurrentTab] = useState('');
-
-  
-
-  const selectMenuHandler = (index) => {
-    setCurrentTab(index);
-  };
-
-  
-  const handleCategory = (e) => {
-    const value = e.target.value
-    setCategory(value)
-    setCurrentTab(value)
-    
-    props.handleCategory({category})
-    // category 정보를 메인 페이지로 전달 
-  }
-
-
-
-
+function Category(props) {
   return (
-
     <div>
       <TabMenu>
-        {props.name.map((menu,index) =>  <button 
-          key={index}
-          className={'submenu selected'}
-          onClick={handleCategory}
-          value={menu} > {menu}</button> )}
+        {props.name.map((menu, index) => (
+          <button
+            key={index}
+            className={"submenu selected"}
+            onClick={props.handleCategory}
+            value={menu}
+          >
+            {" "}
+            {menu}
+          </button>
+        ))}
       </TabMenu>
     </div>
-    
-  )
+  );
 }
 
-export default Category
-
+export default Category;
 
 /*
 
@@ -93,4 +71,3 @@ export default Category
  카테고리 컴포넌트에서 카테고리가 선택이 된다면, 
 
 */
-
