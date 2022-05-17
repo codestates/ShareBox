@@ -35,7 +35,6 @@ export default function Signin({ accessToken, signinHandler }) {
         {
           headers: { "Content-Type": `application/json` }
         })
-
         .then(res => {
           console.log(res.data.data.accessToken)
           signinHandler(res.data.data.accessToken)
