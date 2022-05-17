@@ -12,7 +12,9 @@ export default function Item () {
   const [isLoading, setIsLoaidng] = useState(false);
   const [text, setText] = useState();
   const [editingComment, setEditingComment] = useState();
+  
   let userId = 'kimcoding';
+
   let dummy = {
     record: {
        category: 'category',
@@ -39,15 +41,20 @@ export default function Item () {
                   }
              ],
   };
+  
+  //게시글 수정
   const handleArticleEdit = () => {
     
   }
+
+  //게시글 삭제
   const handleArticleDeletion = () => {
     axios
     .delete(`https://localhost:4000/records/:${1}`)
     .then(res => res.json())
     .catch(err => console.log(err));
   }
+
   const handleTextValue = (e) => {
     setText(e.target.value);
   };
@@ -56,6 +63,8 @@ export default function Item () {
       handleSubmitButton()
     }
   }
+
+  //댓글작성
   const handleSubmitButton = () => {
     if (editingComment) {
       axios
@@ -69,10 +78,14 @@ export default function Item () {
       .catch(err => console.log(err));
     }
   }
+
+  //댓글수정
   const handleCommentEdit = (commId) => {
     setEditingComment(commId);
     setText(dummy.comment.filter(comm => comm.id === commId)[0].content);
   }
+
+  //댓글삭제
   const handleCommentDeletion = (id) => {
     axios
     .delete(`https://localhost:4000/records/:${1}/comments/:${id}`)

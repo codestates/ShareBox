@@ -7,7 +7,7 @@ import Signup from './pages/Signup';
 import Signin from "./pages/Signin";
 import Mypage from "./pages/Mypage";
 import Record from "./pages/Records";
-import Signup from "./pages/Signup";
+// import Signup from "./pages/Signup";
 
 import "./App.css";
 

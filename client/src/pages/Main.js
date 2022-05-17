@@ -1,11 +1,12 @@
 import Title from "../components/Title";
-import SearchBar from "../components/SearchBar";
+// import SearchBar from "../components/SearchBar"; //삭제
 import Category from "../components/Category";
 import Product from "../components/Product";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom"
 import LoadingIndicator from "../components/LoadingIndicator";
+
 import SSS from "../assets/sss";
 import Kingfoot from "../assets/kingfoot";
 import styled from "styled-components";
@@ -16,6 +17,9 @@ const Wrapper = styled.div`
 
 function Main() {
   const [isloading, setIsLoaidng] = useState(false);
+
+  // records라는 값으로 저장하면 안되나요?
+
   // const [image, setImage] = useState('')
   // const [title, setTitle] = useState('')
   // const [region, setRegion] = useState('')
@@ -23,6 +27,7 @@ function Main() {
   const [data, setData] = useState('');
   const [category, setCatgory] = useState('')
 
+  //카테고리요청
   const handleCategory = (element) => {
     setCatgory(element.category)
     console.log(category)  
