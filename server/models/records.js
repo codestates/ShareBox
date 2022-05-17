@@ -1,4 +1,5 @@
 const con = require("../db/index");
+const users = require("./users");
 
 module.exports = {
   get: (callback) => {

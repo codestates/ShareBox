@@ -18,7 +18,7 @@ module.exports = {
       } else {
         // db돌고나온값
         // result[0]
-        console.log(result)
+        // console.log(result)
 
         if (!result) {
           res.status(401).send({ 'data': null, 'message': '회원가입이 되지 않았습니다.' });
@@ -27,7 +27,8 @@ module.exports = {
             id: result[0].id,
             userId: result[0].userId,
             email: result[0].email,
-            country: result[0].country
+            country: result[0].country,
+            mobile: result[0].mobile
           }
 
           const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: '1d' });
