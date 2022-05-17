@@ -246,7 +246,7 @@ function onRegionSelect(e) {
         {regions.map((region) => <option 
           key={region}
           value={region}
-         >{region}</option>)}
+        >{region}</option>)}
         </Input>
         {isRegion ? null : <div>{regionMessage}</div>}
         

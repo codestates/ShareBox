@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+.background-top {
+  background-color: white;
+}
+
 .background {
   background-color: #f6efea;
   position: fixed;
@@ -34,16 +38,27 @@ input[type="text"],
 input[type="tel"],
 input[type="email"],
 input[type="password"] {
-  width: 400px;
+  width: 20rem;
   font-size: 1rem;
   padding: 0.4rem;
   margin: 0.4rem;
+}
+
+textarea {
+  width: 37rem;
+  height: 5rem;
+}
+
+.write-comment {
+  display: flex;
+  justify-content: center;
 }
 
 .btn {
   font-size: 1rem;
   padding: 0.4rem;
   margin: 0.4rem 0;
+  display: inline-block;
 }
 
 .btn-search {
@@ -55,8 +70,88 @@ button > img {
   width: 1rem;
 }
 
+.btn-oauth {
+  width: 16rem;
+}
+
+.btn-signup {
+  width: 8rem;
+}
+
 form {
   display: inline-block;
+}
+
+.article {
+  display: table;
+  width: 60rem;
+}
+
+.article-left {
+  display: table-cell;
+}
+
+.article-right {
+  display: table-cell;
+}
+
+.content {
+  text-align: justify;
+  vertical-align: bottom;
+}
+
+.btns-article {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ul {
+  padding-left: 0;
+}
+
+.comment {
+  width: 40rem;
+}
+
+.btns-comment {
+  float: right;
+}
+
+.infos-comment {
+  float: left;
+  display: grid;
+  grid-auto-flow: column;
+  grid-column-gap: 10px;
+}
+
+.text-comment {
+  width: 40rem;
+  display: inline-block;
+  text-align: justify;
+}
+
+.signin-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signinContainer {
+  width: 100%;
+  text-align: center;
+}
+
+.inputFields {
+  display: inline-block;
+}
+
+.inputField {
+  text-align: right;
+}
+
+.btn-signin {
+  height: 6rem;
 }
 
 .alert-box {
