@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Sign } from '../components/Sign';
 import Button from './Button';
 import searchIcon from './SearchIcon.png';
+import Category from './Category';
 /* import styled from 'styled-components';
 
 export const Hdr2 = styled.div`
@@ -22,7 +23,7 @@ export default function Header2 () {
         'https://localhost:4000/search',
         keyword
       )
-      .then()
+      .then(res => console.log(res))
       .catch(err => console.log(err));
     }
   }
@@ -41,10 +42,7 @@ export default function Header2 () {
         <span>
           <Button />
         </span>
-        <div>
-          category
-        </div>
-        
+        <Category name={["냉동", "신선", "양곡", "축산", "수산", "음료", "스낵", "가공식품", "조미료"]}/>
       </center>
     </>
   );

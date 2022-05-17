@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import axios from "axios";
 import Main from "./pages/Main";
 import Item from "./pages/Item";
+import Signup from './pages/Signup';
 import Signin from "./pages/Signin";
 import Mypage from "./pages/Mypage";
 import "./App.css";
@@ -20,21 +21,6 @@ export default function App() {
   const issueAccessToken = (token) => {
     setAccessToken(token);
   };
-  const isAuthenticated = () => {
-    axios.get("https://localhost:4000/auth", { withCredentials: true }).then((res) => {
-      if (res.data.data.userInfo !== null) {
-        const { email, mobile, username } = res.data.data.userInfo;
-        setUserinfo({ email, mobile, username });
-        setSignedIn(true);
-        navigate("/");
-      } else {
-        setUserinfo(null);
-      }
-    });
-  };
-  const handleResponseSuccess = () => {
-    isAuthenticated();
-  };
   const handleSignout = () => {
     axios.post("https://localhost:4000/signout").then((res) => {
       setUserinfo(null);
@@ -49,20 +35,18 @@ export default function App() {
       navigate("/");
     });
   };
-  useEffect(() => {
-    isAuthenticated();
-  }, []);
   return (
     <Routes>
       <Route path="/" element={<Main />} />
       <Route path="/item" element={<Item userinfo={userinfo} />} />
+      <Route path='/signup' element={<Signup />} />
       <Route
         path="/signin"
         element={
           signedIn ? (
             <Navigate replace to="/" />
           ) : (
-            <Signin signinHandler={signinHandler} handleResponseSuccess={handleResponseSuccess} />
+            <Signin signinHandler={signinHandler} />
           )
         }
       />
