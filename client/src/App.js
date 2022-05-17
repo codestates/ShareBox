@@ -3,7 +3,7 @@ import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import axios from "axios";
 import Main from "./pages/Main";
 import Item from "./pages/Item";
-import Signup from './pages/Signup';
+import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import Mypage from "./pages/Mypage";
 import Record from "./pages/Records";
@@ -25,8 +25,9 @@ export default function App() {
   const issueAccessToken = (token) => {
     setAccessToken(token);
   };
-  const handleSignout = () => {
-    axios.post("https://localhost:4000/signout").then((res) => {
+  const handleLogout = () => {
+    axios.post("http://localhost:4000/logout").then((res) => {
+      console.log(res);
       setUserinfo(null);
       setSignedIn(false);
       navigate("/");
@@ -49,13 +50,7 @@ export default function App() {
       <Route path="/mypage" element={<Mypage />} />
       {/* <Route
         path="/signin"
-        element={
-          signedIn ? (
-            <Navigate replace to="/" />
-          ) : (
-            <Signin signinHandler={signinHandler} />
-          )
-        }
+        element={signedIn ? <Navigate replace to="/" /> : <Signin signinHandler={signinHandler} />}
       />
       <Route
         path="/m123123ypage"
@@ -65,7 +60,7 @@ export default function App() {
               accessToken={accessToken}
               issueAccessToken={issueAccessToken}
               userinfo={userinfo}
-              handleSignout={handleSignout}
+              handleLogout={handleLogout}
               handleDropout={handleDropout}
             />
           ) : (

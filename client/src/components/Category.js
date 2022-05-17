@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const TabMenu = styled.ul`
   background-color: #dcdcdc;
@@ -10,13 +10,12 @@ const TabMenu = styled.ul`
   align-items: center;
   list-style: none;
   margin-bottom: 7rem;
-  position : static;
+  position: static;
 
-  .submenu { 
+  .submenu {
     width: 100%;
     padding: 15px 10px;
     cursor: pointer;
-  
   }
 
   .selected {
@@ -27,28 +26,30 @@ const TabMenu = styled.ul`
 
   & div.desc {
     text-align: center;
-  } 
+  }
 `;
 
-
-function Category (props) {
-
+function Category(props) {
   return (
     <div>
       <TabMenu>
-        {props.name.map((menu,index) =>  <button 
-          key={index}
-          className={'submenu selected'}
-          onClick={props.handleCategory}
-          value={menu} > {menu}</button> )}
+        {props.name.map((menu, index) => (
+          <button
+            key={index}
+            className={"submenu selected"}
+            onClick={props.handleCategory}
+            value={menu}
+          >
+            {" "}
+            {menu}
+          </button>
+        ))}
       </TabMenu>
     </div>
-    
-  )
+  );
 }
 
-export default Category
-
+export default Category;
 
 /*
 
@@ -70,4 +71,3 @@ export default Category
  카테고리 컴포넌트에서 카테고리가 선택이 된다면, 
 
 */
-
