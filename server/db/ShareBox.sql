@@ -40,15 +40,13 @@ CREATE TABLE `users_posts` (
   `postId` int NOT NULL
 );
 
-ALTER TABLE `comments` ADD FOREIGN KEY (`postId`) REFERENCES `posts` (`id`);
-
-ALTER TABLE `comments` ADD FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
+ALTER TABLE `comments` ADD FOREIGN KEY (`postsId`) REFERENCES `posts` (`id`); --수정
 
 ALTER TABLE `users_comments` ADD FOREIGN KEY (`usersId`) REFERENCES `users` (`id`);
 
-ALTER TABLE `users_comments` ADD FOREIGN KEY (`commentId`) REFERENCES `comments` (`id`);
+ALTER TABLE `users_comments` ADD FOREIGN KEY (`commentsId`) REFERENCES `comments` (`id`);
 
 ALTER TABLE `users_posts` ADD FOREIGN KEY (`usersId`) REFERENCES `users` (`id`);
 
-ALTER TABLE `users_posts` ADD FOREIGN KEY (`postId`) REFERENCES `posts` (`id`);
+ALTER TABLE `users_posts` ADD FOREIGN KEY (`postsId`) REFERENCES `posts` (`id`);
 
