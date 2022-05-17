@@ -46,7 +46,7 @@ export default function App() {
       <Route path="/signup" element={<Signup />} />
       <Route path="/record" element={<Record />} />
       <Route path="/mypage" element={<Mypage />} />
-      {/* <Route
+      <Route
         path="/signin"
         element={
           signedIn ? (
@@ -57,7 +57,7 @@ export default function App() {
         }
       />
       <Route
-        path="/m123123ypage"
+        path="/mypage"
         element={
           signedIn ? (
             <Mypage
@@ -71,7 +71,7 @@ export default function App() {
             <Navigate replace to="/" />
           )
         }
-      /> */}
+      />
     </Routes>
   );
 }

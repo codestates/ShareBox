@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import Title from '../components/Title';
+// import Title from '../components/Title';
 import Subheading from '../components/Subheading';
 import { useNavigate } from 'react-router-dom';
 
@@ -65,29 +65,19 @@ const [isPassword, setIsPassword] = useState(false)
 const [isPassword2, setIsPassword2] = useState(false)
 const [isEmail, setIsEmail] = useState(false)
 const [isMobile, setIsMobile] = useState(false)
-const [iscountry, setIsCountry] = useState(false)
+const [isCountry, setIsCountry] = useState(false)
 
 
 
 const handleSignup = () => {
 
-  console.log('id :' + userId)
-  console.log('password :' + password)
-  console.log('password2 :' + password2)
-  console.log('email :' + email)
-  console.log('mobile :' + mobile)
-  console.log('country :' + country)
-
-
   axios.post ('http://localhost:4000/signup',{userId,password, email, mobile, country})
     .then((res) => console.log(res))
     .then(navigate("/"))
     .catch((e) => console.log(e))
-
-// try & catch 구문 찾아보자. 
 }
 
-function onUserIdChange(e) {
+const onUserIdChange = (e) => {
   const value = e.target.value
   setUserId(value)
   if (value.length < 4) {
@@ -102,7 +92,7 @@ function onUserIdChange(e) {
   }
 }
 
-function onPasswordChange(e) {
+const onPasswordChange = (e) => {
   const value = e.target.value
   setPassword(value)
   console.log(`비밀번호1:${value}`)
@@ -116,7 +106,7 @@ function onPasswordChange(e) {
   }
 }
 
-function onPassword2Change(e) {
+const onPassword2Change = (e) => {
   const value = e.target.value
     setPassword2(value)
     console.log(`비밀번호2:${value}`)
@@ -130,7 +120,7 @@ function onPassword2Change(e) {
     // }
   }
 
-function onEmailChange(e) {
+const onEmailChange = (e) => {
   const value = e.target.value
   const emailRegex = 	/([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
   setEmail(value)
@@ -143,7 +133,7 @@ function onEmailChange(e) {
   }
 }
 
-function onMobileChange(e) {
+const onMobileChange = (e) => {
   const value = e.target.value
     setMobile(value)
     setMobileMessage('')
@@ -151,7 +141,7 @@ function onMobileChange(e) {
 
   }
 
-function oncountrySelect(e) {
+const oncountrySelect = (e) => {
   const value = e.target.value
     setCountry(value);
       
@@ -239,15 +229,14 @@ function oncountrySelect(e) {
           value={country}
         >{country}</option>)}
         </Input>
-        {iscountry ? null : <div>{countryMessage}</div>}
+        {isCountry ? null : <div>{countryMessage}</div>}
         
 
 
       <div>
         <Input as="button" 
           onClick={handleSignup} 
-          // disabled={!userId || !password|| !password2 || !country ||!email ||!mobile ? true : false}
-           disabled={isUserId && isEmail && isMobile && isPassword && iscountry ? false : true }
+          disabled={isUserId && isEmail && isMobile && isPassword && isCountry ? false : true }
           > 회원가입 
         </Input>
       </div>

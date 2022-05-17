@@ -62,15 +62,15 @@ function Main() {
       />
       </Wrapper>
       <div>
-        {isloading ? <div> {data.map((item) => 
-        <Product
+        
+        {isloading ? 
+        <div>  {data === undefined ? <h1> 준비 된 상품이 없습니다. </h1> : <div> {data.map((item) => <Product
           id = {item.id}
           key = {item.id}
           title = {item.title}
           image = {item.picture}
           region = {item.country}
-          createdAt = {item.createdDate} /> )} </div>
-          
+          createdAt = {item.createdDate} /> )} </div>} </div>
           : <LoadingIndicator /> }
       </div>
 
