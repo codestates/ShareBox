@@ -44,14 +44,22 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Main />} />
-      <Route path="/item" element={<Item userinfo={userinfo} />} />
+      <Route path="/item" element={<Item />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/record" element={<Record />} />
-      <Route path="/mypage" element={<Mypage />} />
+      <Route path="/mypage" element={<Mypage
+        userinfo={userinfo}
+        accessToken={accessToken}
+        issueAccessToken={issueAccessToken}
+        handleSignout={handleSignout}
+        handleDropout={handleDropout}
+      />} />
       <Route
         path="/signin"
         element={signedIn ? <Navigate replace to="/" /> : <Signin signinHandler={signinHandler} />}
       />
+<<<<<<< HEAD
+=======
       <Route
         path="/mypage"
         element={
@@ -68,6 +76,7 @@ export default function App() {
           )
         }
       />
+>>>>>>> 26a02f4c2aa7ce781d1ba65adf0a28b36a8d818c
     </Routes>
   );
 }

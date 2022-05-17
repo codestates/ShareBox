@@ -6,18 +6,47 @@ import { Modal } from "../components/Modal";
 import Header1 from "../components/Header1";
 import Header2 from "../components/Header2";
 import LoadingIndicator from "../components/LoadingIndicator";
+import { Toggle } from "../components/Toggle";
 
 export default function Item() {
   const navigate = useNavigate();
+<<<<<<< HEAD
+  const [isLoading, setIsLoading] = useState(false);
+=======
 
   const [isLoading, setIsLoaidng] = useState(false);
 
   //const [data, setData] = useState();
+>>>>>>> 26a02f4c2aa7ce781d1ba65adf0a28b36a8d818c
   const [text, setText] = useState();
   const [editingComment, setEditingComment] = useState();
   let userId = "kimcoding";
   let dummy = {
     record: {
+<<<<<<< HEAD
+       category: 'category',
+       image: 'image',
+       title: 'title',
+       time: 'time',
+       content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a varius mi. Fusce luctus faucibus lorem sit amet dictum. Integer ut bibendum sapien. Sed nibh purus, iaculis a tellus vel, consectetur mattis massa. Vestibulum ac sapien vestibulum neque pulvinar iaculis. Aliquam elementum, ipsum ac tempus tristique, libero dolor interdum metus, et cursus lectus magna vel dolor. Nullam felis mi, luctus non vulputate sit amet, volutpat at mi. Cras a mollis risus. Nunc id massa id sem tristique lacinia. Curabitur mattis orci eleifend neque feugiat commodo. Ut feugiat felis vitae felis porttitor ullamcorper. Fusce efficitur massa eget mi dapibus, quis feugiat velit pharetra. Sed ac eros malesuada, suscipit leo id, vestibulum tellus. Donec elit augue, ullamcorper eget sem nec, accumsan eleifend arcu. Duis bibendum neque eu nunc lacinia vestibulum. Nunc pretium sem in ipsum finibus, id tincidunt orci consectetur.',
+       complete: 'complete'
+     },
+    comment : [
+      {
+        id: '1',
+        userId: 'userId',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a varius mi. Fusce luctus faucibus lorem sit amet dictum. Integer ut bibendum sapien. Sed nibh purus, iaculis a tellus vel, consectetur mattis massa. Vestibulum ac sapien vestibulum neque pulvinar iaculis. Aliquam elementum, ipsum ac tempus tristique, libero dolor interdum metus, et cursus lectus magna vel dolor. Nullam felis mi, luctus non vulputate sit amet, volutpat at mi. Cras a mollis risus. Nunc id massa id sem tristique lacinia. Curabitur mattis orci eleifend neque feugiat commodo. Ut feugiat felis vitae felis porttitor ullamcorper. Fusce efficitur massa eget mi dapibus, quis feugiat velit pharetra. Sed ac eros malesuada, suscipit leo id, vestibulum tellus. Donec elit augue, ullamcorper eget sem nec, accumsan eleifend arcu. Duis bibendum neque eu nunc lacinia vestibulum. Nunc pretium sem in ipsum finibus, id tincidunt orci consectetur.',
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt',
+      },
+      {
+        id: '2',
+        userId: 'userId',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a varius mi. Fusce luctus faucibus lorem sit amet dictum. Integer ut bibendum sapien. Sed nibh purus, iaculis a tellus vel, consectetur mattis massa. Vestibulum ac sapien vestibulum neque pulvinar iaculis. Aliquam elementum, ipsum ac tempus tristique, libero dolor interdum metus, et cursus lectus magna vel dolor. Nullam felis mi, luctus non vulputate sit amet, volutpat at mi. Cras a mollis risus. Nunc id massa id sem tristique lacinia. Curabitur mattis orci eleifend neque feugiat commodo. Ut feugiat felis vitae felis porttitor ullamcorper. Fusce efficitur massa eget mi dapibus, quis feugiat velit pharetra. Sed ac eros malesuada, suscipit leo id, vestibulum tellus. Donec elit augue, ullamcorper eget sem nec, accumsan eleifend arcu. Duis bibendum neque eu nunc lacinia vestibulum. Nunc pretium sem in ipsum finibus, id tincidunt orci consectetur.',
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt',
+      }
+=======
       category: "category",
       image: "image",
       title: "title",
@@ -43,11 +72,16 @@ export default function Item() {
         createdAt: "createdAt",
         updatedAt: "updatedAt",
       },
+>>>>>>> 26a02f4c2aa7ce781d1ba65adf0a28b36a8d818c
     ],
   };
   // 
 
   const handleArticleEdit = () => {
+<<<<<<< HEAD
+    navigate(`/record`);
+  }
+=======
     const token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcklkIjoia2ltY29kaW5nIiwiZW1haWwiOiJraW1jb2RpbmdAU2hhcmVCb3guY29tIiwiY291bnRyeSI6IuyYgeuTse2PrOq1rCIsImlhdCI6MTY1Mjc5Njg0OCwiZXhwIjoxNjUyODgzMjQ4fQ.l0AzBxbthHHer-VdPSUcqmAw-dgi2kTsYKwEBZITS5M";
     axios
@@ -66,6 +100,7 @@ export default function Item() {
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err.response.data));
   };
+>>>>>>> 26a02f4c2aa7ce781d1ba65adf0a28b36a8d818c
   const handleArticleDeletion = () => {
     const token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcklkIjoia2ltY29kaW5nIiwiZW1haWwiOiJraW1jb2RpbmdAU2hhcmVCb3guY29tIiwiY291bnRyeSI6IuyYgeuTse2PrOq1rCIsImlhdCI6MTY1Mjc5Njg0OCwiZXhwIjoxNjUyODgzMjQ4fQ.l0AzBxbthHHer-VdPSUcqmAw-dgi2kTsYKwEBZITS5M";
@@ -116,6 +151,27 @@ export default function Item() {
                 <img className="thumbnail" src={Apple} alt="thumbnail" />
               </div>
               <div className="article-right">
+<<<<<<< HEAD
+                { /* userId === dummy.record.poster */ true ?
+                <div className="btns btns-article">
+                  <Toggle />
+                  <button className="btn btn-revise" onClick={handleArticleEdit}>
+                    수정
+                  </button>
+                  <Modal className="btn btn-delete" handleArticleDeletion={handleArticleDeletion}>
+                    삭제
+                  </Modal>
+                </div> : '' }
+                <p className="poster">
+                  {dummy.record.poster}poster
+                </p>
+                <p className="district">
+                  {dummy.record.district}district
+                </p>
+                <p className="content">
+                  {dummy.record.content}
+                </p>
+=======
                 {
                   /* userId === dummy.record.poster */ true ? (
                     <div className="btns btns-article">
@@ -133,6 +189,7 @@ export default function Item() {
                 <p className="poster">{dummy.record.poster}poster</p>
                 <p className="district">{dummy.record.district}district</p>
                 <p className="content">{dummy.record.content}</p>
+>>>>>>> 26a02f4c2aa7ce781d1ba65adf0a28b36a8d818c
               </div>
             </div>
             <div className="comment">
@@ -153,6 +210,13 @@ export default function Item() {
                         <span className="comm-createdAt">{ele.createdAt}</span>
                         <span className="comm-updatedAt">{ele.updatedAt}</span>
                       </p>
+<<<<<<< HEAD
+                      { /* userId === ele.userId */ true ?
+                      <div className="btns btns-comment">
+                        <button className="btn btn-edit-comment" onClick={() => handleCommentEdit(ele.id)}>수정</button>
+                        <button className="btn btn-delete-comment" onClick={handleCommentDeletion(ele.id)}>삭제</button>
+                      </div> : '' }
+=======
                       {
                         /* userId === ele.userId */ true ? (
                           <div className="btns btns-comment">
@@ -172,6 +236,7 @@ export default function Item() {
                           ""
                         )
                       }
+>>>>>>> 26a02f4c2aa7ce781d1ba65adf0a28b36a8d818c
                       <div className="text-comment">{ele.content}</div>
 
                     </ul>
