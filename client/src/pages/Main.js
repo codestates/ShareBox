@@ -1,5 +1,4 @@
 import Title from "../components/Title";
-import SearchBar from "../components/SearchBar";
 import Category from "../components/Category";
 import Product from "../components/Product";
 import { useEffect, useState } from "react";

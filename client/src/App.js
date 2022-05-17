@@ -7,7 +7,6 @@ import Signup from './pages/Signup';
 import Signin from "./pages/Signin";
 import Mypage from "./pages/Mypage";
 import Record from "./pages/Records";
-import Signup from "./pages/Signup";
 
 import "./App.css";
 
@@ -42,10 +41,16 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Main />} />
-      <Route path="/item" element={<Item userinfo={userinfo} />} />
+      <Route path="/item" element={<Item />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/record" element={<Record />} />
-      <Route path="/mypage" element={<Mypage />} />
+      <Route path="/mypage" element={<Mypage
+        userinfo={userinfo}
+        accessToken={accessToken}
+        issueAccessToken={issueAccessToken}
+        handleSignout={handleSignout}
+        handleDropout={handleDropout}
+      />} />
       <Route
         path="/signin"
         element={
@@ -53,22 +58,6 @@ export default function App() {
             <Navigate replace to="/" />
           ) : (
             <Signin signinHandler={signinHandler} />
-          )
-        }
-      />
-      <Route
-        path="/m123123ypage"
-        element={
-          signedIn ? (
-            <Mypage
-              accessToken={accessToken}
-              issueAccessToken={issueAccessToken}
-              userinfo={userinfo}
-              handleSignout={handleSignout}
-              handleDropout={handleDropout}
-            />
-          ) : (
-            <Navigate replace to="/" />
           )
         }
       />

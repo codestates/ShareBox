@@ -165,3 +165,10 @@ ul {
   border: 1px solid transparent;
   border-radius: 0.25rem;
 }
+
+.toggle-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
