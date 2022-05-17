@@ -1,5 +1,5 @@
 import axios from 'axios'
-import Title from '../components/Title'
+// import Title from '../components/Title'
 import { useState } from 'react'
 import styled from 'styled-components'
 import Subheading from '../components/Subheading'
@@ -59,12 +59,13 @@ const onRecords = ()  => {
     const {title, body, image, category} = post
     
     if (!title || !body || !category || !image) {
-      setErrorMessage('제목, 사진, 지역, 본문은 모두 입력해주셔야 합니다.')
+      setErrorMessage('제목, 사진, 카테고리, 본문은 모두 입력해주셔야 합니다.')
 
   } else {
 
   setErrorMessage('')
-  axios.post ('FILL_ME_IN/records',{title,body,category})
+  axios.post ('https://localhost:4000/records',{title,body,image,category})
+  // ! 
   .then((res) => {
     //  등록 처리 후에는 자기가 등록 한 글로 이동이 될 수 있으면 좋겠는데 
   })
@@ -82,9 +83,9 @@ const onRecords = ()  => {
       reader.onload = function (e){
         console.log(e.target.result)
         setPreview(e.target.result)
-      // ! 버퍼 데이터를 post의 image로 
+      // ! 버퍼 데이터를 post의 image로 전송     이거 되는거 맞나? 
       }
-      setPost({...post, [key]: e.target.value })
+ 
     }
     console.log(post)
     console.log(preview)
@@ -97,18 +98,18 @@ const onRecords = ()  => {
   사진의 정보를 보내줘야 할텐데, buffer값을 보내주면 되나? 
   단순히 포스트 상태값에 사진 정보 보내는걸로 안될것 같기도 하고 
 */ 
-  const onSubmitImage = (e) => {
-    //! 이미지를 서버로 제출하기 위한 함수 ?
-    const formdata = new FormData()
-    formdata.append('uploadImage', post.image[0] )
+  // const onSubmitImage = (e) => {
+  //   //! 이미지를 서버로 제출하기 위한 함수 ?
+  //   const formdata = new FormData()
+  //   formdata.append('uploadImage', post.image[0] )
     
-    const config = {
-      Headers : {
-        'content-type' : 'multipart/form-data',
-      },
-    }
-    axios.post('사진 url', formdata, config)
-  }
+  //   const config = {
+  //     Headers : {
+  //       'content-type' : 'multipart/form-data',
+  //     },
+  //   }
+  //   axios.post('사진 url', formdata, config)
+  // }
 
   const category = ['선택','냉동', '신선', '양곡', '축산', '수산', '음료', '스낵', '가공식품', '조미료'] 
   return ( 

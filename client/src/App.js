@@ -5,6 +5,9 @@ import Main from "./pages/Main";
 import Item from "./pages/Item";
 import Signin from "./pages/Signin";
 import Mypage from "./pages/Mypage";
+import Record from "./pages/Records";
+import Signup from "./pages/Signup";
+
 import "./App.css";
 
 export default function App() {
@@ -42,6 +45,7 @@ export default function App() {
       navigate("/");
     });
   };
+
   const handleDropout = () => {
     axios.post("https://localhost:4000/dropout").then((res) => {
       setUserinfo(null);
@@ -49,13 +53,18 @@ export default function App() {
       navigate("/");
     });
   };
+
   useEffect(() => {
     isAuthenticated();
   }, []);
+  
   return (
     <Routes>
       <Route path="/" element={<Main />} />
       <Route path="/item" element={<Item userinfo={userinfo} />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/record" element={<Record />} />
+      <Route path="/mypage" element={<Mypage />} />
       <Route
         path="/signin"
         element={
@@ -67,7 +76,7 @@ export default function App() {
         }
       />
       <Route
-        path="/mypage"
+        path="/m123123ypage"
         element={
           signedIn ? (
             <Mypage
