@@ -1,10 +1,10 @@
-import { useState } from 'react'
-import axios from 'axios'
-import history from  'react'
-// import Input from '../components/input'
-import styled from 'styled-components'
-import Title from '../components/Title'
-import Subheading from '../components/Subheading'
+import { useState } from 'react';
+import axios from 'axios';
+import history from  'react';
+import styled from 'styled-components';
+import Title from '../components/Title';
+import Subheading from '../components/Subheading';
+
 
 const Wrapper = styled.div`
   display : flex ;
@@ -68,49 +68,32 @@ const [isMobile, setIsMobile] = useState(false)
 const [isRegion, setIsRegion] = useState(false)
 
 
-// ! isUser 등 각 항목의 유효성 검사하는 패턴들이 모두 통과 된다면 
-// ! isAvailable의 값을 true로 설정해줘서 post를 하면 좋을듯 
 
 const handleSignup = () => {
-// 회원가입 버튼을 onClick 이벤트로 진행시 작동하는 함수 
 
-  if( !userId || !password|| !password2 || !region ||!email ||!mobile) {
-    console.log('돌아가')
+  console.log(userId)
+  console.log(password)
+  console.log(password2)
+  console.log(region)
+  console.log(email)
+  console.log(mobile)
 
-  } else {
-
-console.log(userId)
-console.log(password)
-console.log(password2)
-console.log(region)
-console.log(email)
-console.log(mobile)
-
-  
-    
-
-// 유효한 상태의 값을 가진 경우 ? 
-// 서버로 name을 포함한 개인 정보를 전달해주고 
-// history를 통해 메인 페이지로 이동한다. 
-    axios.post ('FILL_ME_IN', {userId,password,email,region,mobile})
+  axios.post (`https://localhost:4000/signup`, {userId,password,email,region,mobile})
     .then((res) =>{
       console.log(res)
     })
     .then(history.push("/"))
     .catch((e) => console.log(e))
-  }
+
 // try & catch 구문 찾아보자. 
 }
 
 function onUserIdChange(e) {
   const value = e.target.value
-  const idRegex = /[A-Za-z][A-Za-z0-9]/
   setUserId(value)
 
-  if (!idRegex.test(value)){
-    setUserIdMessage('Id는 영문과 숫자만 가능합니다.')
-    setIsUserId(false)
-  } else if (value.length < 4) {
+
+  if (value.length < 4) {
     setUserIdMessage('Id는 4글자 이상이여야 합니다.')
     setIsUserId(false)
   } else  if (value.length > 10){
@@ -240,6 +223,7 @@ function onRegionSelect(e) {
           type='email'
           placeholder='이메일을 입력 해주세요'
           onChange={onEmailChange}
+          maxLength = {25}
           value={email}
           required />
           {isEmail ? null : <div>{emailMessage}</div>}
@@ -262,7 +246,7 @@ function onRegionSelect(e) {
         {regions.map((region) => <option 
           key={region}
           value={region}
-         >{region}</option>)}
+        >{region}</option>)}
         </Input>
         {isRegion ? null : <div>{regionMessage}</div>}
         
@@ -271,8 +255,8 @@ function onRegionSelect(e) {
       <div>
         <Input as="button" 
           onClick={handleSignup} 
-          disabled={!userId || !password|| !password2 || !region ||!email ||!mobile ? true : false}
-          //  disabled={isUserId && isEmail && isMobile && isPassword && isPassword2 && isRegion ? false : true}
+          // disabled={!userId || !password|| !password2 || !region ||!email ||!mobile ? true : false}
+           disabled={isUserId && isEmail && isMobile && isPassword && isRegion ? false : true }
           > 회원가입 
         </Input>
       </div>
