@@ -1,5 +1,4 @@
 const con = require("../db/index");
-const users = require("./users");
 
 module.exports = {
   get: (callback) => {
@@ -81,7 +80,19 @@ module.exports = {
                 return callback(null, result);
               }
             });
-            con.query(`DELETE FROM comments WHERE comments.postsId = ${recordsId}`);
+            con.query(
+              `DELETE FROM users_posts WHERE usersId = ${tokenData.id} AND postsId = ${recordsId}`
+            );
+            con.query(`DELETE FROM comments WHERE postsId = ${recordsId}`);
+
+            con.query(`SELECT * FROM comments WHERE postsId = ${recordsId}`, (err, comments) => {
+              comments.forEach((comment) => {
+                // users_comments 관계테이블 삭제 아직 안됨
+                con.query(`SET foreign_key_checks = 0`);
+                con.query(`DELETE FROM users_comments WHERE id = ${comment.id}`);
+                con.query(`SET foreign_key_checks = 1`);
+              });
+            });
             con.query(`SET foreign_key_checks = 1`);
           }
         }
