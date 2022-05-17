@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import styled from "styled-components";
-=======
-import styled from 'styled-components';
->>>>>>> 729efaf606f6c679b1e9db9a7514a659f174d94c
 
 const TabMenu = styled.ul`
   background-color: #dcdcdc;
@@ -30,20 +26,24 @@ const TabMenu = styled.ul`
 
   & div.desc {
     text-align: center;
-  } 
+  }
 `;
 
-
-function Category (props) {
-
+function Category(props) {
   return (
     <div>
       <TabMenu>
-        {props.name.map((menu,index) =>  <button 
-          key={index}
-          className={'submenu selected'}
-          onClick={props.handleCategory}
-          value={menu} > {menu}</button> )}
+        {props.name.map((menu, index) => (
+          <button
+            key={index}
+            className={"submenu selected"}
+            onClick={props.handleCategory}
+            value={menu}
+          >
+            {" "}
+            {menu}
+          </button>
+        ))}
       </TabMenu>
     </div>
   );

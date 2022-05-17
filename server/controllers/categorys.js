@@ -8,6 +8,7 @@ module.exports = {
       } else {
         const { category } = req.query;
         const post = result.filter((post) => post.category === category);
+        console.log(post);
         if (post.length !== 0) {
           res
             .status(200)

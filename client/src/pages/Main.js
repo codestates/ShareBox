@@ -14,33 +14,34 @@ const Wrapper = styled.div`
 
 function Main() {
   const [isloading, setIsLoaidng] = useState(false);
-  const [data, setData] = useState('');
-
+  const [data, setData] = useState("");
 
   const handleCategory = (e) => {
-    const menu = e.target.value
-    axios.get(`http://localhost:4000/categorys?category=${menu}`)
+    const menu = e.target.value;
+    axios
+      .get(`http://localhost:4000/categorys?category=${menu}`)
       .then((res) => {
-
-      console.log(res.data.data)
-      setData(res.data.data)
-      setIsLoaidng(true)
+        console.log(res.data.data);
+        setData(res.data.data);
+        setIsLoaidng(true);
       })
-      .catch((err) => alert(err))
-  }
+      .catch((err) => alert(err));
+  };
 
   const getData = () => {
-    axios.get('http://localhost:4000/main')
-      .then((res) => { setData(res.data.data)
-      console.log(res.data.data)
-      setIsLoaidng(true)})
-      .catch((err) => console.log(err))
+    axios
+      .get("http://localhost:4000/main")
+      .then((res) => {
+        setData(res.data.data);
+        console.log(res.data.data);
+        setIsLoaidng(true);
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    getData()
-  },[]);
-
+    getData();
+  }, []);
 
   /*
   카테고리 컴포넌트에서 카테고리 값은 받아왔음
@@ -59,36 +60,27 @@ function Main() {
         />
       </Wrapper>
       <div>
-<<<<<<< HEAD
         {isloading ? (
           <div>
             {" "}
-            {data.map((item) => (
-              <Product
-                id={item.id}
-                key={item.id}
-                title={item.title}
-                image={item.picture}
-                region={item.country}
-                createdAt={item.createdAt}
-              />
-            ))}{" "}
+            {data === undefined ? (
+              <h1>게시글이 없습니다.</h1>
+            ) : (
+              data.map((item) => (
+                <Product
+                  id={item.id}
+                  key={item.id}
+                  title={item.title}
+                  image={item.picture}
+                  region={item.country}
+                  createdAt={item.createdDate}
+                />
+              ))
+            )}{" "}
           </div>
         ) : (
           <LoadingIndicator />
         )}
-=======
-        {isloading ? <div> {data.map((item) => 
-        <Product
-          id = {item.id}
-          key = {item.id}
-          title = {item.title}
-          image = {item.picture}
-          region = {item.country}
-          createdAt = {item.createdDate} /> )} </div>
-          
-          : <LoadingIndicator /> }
->>>>>>> 729efaf606f6c679b1e9db9a7514a659f174d94c
       </div>
 
       <button onClick={getData}> 테스트 버튼 </button>
