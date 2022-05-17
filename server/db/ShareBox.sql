@@ -7,8 +7,6 @@ CREATE TABLE `users` (
   `mobile` varchar(255) NOT NULL,
   `createdDate` timestamp NOT NULL DEFAULT (now()), 
   `updatedDate` timestamp NOT NULL DEFAULT (now()) 
-
-  -- 모바일번호추가해야됨 
 );
 
 CREATE TABLE `posts` (

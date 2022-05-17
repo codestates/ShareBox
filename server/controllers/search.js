@@ -7,7 +7,8 @@ module.exports = {
         res.status(500).send("Internal Server Error");
       } else {
         const { title } = req.query;
-        const post = result.filter((post) => post.title === title);
+        const reg = new RegExp(`${title}`);
+        const post = result.filter((post) => reg.test(post.title));
         if (post.length !== 0) {
           res
             .status(200)

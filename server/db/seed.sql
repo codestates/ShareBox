@@ -3,12 +3,12 @@
 -- mysql -u root -p < ./server/db/ShareBox.sql -DShareBox;
 -- mysql -u root -p < server/db/seed.sql -DShareBox;
 
-INSERT INTO `users` (`userId`, `email`, `password`, `country`,`mobile`)
+INSERT INTO `users` (`userId`, `email`, `password`, `country`, `mobile`)
  VALUES 
- ("kimcoding", "kimcoding@ShareBox.com", "1234", "영등포구", "010123456789"), 
- ("cheacoding", "cheacoding@ShareBox.com", "1234", "마포구", "010123456789"), 
- ("choecoding", "choecoding@ShareBox.com", "1234", "영등포구", "010123456789"), 
- ("leecoding", "leecoding@ShareBox.com", "1234", "강서구", "010123456789");
+ ("kimcoding", "kimcoding@ShareBox.com", "1234", "영등포구", "01011111111"), 
+ ("cheacoding", "cheacoding@ShareBox.com", "1234", "마포구", "01022222222"), 
+ ("choecoding", "choecoding@ShareBox.com", "1234", "영등포구", "01033333333"), 
+ ("leecoding", "leecoding@ShareBox.com", "1234", "강서구", "01044444444");
 
 INSERT INTO `posts` (`title`, `image`, `content`, `category`, `country`, `complete`)
  VALUES 
@@ -52,3 +52,12 @@ INSERT INTO `users_comments` (`usersId`, `commentsId`)
  (3, 12),
  (4, 13),
  (3, 14);
+
+ INSERT INTO `users_posts` (`usersId`, `postsId`)
+ VALUES
+ (1, 1),
+ (2, 2),
+ (3, 3),
+ (4, 4),
+ (1, 5),
+ (2, 6);
