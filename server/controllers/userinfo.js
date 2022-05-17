@@ -41,25 +41,25 @@ module.exports = {
   //다시 토큰발급해준다.
 
   put: (req, res) => {
-    const { password, mobile, email } = req.body; //지역빠져있음
+    const { password, mobile, email, country } = req.body; //지역빠져있음
 
-    if (!password || !mobile || !email) {
-      return res.status(400).send({ 'data': null, 'message': '입력값이 잘못 되었습니다.' });
+    if (!password || !mobile || !email || !country) {
+      return res.status(400).send({ message: '입력값이 잘못 되었습니다.' });
     }
 
     const authorization = req.headers['authorization'];
     const token = authorization.split(' ')[1];
     const tokenData = jwt.verify(token, process.env.ACCESS_SECRET);
 
-    models.put(password, mobile, email, tokenData, (error, result) => {
+    models.put(password, mobile, email, country, tokenData, (error, result) => {
       if (error) {
-        return res.status(500).send({ 'data': null, 'message': '서버에러' });
+        return res.status(500).send({ message: '서버에러' });
       } else {
         console.log(result)
         const payload = {
           id: tokenData.id,
           userId: tokenData.userId,
-          country: tokenData.country,
+          country: country,
           email: email,
           mobile: mobile
         }
@@ -68,7 +68,7 @@ module.exports = {
         const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, { expiresIn: '2d' });
 
         res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 14 })
-        res.status(201).send({ 'data': { 'accessToken': accessToken }, 'message': '회원 정보가 수정되었습니다.' })
+        res.status(201).send({ data: { 'accessToken': accessToken }, message: '회원 정보가 수정되었습니다.' })
 
       }
     })
@@ -87,9 +87,9 @@ module.exports = {
 
     models.delete(tokenData, (error, result) => {
       if (error) {
-        return res.status(500).send({ 'data': null, 'message': '서버에러' });
+        res.status(500).send({ message: '서버에러' });
       } else {
-        res.status(204).send({ 'data': null, 'message': '회원 탈퇴 처리 되었습니다.' })
+        res.status(200).send({ message: "회원탈퇴 처리되었습니다." });
       }
     })
   }
