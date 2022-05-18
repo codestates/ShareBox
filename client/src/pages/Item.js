@@ -1,15 +1,20 @@
+/* 
+게시글 수정 취소 추가
+*/
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Apple from "../components/apple.jpg";
-import { Modal } from "../components/Modal";
 import Header1 from "../components/Header1";
 import Header2 from "../components/Header2";
 import LoadingIndicator from "../components/LoadingIndicator";
-import { Toggle } from "../components/Toggle";
+import Category from '../components/Category';
+
+axios.defaults.withCredentials = true;
 
 export default function Item(props) {
-  /* const accessToken = ; */
+  const [accessToken, setAccessToken] = useCookies(['accessToken']);
   const [isLoading, setIsLoading] = useState(true);
   const [record, setRecord] = useState(null);
   const [post , setPost] = useState({
@@ -24,37 +29,6 @@ export default function Item(props) {
   const [isEditingArticle, setIsEditingArticle] = useState(false);
   const [text, setText] = useState();
   const [editingComment, setEditingComment] = useState();
-
-  let userId = "kimcoding";
-  let dummy = {
-    record: {
-      category: "category",
-      image: "image",
-      title: "title",
-      time: "time",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a varius mi. Fusce luctus faucibus lorem sit amet dictum. Integer ut bibendum sapien. Sed nibh purus, iaculis a tellus vel, consectetur mattis massa. Vestibulum ac sapien vestibulum neque pulvinar iaculis. Aliquam elementum, ipsum ac tempus tristique, libero dolor interdum metus, et cursus lectus magna vel dolor. Nullam felis mi, luctus non vulputate sit amet, volutpat at mi. Cras a mollis risus. Nunc id massa id sem tristique lacinia. Curabitur mattis orci eleifend neque feugiat commodo. Ut feugiat felis vitae felis porttitor ullamcorper. Fusce efficitur massa eget mi dapibus, quis feugiat velit pharetra. Sed ac eros malesuada, suscipit leo id, vestibulum tellus. Donec elit augue, ullamcorper eget sem nec, accumsan eleifend arcu. Duis bibendum neque eu nunc lacinia vestibulum. Nunc pretium sem in ipsum finibus, id tincidunt orci consectetur.",
-      complete: "complete",
-    },
-    comment: [
-      {
-        id: "1",
-        userId: "userId",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a varius mi. Fusce luctus faucibus lorem sit amet dictum. Integer ut bibendum sapien. Sed nibh purus, iaculis a tellus vel, consectetur mattis massa. Vestibulum ac sapien vestibulum neque pulvinar iaculis. Aliquam elementum, ipsum ac tempus tristique, libero dolor interdum metus, et cursus lectus magna vel dolor. Nullam felis mi, luctus non vulputate sit amet, volutpat at mi. Cras a mollis risus. Nunc id massa id sem tristique lacinia. Curabitur mattis orci eleifend neque feugiat commodo. Ut feugiat felis vitae felis porttitor ullamcorper. Fusce efficitur massa eget mi dapibus, quis feugiat velit pharetra. Sed ac eros malesuada, suscipit leo id, vestibulum tellus. Donec elit augue, ullamcorper eget sem nec, accumsan eleifend arcu. Duis bibendum neque eu nunc lacinia vestibulum. Nunc pretium sem in ipsum finibus, id tincidunt orci consectetur.",
-        createdAt: "createdAt",
-        updatedAt: "updatedAt",
-      },
-      {
-        id: "2",
-        userId: "userId",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a varius mi. Fusce luctus faucibus lorem sit amet dictum. Integer ut bibendum sapien. Sed nibh purus, iaculis a tellus vel, consectetur mattis massa. Vestibulum ac sapien vestibulum neque pulvinar iaculis. Aliquam elementum, ipsum ac tempus tristique, libero dolor interdum metus, et cursus lectus magna vel dolor. Nullam felis mi, luctus non vulputate sit amet, volutpat at mi. Cras a mollis risus. Nunc id massa id sem tristique lacinia. Curabitur mattis orci eleifend neque feugiat commodo. Ut feugiat felis vitae felis porttitor ullamcorper. Fusce efficitur massa eget mi dapibus, quis feugiat velit pharetra. Sed ac eros malesuada, suscipit leo id, vestibulum tellus. Donec elit augue, ullamcorper eget sem nec, accumsan eleifend arcu. Duis bibendum neque eu nunc lacinia vestibulum. Nunc pretium sem in ipsum finibus, id tincidunt orci consectetur.",
-        createdAt: "createdAt",
-        updatedAt: "updatedAt",
-      },
-    ],
-  };
 
   // 
   let { id } = useParams();
@@ -74,7 +48,7 @@ export default function Item(props) {
   };
   const handleArticleDeletion = () => {
     const token =
-      "a";
+      accessToken;
     axios
       .delete(`http://localhost:4000/records/${id}`, { headers: { authorization: `Bearer ${token}` } })
       .then((res) => console.log(res))
@@ -82,7 +56,7 @@ export default function Item(props) {
   };
   const handleArticleEditComplete = () => {
     const token =
-      "a";
+      accessToken;
     axios.put(`http://localhost:4000/records/${id}`, {
       title: post.title,
       image: post.image,
@@ -116,7 +90,7 @@ export default function Item(props) {
   }
 
   const handleSubmitButton = () => {
-    const token = 'a';
+    const token = accessToken;
     if (editingComment) {
       axios.patch(`http://localhost:4000/comments/${editingComment}`, { content: text }, { headers: { authorization: `Bearer ${token}` } })
         .then(res => console.log(res))
@@ -125,16 +99,15 @@ export default function Item(props) {
         .catch(err => console.log(err));
     } else {
       axios
-        .post(`http://localhost:4000/comments`, { content: text }, { headers: { authorization: `Bearer ${token}` } })
+        .post(`http://localhost:4000/comments/${id}`, { content: text }, { headers: { authorization: `Bearer ${token}` } })
         .then((res) => console.log(res))
+        .then(setText(''))
         .catch((err) => console.log(err));
     }
   };
 
 
   const handleCommentEdit = (commId) => {
-    const token =
-      "a";
     setEditingComment(commId);
     setText(record.comments.filter((comm) => comm.commentsId === commId)[0].content);
   };
@@ -155,7 +128,15 @@ export default function Item(props) {
     <center>
       <div className="background">
         <Header1 />
-        <Header2 signedIn={props.signedIn} handleLogout={props.handleLogout} />
+        <Header2
+          handleInputValue={props.handleInputValue}
+          handleKeyPress={props.handleKeyPress}
+          handleSearch={props.handleSearch}
+          data={props.data}
+          handleLogout={props.handleLogout}
+        />
+        <Category name={["냉동", "신선", "양곡", "축산", "수산", "음료", "스낵", "가공식품", "조미료"]}
+          handleCategory={props.handleCategory} />
         {isLoading ? (
           <LoadingIndicator />
         ) : ( /* 'Hello, World!' */
@@ -187,7 +168,8 @@ export default function Item(props) {
                 [<input key={1} className="poster-editing" /* value={record.record} onChange={handleInputValue} */ />,
                 <input key={2} className="district-editing" value={record.record.country} onChange={handleInputValue} />,
                 <textarea key={3} className="content-editing" value={record.record.content} onChange={handleInputValue} />,
-                <button key={4} className="btn btn-article-edit-complete" onClick={() => handleArticleEditComplete}>수정 완료</button>]
+                <button key={4} className="btn btn-article-edit-complete" onClick={() => handleArticleEditComplete}>수정 완료</button>,
+                <button key={5} className="btn btn-article-edit-cancel" onClick={() => setIsEditingArticle(false)}>수정 취소</button>]
                 : [<p key={1} className="poster">{record.record.poster}poster</p>,
                 <p key={2} className="district">{record.record.district}district</p>,
                 <p key={3} className="content">{record.record.content}</p>]}
@@ -196,7 +178,7 @@ export default function Item(props) {
             <div className="comment">
               <div className="write-comment">
                 <textarea className='ip-comment' type='text' value={text} onChange={handleTextValue} onKeyPress={handleKeyPress} />
-                <button className="btn btn-post-comment" type="submit" onClick={() => handleSubmitButton}>
+                <button className="btn btn-post-comment" type="submit" onClick={handleSubmitButton}>
                   등록
                 </button>
               </div>

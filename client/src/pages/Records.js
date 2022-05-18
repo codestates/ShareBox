@@ -1,3 +1,6 @@
+/* 
+헤더2 props 추가
+*/
 import axios from 'axios'
 // import Title from '../components/Title'
 import { useEffect, useState } from 'react'
@@ -143,7 +146,14 @@ const onRecords = ()  => {
   <Wrapper>
     {/* <Title /> */}
     <div className='header2'>
-    <Header2 signedIn={props.signedIn} handleLogout={props.handleLogout} />
+    <Header2
+      handleInputValue={props.handleInputValue}
+      handleKeyPress={props.handleKeyPress}
+      handleSearch={props.handleSearch}
+      data={props.data}
+      signedIn={props.signedIn}
+      handleLogout={props.handleLogout}
+    />
     </div>
       <div>
         <Subheading body='상품 등록' />

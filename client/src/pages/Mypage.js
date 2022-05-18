@@ -1,10 +1,13 @@
+/* 
+헤더2 추가
+*/
 // import Title from "../components/Title";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Subheading from "../components/Subheading";
 import { useCookies } from "react-cookie";
-
+import Header2 from "../components/Header2";
 
 
 
@@ -29,7 +32,7 @@ const Input = styled.input`
   align-content: center;
 `;
 
-function MyPage() {
+function MyPage(props) {
 
 
 const [cookies] = useCookies([]);
@@ -169,6 +172,16 @@ const getUserInfo = () => {
   return (
     <Wrapper>
       {/* <Title /> */}
+      <div className='header2'>
+        <Header2
+          handleInputValue={props.handleInputValue}
+          handleKeyPress={props.handleKeyPress}
+          handleSearch={props.handleSearch}
+          data={props.data}
+          signedIn={props.signedIn}
+          handleLogout={props.handleLogout}
+        />
+      </div>
       <Subheading body=" 내 정보 보기 / 변경" />
       {isLoading ? (
         <div>

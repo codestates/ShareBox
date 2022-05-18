@@ -1,3 +1,6 @@
+/* 
+헤더2 props 추가
+*/
 import React, { useState } from "react";
 import { Route, Routes, useNavigate, Navigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -9,13 +12,35 @@ import Mypage from "./pages/Mypage";
 import Record from "./pages/Records";
 
 import "./App.css";
+import Header2 from "./components/Header2";
 
 export default function App() {
+  const [keyword, setKeyword] = useState();
+  const [data, setData] = useState();
   const [signedIn, setSignedIn] = useState(false); //로그인여부????
   const [accessToken, setAccessToken] = useState(null); //엑세스토큰
   const [userinfo, setUserinfo] = useState(null); //유저정보
   const navigate = useNavigate();
-  
+  const handleInputValue = (e) => {
+    setKeyword(e.target.value);
+  }
+  const handleKeyPress = (e) => {
+    if (e.type === "keypress" && e.code === "Enter") {
+      handleSearch();
+    }
+  }
+  const handleSearch = () => {
+    if (keyword) {
+      axios
+      .get(`http://localhost:4000/search?search_type=title&title=${keyword}&page=${1}&limit=${1}`)
+      .then(res => {
+        let data = res.data.data;
+        navigate('/');
+        setData(data);
+      })
+      .catch(err => console.log(err));
+    }
+  }
   const signinHandler = (data) => {
     setSignedIn(true);
     issueAccessToken(data);
@@ -25,7 +50,7 @@ export default function App() {
     setAccessToken(token);
   };
   const handleLogout = () => {
-    axios.post("http://localhost:4000/logout").then((res) => {
+    axios.get("http://localhost:4000/logout").then((res) => {
       console.log(res);
       setUserinfo(null);
       setSignedIn(false);
@@ -40,28 +65,48 @@ export default function App() {
       navigate("/");
     });
   };
-  console.log(accessToken);
   return (
+    <>
     <Routes>
-      <Route path="/" element={<Main handleLogout={handleLogout} />} />
+      <Route path="/" element={<Main
+      handleInputValue={handleInputValue}
+      handleKeyPress={handleKeyPress}
+      handleSearch={handleSearch}
+      data={data}
+      signedIn={signedIn}
+      handleLogout={handleLogout}
+      />} />
       <Route path="/records/:id" element={<Item
-      accessToken={accessToken}
+      handleInputValue={handleInputValue}
+      handleKeyPress={handleKeyPress}
+      handleSearch={handleSearch}
+      data={data}
       signedIn={signedIn}
       handleLogout={handleLogout}
       />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/record" element={<Record handleLogout={handleLogout} />} />
-      {/* <Route path="/mypage" element={<Mypage
+      <Route path="/record" element={<Record
+        handleInputValue={handleInputValue}
+        handleKeyPress={handleKeyPress}
+        handleSearch={handleSearch}
+        data={data}
+        handleLogout={handleLogout}
+      />} />
+      <Route path="/mypage" element={<Mypage
+        handleInputValue={handleInputValue}
+        handleKeyPress={handleKeyPress}
+        handleSearch={handleSearch}
+        data={data}
         userinfo={userinfo}
         accessToken={accessToken}
         issueAccessToken={issueAccessToken}
         handleDropout={handleDropout}
-      />} /> */}
+      />} />
       <Route
         path="/signin"
         element={signedIn ? <Navigate replace to="/" /> : <Signin signinHandler={signinHandler} />}
       />
-      <Route
+      {/* <Route
         path="/mypage"
         element={
           signedIn ? (
@@ -76,7 +121,8 @@ export default function App() {
             <Navigate replace to="/" />
           )
         }
-      />
+      /> */}
     </Routes>
+    </>
   );
 }
