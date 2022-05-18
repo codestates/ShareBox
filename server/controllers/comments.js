@@ -9,16 +9,16 @@ module.exports = {
         const commentsId = req.params.commentsId;
         const { content } = req.body;
 
-        if (!req.headers.authorization) {
+        if (!req.cookies["accessToken"]) {
             res.status(401).send({ 'data': null, 'message': '댓글 작성권한이 없습니다.' })
         } else {
 
-            const authorization = req.headers['authorization'];
-            const token = authorization.split(' ')[1];
+            const token = req.cookies["accessToken"];
             const tokenData = jwt.verify(token, process.env.ACCESS_SECRET);
 
             models.post(recordsId, commentsId, content, tokenData, (error, result) => {
                 if (error) {
+                    console.log(error)
                     return res.status(500).send({ 'data': null, 'message': '서버에러' });
                 } else {
                     res.status(201).send({ 'data': null, 'message': '댓글을 추가했습니다.' })
@@ -33,13 +33,12 @@ module.exports = {
         const commentsId = req.params.commentsId;
         const { content } = req.body;
 
-        if (!req.headers.authorization) {
+        if (!req.cookies["accessToken"]) {
             res.status(401).send({ 'data': null, 'message': '수정 권한이 없습니다.' })
 
         } else {
 
-            const authorization = req.headers['authorization'];
-            const token = authorization.split(' ')[1];
+            const token = req.cookies["accessToken"];
             const tokenData = jwt.verify(token, process.env.ACCESS_SECRET);
 
 
@@ -66,12 +65,11 @@ module.exports = {
         const commentsId = req.params.commentsId;
         const { content } = req.body;
 
-        if (!req.headers.authorization) {
+        if (!req.cookies["accessToken"]) {
             res.status(401).send({ 'data': null, 'message': '삭제 권한이 없습니다.' })
         } else {
 
-            const authorization = req.headers['authorization'];
-            const token = authorization.split(' ')[1];
+            const token = req.cookies["accessToken"];
             const tokenData = jwt.verify(token, process.env.ACCESS_SECRET);
 
 

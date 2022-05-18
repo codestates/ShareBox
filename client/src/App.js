@@ -12,7 +12,7 @@ import "./App.css";
 
 export default function App() {
   const [signedIn, setSignedIn] = useState(false); //로그인여부????
-  const [accessToken, setAccessToken] = useState(); //엑세스토큰
+  const [accessToken, setAccessToken] = useState(''); //엑세스토큰
   const [userinfo, setUserinfo] = useState(null); //유저정보
   
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Main />} />
-      <Route path="/item" element={<Item userinfo={userinfo} />} />
+      <Route path="/item" element={<Item accessToken={accessToken} userinfo={userinfo} />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/record" element={<Record />} />
       <Route path="/mypage" element={<Mypage />} />

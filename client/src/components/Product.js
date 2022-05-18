@@ -3,24 +3,26 @@ import { Link } from "react-router-dom"
 
 
 const Wrapper = styled.div`
-  display: flex;
-  justify-content: space-around ;
-  flex-direction: row;
-  
+
+  display : flex;
+  justify-content : space-evenly;
+  float: left;
+  margin : 2vw;
 `
 
 const Img = styled.img`
-  width: 250px;
-  height: 200px;
+  width: 14.5vw;
+  height: 26vh;
   background-image: ${(props) => props.image};
   background-color: salmon ;
-  z-index: 1;
+  display: grid;
 `
 
-const Body = styled.div`
-  width: 250px;
-  height: 50px;
+const Body = styled.ul`
+  width: 14.5vw;
+  height: 6vh;
   background-color: cornsilk ;
+  font-size: 1vw;
 `
 
 const TextRight = styled.div`
@@ -28,8 +30,8 @@ const TextRight = styled.div`
 `
 
 const Box = styled(Body)`
-  height: 300px ;
-  background-color: white ;
+  width: 14.5vw;
+  height: 26vh;
 `
 
 
@@ -38,18 +40,19 @@ function Product (props) {
 
 
   return (
-    <Link to = {`/records/${props.id}`} >
     <Wrapper>
+      <Link to = {`/records/${props.id}`} >
       <Box>
-        <Img src={props.image} alt='상품사진'/>
+        <Img src={props.image} alt='상품사진' title={props.title} />
         <Body> 
-          <span>[{props.region}]</span>
-          {props.title.length < 13 ? props.title : `${props.title.slice(0,12)}...` }
+          <span>[{props.region}]
+          {props.title.length < 14 ? props.title : `${props.title.slice(0,11)}...` }</span>
           <TextRight>{props.createdAt.slice(0,10)}</TextRight>
         </Body>
       </Box>
+      </Link>
     </Wrapper>
-    </Link>
+
 
     
   )

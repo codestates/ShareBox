@@ -6,11 +6,19 @@ import { Modal } from "../components/Modal";
 import Header1 from "../components/Header1";
 import Header2 from "../components/Header2";
 import LoadingIndicator from "../components/LoadingIndicator";
+import { useCookies } from "react-cookie";
 
-export default function Item() {
+export default function Item(props) {
   const navigate = useNavigate();
-
   const [isLoading, setIsLoaidng] = useState(false);
+  
+
+
+  const [cookies, setCookie, removeCookie] = useCookies([]);
+
+  console.log(cookies)
+
+  console.log(props)
 
   //const [data, setData] = useState();
   const [text, setText] = useState();
@@ -49,10 +57,10 @@ export default function Item() {
 
   const handleArticleEdit = () => {
     const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcklkIjoia2ltY29kaW5nIiwiZW1haWwiOiJraW1jb2RpbmdAU2hhcmVCb3guY29tIiwiY291bnRyeSI6IuyYgeuTse2PrOq1rCIsImlhdCI6MTY1Mjc5Njg0OCwiZXhwIjoxNjUyODgzMjQ4fQ.l0AzBxbthHHer-VdPSUcqmAw-dgi2kTsYKwEBZITS5M";
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsInVzZXJJZCI6ImN5czExMTEiLCJlbWFpbCI6IjQ1NjdAZGF1bS5DT00iLCJjb3VudHJ5Ijoi7Iah7YyM6rWsIiwibW9iaWxlIjoiMDEwMTIzNDU2NzgiLCJpYXQiOjE2NTI4MDA1NDAsImV4cCI6MTY1Mjg4Njk0MH0.ICeDeDFR2Ol8MQUReMWZ4AbDqqMAgmTtLGI29mPQHhw";
     axios
       .put(
-        `http://localhost:4000/records/2`,
+        `http://localhost:4000/records/1`,
         {
           title: `test`,
           image: `test`,
@@ -68,7 +76,7 @@ export default function Item() {
   };
   const handleArticleDeletion = () => {
     const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcklkIjoia2ltY29kaW5nIiwiZW1haWwiOiJraW1jb2RpbmdAU2hhcmVCb3guY29tIiwiY291bnRyeSI6IuyYgeuTse2PrOq1rCIsImlhdCI6MTY1Mjc5Njg0OCwiZXhwIjoxNjUyODgzMjQ4fQ.l0AzBxbthHHer-VdPSUcqmAw-dgi2kTsYKwEBZITS5M";
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsInVzZXJJZCI6ImN5czExMTEiLCJlbWFpbCI6IjQ1NjdAZGF1bS5DT00iLCJjb3VudHJ5Ijoi7Iah7YyM6rWsIiwibW9iaWxlIjoiMDEwMTIzNDU2NzgiLCJpYXQiOjE2NTI4MDA1NDAsImV4cCI6MTY1Mjg4Njk0MH0.ICeDeDFR2Ol8MQUReMWZ4AbDqqMAgmTtLGI29mPQHhw";
     axios
       .delete(`http://localhost:4000/records/2`, { headers: { authorization: `Bearer ${token}` } })
       .then((res) => console.log(res.data))
@@ -101,6 +109,7 @@ export default function Item() {
   const handleCommentDeletion = (id) => {
     axios.delete(`https://localhost:4000/records/:${1}/comments/:${id}`);
   };
+
   return (
     <center>
       <div className="background">

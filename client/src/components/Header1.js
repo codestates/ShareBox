@@ -1,12 +1,37 @@
 import React from 'react';
 import ShareBox from './ShareBox.png';
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
-export default function Header1 () {
+
+const Wrapper = styled.div`
+display: flex ;
+justify-content: flex-start;
+  width : 100%;
+  height : 10vh;
+  font-size: 7vh ;
+  position: static ;
+  background-color: white ;
+`
+
+
+export default function Header1 (props) {
+  
+
+  const resetData = () => {
+    props.getData()
+}
+
   return (
-    <div className='background-top'>
-      <center>
+
+    <Link to ='/'>
+      <Wrapper onClick={resetData}>
         <img src={ShareBox} alt='logo' />
-      </center>
-    </div>
+    
+    </Wrapper>
+    </Link>
   );
 }
+
+
+  

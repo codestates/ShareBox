@@ -1,16 +1,33 @@
-import Title from "../components/Title";
 import Category from "../components/Category";
 import Product from "../components/Product";
-import { useEffect, useState } from "react";
+import Header1 from "../components/Header1";
+import LoadingIndicator from "../components/LoadingIndicator";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import LoadingIndicator from "../components/LoadingIndicator";
+import { useEffect, useState } from "react";
+
 
 import styled from "styled-components";
+import Header2 from "../components/Header2";
 
 const Wrapper = styled.div`
-  /* position: fixed; */
-`;
+  display:block;
+`
+const Header = styled.div`
+  position: fixed;
+  width: 100vw;
+  height: 25vh;
+  background-color: rgba(241 212 202);
+`
+
+const Body = styled.div`
+  padding-top: 25vh;
+  display : flex;
+  justify-content: center ;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(241 212 202) ;
+`
 
 function Main() {
   const [isloading, setIsLoaidng] = useState(false);
@@ -25,7 +42,7 @@ function Main() {
         setData(res.data.data);
         setIsLoaidng(true);
       })
-      .catch((err) => alert(err));
+      .catch((err) => console.log(err));
   };
 
   const getData = () => {
@@ -50,16 +67,17 @@ function Main() {
 */
 
   return (
-    <div>
-      <Wrapper>
-        <Title getData={getData} />
+    <Wrapper>
+      <Header>
+        <Header1 getData={getData} />
         {/* <SearchBar /> */}
+        <Header2 />
         <Category
           name={["냉동", "신선", "양곡", "축산", "수산", "음료", "스낵", "가공식품", "조미료"]}
           handleCategory={handleCategory}
         />
-      </Wrapper>
-      <div>
+      </Header>
+      <Body>
         {isloading ? (
           <div>
             {" "}
@@ -81,10 +99,8 @@ function Main() {
         ) : (
           <LoadingIndicator />
         )}
-      </div>
-
-      <button onClick={getData}> 테스트 버튼 </button>
-
+      </Body>
+      {/* <button onClick={getData}> 테스트 버튼 </button>
       <div>
         <Link to="/signup">
           <button> 회원가입 </button>
@@ -99,8 +115,8 @@ function Main() {
         <Link to="/">
           <button> 메인 </button>
         </Link>
-      </div>
-    </div>
+      </div> */}
+    </Wrapper>
   );
 }
 
