@@ -1,5 +1,5 @@
 import React from 'react';
-import ShareBox from './ShareBox.png';
+import ShareBox from '../assets/ShareBox.png';
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
