@@ -3,7 +3,7 @@
 */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import searchIcon from './SearchIcon.png';
+import searchIcon from '../assets/SearchIcon.png'
 import { useCookies } from "react-cookie";
 import { useNavigate} from "react-router-dom";
 /* import styled from 'styled-components';
