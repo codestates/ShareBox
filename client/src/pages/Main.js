@@ -1,3 +1,6 @@
+/* 
+검색 기능 구현
+*/
 import Title from "../components/Title";
 import Header2 from "../components/Header2";
 import Category from "../components/Category";
@@ -52,12 +55,26 @@ function Main(props) {
   그럼 카테고리의 값이 변경 되는 경우는 유저가 카테고리를 눌렀을때이다.
   카테고리를 누른 순간 axios를 통해 데이터를 받아오게 된다.
 */
-
+  useEffect(() => {
+    setData(props.data);
+    console.log(data);
+  }, [props.data]);
   return (
     <div>
       <Wrapper>
+<<<<<<< HEAD
+        <Title getData={getData} />
+        <Header2
+          handleInputValue={props.handleInputValue}
+          handleKeyPress={props.handleKeyPress}
+          handleSearch={props.handleSearch}
+          signedIn={props.signedIn}
+          handleLogout={props.handleLogout}
+        />
+=======
         <Title getData={props.getData} />
         <Header2 signedIn={props.signedIn} handleLogout={props.handleLogout} />
+>>>>>>> 939134989682638c04ed5dfb08fd46fb8cf05432
         <Category
           name={["냉동", "신선", "양곡", "축산", "수산", "음료", "스낵", "가공식품", "조미료"]}
           handleCategory={handleCategory}

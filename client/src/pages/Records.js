@@ -1,4 +1,7 @@
-import axios from "axios";
+/* 
+헤더2 props 추가
+*/
+import axios from 'axios'
 // import Title from '../components/Title'
 import { useEffect, useState } from "react";
 import styled from "styled-components";

@@ -1,18 +1,24 @@
+/* 
+게시글 수정 취소 추가
+*/
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Apple from "../components/apple.jpg";
 import Header1 from "../components/Header1";
 import Header2 from "../components/Header2";
 import LoadingIndicator from "../components/LoadingIndicator";
 import { Toggle } from "../components/Toggle";
-import { useCookies } from "react-cookie";
 import styled from "styled-components";
+import Category from '../components/Category';
 
 const Image = styled.img`
   width: 500px;
   height: 300px;
 `;
+
+axios.defaults.withCredentials = true;
 
 export default function Item(props) {
   /* const accessToken = ; */
@@ -32,6 +38,7 @@ export default function Item(props) {
   const [text, setText] = useState();
   const [editingComment, setEditingComment] = useState();
 
+  // 
   let { id } = useParams();
   const getRecords = () => {
     axios
@@ -100,12 +107,12 @@ export default function Item(props) {
           { content: `${text}` },
           { withCredentials: true })
         .then((res) => console.log(res))
+        .then(setText(''))
         .catch((err) => console.log(err));
     }
   };
 
   const handleCommentEdit = (commId) => {
-    const token = cookies;
     setEditingComment(commId);
     setText(record.comments.filter((comm) => comm.commentsId === commId)[0].content);
   };
@@ -128,7 +135,15 @@ export default function Item(props) {
     <center>
       <div className="background">
         <Header1 />
-        <Header2 signedIn={props.signedIn} handleLogout={props.handleLogout} />
+        <Header2
+          handleInputValue={props.handleInputValue}
+          handleKeyPress={props.handleKeyPress}
+          handleSearch={props.handleSearch}
+          data={props.data}
+          handleLogout={props.handleLogout}
+        />
+        <Category name={["냉동", "신선", "양곡", "축산", "수산", "음료", "스낵", "가공식품", "조미료"]}
+          handleCategory={props.handleCategory} />
         {isLoading ? (
           <LoadingIndicator />
         ) : (
