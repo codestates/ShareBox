@@ -1,9 +1,9 @@
 import axios from "axios";
 // import Title from '../components/Title'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Subheading from "../components/Subheading";
-import { useCookies } from "react-cookie";
+import Header2 from "../components/Header2";
 
 const Wrapper = styled.div`
   display: flex;
@@ -40,74 +40,98 @@ const Img = styled.img`
   width: 40vh;
   height: 40vh;
 `;
+/*
+! 생각 정리 시간 얍!
+아이디어 :  폼 데이터에 Blob을 통해서 JSON 파일을 넣어줄 수 있다.
+아이디어 2: 사진을 보내기 위해서는 폼 데이터를 전송해야 한다 .
 
-function Record() {
-  const [cookies, setCookie, removeCookie] = useCookies(["cookie-name"]);
+포스트는  텍스트 정보들만 넣어 주기 
+이미지는 별도의 상태를 통해 관리한다. 
+
+
+-> 새로운 폼 데이터를 만들고, 폼 데이터에 파일을 넣기
+
+
+*/
+function Record(props) {
   const [post, setPost] = useState({
     title: "",
-    image: "",
     category: "",
     content: "",
     country: "",
   });
+  const [imageFile, setImageFile] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [preview, setPreview] = useState("");
 
+  console.log(this.cookies);
+
+  const onUploadImage = (e) => {
+    const file = e.target.files;
+    setImageFile(file);
+    console.log(imageFile);
+    //  이미지 상태에 파일값 저장
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file[0]);
+    reader.onload = function (e) {
+      setPreview(e.target.result);
+      // 파일 리드를 통해 프리뷰에 미리보기 구현
+    };
+  };
+
   const onRecords = () => {
-    const { title, image, content, category, country } = post;
+    // const {title, content, category, country} = post
+    //  if (!title || !content || !category || !image || !country) {
+    // setErrorMessage('제목, 사진, 카테고리, 본문은 모두 입력해주셔야 합니다.')
 
-    if (!title || !content || !category || !image) {
-      setErrorMessage("제목, 사진, 카테고리, 본문은 모두 입력해주셔야 합니다.");
-    } else {
-      setErrorMessage("");
+    // } else {
 
-      axios
-        .post("http://localhost:4000/records", { title, content, image, category, country })
+    const data = {
+      title: post.title,
+      content: post.content,
+      category: post.category,
+      country: post.country,
+    };
 
-        // !
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => console.log(err));
+    const formData = new FormData();
+    formData.append("image", imageFile[0]);
+    formData.append("data", new Blob([JSON.stringify(data)], { type: "application/json" }));
+
+    // formData.append("data", new Blob([JSON.stringify(variables)], {type: "application/json"}))
+    for (let key of formData.keys()) {
+      console.log(`formData Key 값 : ${key}`);
     }
+
+    /* value 확인하기 */
+    for (let value of formData.values()) {
+      console.log(value);
+    }
+
+    // axios.post(`http://localhost:8000/api/auth`, form) .then( response => { console.log('response : ', JSON.stringify(response, null, 2)) }).catch( error => { console.log('failed', error) })
+
+    axios
+      .post("http://localhost:4000/records", data)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // axios.post ('http://localhost:4000/records',formData,{headers: { "Content-Type": "multipart/form-data" }})
+    // .then((res) => { console.log('response : ', JSON.stringify(res, null, 2)) })
+    // .catch( error => { console.log('failed', error) })
   };
 
   const handleInputValue = (key) => (e) => {
     setPost({ ...post, [key]: e.target.value });
-
-    if (key === "image") {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function (e) {
-        console.log(e.target.result);
-        setPreview(e.target.result);
-        setPost({ ...post, [key]: e.target.result });
-        // ! 버퍼 데이터를 post의 image로 전송     이거 되는거 맞나?
-      };
-    }
     console.log(post);
-    console.log(preview);
   };
 
-  /*
-! 사진을 post 데이터에 담아서 전송하는 경우,
-  단순히 사진의 이름만 넣고 보낸다고 될 일은 아닌것 같고
-  사진의 정보를 보내줘야 할텐데, buffer값을 보내주면 되나? 
-  단순히 포스트 상태값에 사진 정보 보내는걸로 안될것 같기도 하고 
-*/
-  // const onSubmitImage = (e) => {
-  //   //! 이미지를 서버로 제출하기 위한 함수 ?
-  //   const formdata = new FormData()
-  //   formdata.append('uploadImage', post.image[0] )
-
-  // const config = {
-  // Headers : {
-  // 'content-type' : 'multipart/form-data',
-  // },
-  //   }
-  //   axios.post('사진 url', formdata, config)
-  // }
+  useEffect(() => {
+    console.log(imageFile);
+  }, [imageFile]);
 
   const category = [
     "선택",
@@ -153,8 +177,11 @@ function Record() {
   return (
     <Wrapper>
       {/* <Title /> */}
+      <div className="header2">
+        <Header2 signedIn={props.signedIn} handleLogout={props.handleLogout} />
+      </div>
       <div>
-        <Subheading content="상품 등록" />
+        <Subheading body="상품 등록" />
         <div>
           <Input
             type="text"
@@ -166,7 +193,7 @@ function Record() {
         {preview ? <Img alt="상품 사진" src={preview} /> : ""}
 
         <div>
-          <input type="file" accept="image/*" onChange={handleInputValue("image")} />
+          <input type="file" accept="image/*" onChange={onUploadImage} />
         </div>
 
         <div>
@@ -199,7 +226,7 @@ function Record() {
         </div>
         <div>{errorMessage}</div>
 
-        <Button onClick={onRecords}> 등록 </Button>
+        <button onClick={onRecords}> 등록 </button>
       </div>
     </Wrapper>
   );

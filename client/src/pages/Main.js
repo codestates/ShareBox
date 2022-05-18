@@ -1,24 +1,40 @@
 import Title from "../components/Title";
+import Header2 from "../components/Header2";
 import Category from "../components/Category";
 import Product from "../components/Product";
-import { useEffect, useState } from "react";
+import Header1 from "../components/Header1";
+import LoadingIndicator from "../components/LoadingIndicator";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import LoadingIndicator from "../components/LoadingIndicator";
+import { useEffect, useState } from "react";
 
 import styled from "styled-components";
 
 import { useCookies } from "react-cookie";
 
 const Wrapper = styled.div`
-  /* position: fixed; */
+  display: block;
+`;
+const Header = styled.div`
+  position: fixed;
+  width: 100vw;
+  height: 25vh;
+  background-color: rgba(241 212 202);
 `;
 
-function Main() {
-  const [cookies, setCookie, removeCookie] = useCookies(["cookie-name"]);
+const Body = styled.div`
+  padding-top: 25vh;
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(241 212 202);
+`;
+
+function Main(props) {
   const [isloading, setIsLoaidng] = useState(false);
   const [data, setData] = useState("");
-
+  const [selectProduct, setSelectProduct] = useState();
   const handleCategory = (e) => {
     const menu = e.target.value;
     axios
@@ -28,7 +44,7 @@ function Main() {
         setData(res.data.data);
         setIsLoaidng(true);
       })
-      .catch((err) => alert(err));
+      .catch((err) => console.log(err));
   };
 
   const getData = () => {
@@ -56,38 +72,36 @@ function Main() {
     <div>
       <Wrapper>
         <Title getData={getData} />
-        {/* <SearchBar /> */}
+        <Header2 signedIn={props.signedIn} handleLogout={props.handleLogout} />
         <Category
           name={["냉동", "신선", "양곡", "축산", "수산", "음료", "스낵", "가공식품", "조미료"]}
           handleCategory={handleCategory}
         />
-      </Wrapper>
-      <div>
-        {isloading ? (
-          <div>
-            {" "}
-            {data === undefined ? (
-              <h1>게시글이 없습니다.</h1>
-            ) : (
-              data.map((item) => (
-                <Product
-                  id={item.id}
-                  key={item.id}
-                  title={item.title}
-                  image={item.picture}
-                  region={item.country}
-                  createdAt={item.createdDate}
-                />
-              ))
-            )}{" "}
-          </div>
-        ) : (
-          <LoadingIndicator />
-        )}
-      </div>
-
-      <button onClick={getData}> 테스트 버튼 </button>
-
+        <Body>
+          {isloading ? (
+            <div>
+              {" "}
+              {data === undefined ? (
+                <h1>게시글이 없습니다.</h1>
+              ) : (
+                data.map((item) => (
+                  <Product
+                    id={item.id}
+                    key={item.id}
+                    title={item.title}
+                    image={item.picture}
+                    region={item.country}
+                    createdAt={item.createdDate}
+                    onClick={() => setSelectProduct(item.id)}
+                  />
+                ))
+              )}{" "}
+            </div>
+          ) : (
+            <LoadingIndicator />
+          )}
+        </Body>
+        {/* <button onClick={getData}> 테스트 버튼 </button>
       <div>
         <Link to="/signup">
           <button> 회원가입 </button>
@@ -102,7 +116,8 @@ function Main() {
         <Link to="/">
           <button> 메인 </button>
         </Link>
-      </div>
+      </div> */}
+      </Wrapper>
     </div>
   );
 }

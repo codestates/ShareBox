@@ -27,6 +27,7 @@ module.exports = {
             userId: result[0].userId,
             email: result[0].email,
             country: result[0].country,
+            mobile: result[0].mobile
           };
 
           const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: "1d" });
@@ -36,6 +37,8 @@ module.exports = {
             httpOnly: true,
             maxAge: 1000 * 60 * 60 * 24 * 14,
           });
+          res.cookie("accessToken", accessToken);
+
           res
             .status(201)
             .send({ data: { accessToken: accessToken }, message: "로그인 성공했습니다" });
@@ -46,6 +49,7 @@ module.exports = {
 
   //refreshToken
   get: (req, res) => {
+    console.log(req.cookies["accessToken"])
     const isRefreshToken = req.cookies.refreshToken;
     console.log("------------------------", isRefreshToken);
     // 토큰 값이 있는지 확인
@@ -66,6 +70,8 @@ module.exports = {
           updatedAt: tokenData.updatedAt,
         };
         const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: "1d" });
+
+        res.cookie("accessToken", accessToken);
 
         res
           .status(200)

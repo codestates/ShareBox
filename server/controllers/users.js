@@ -4,8 +4,7 @@ const jwt = require('jsonwebtoken');
 // 페이지네이션 advanced
 module.exports = {
     get: (req, res) => {
-        const authorization = req.headers['authorization'];
-        const token = authorization.split(' ')[1];
+        const token = req.cookies["accessToken"];
         const tokenData = jwt.verify(token, process.env.ACCESS_SECRET);
 
         models.get(tokenData, (error, result) => {

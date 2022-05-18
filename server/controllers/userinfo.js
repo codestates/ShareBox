@@ -6,12 +6,12 @@ module.exports = {
 
   //회원정보불러오기
   get: (req, res) => {
-    if (!req.headers.authorization) {
+    
+    if (!req.cookies["accessToken"]) {
       res.status(404).send({ "data": null, "message": "로그인을 하세요." })
     } else {
 
-      const authorization = req.headers['authorization'];
-      const token = authorization.split(' ')[1];
+      const token = req.cookies["accessToken"];
       const tokenData = jwt.verify(token, process.env.ACCESS_SECRET);
 
       if (!tokenData) {
@@ -47,8 +47,7 @@ module.exports = {
       return res.status(400).send({ message: '입력값이 잘못 되었습니다.' });
     }
 
-    const authorization = req.headers['authorization'];
-    const token = authorization.split(' ')[1];
+    const token = req.cookies["accessToken"];
     const tokenData = jwt.verify(token, process.env.ACCESS_SECRET);
 
     models.put(password, mobile, email, country, tokenData, (error, result) => {
@@ -68,6 +67,7 @@ module.exports = {
         const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, { expiresIn: '2d' });
 
         res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 14 })
+        res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 14 })
         res.status(201).send({ data: { 'accessToken': accessToken }, message: '회원 정보가 수정되었습니다.' })
 
       }
@@ -81,8 +81,7 @@ module.exports = {
   //delete하고
   //응답으로는 메시지 회원 탈퇴 처리 되었습니다.
   delete: (req, res) => {
-    const authorization = req.headers['authorization'];
-    const token = authorization.split(' ')[1];
+    const token = req.cookies["accessToken"];
     const tokenData = jwt.verify(token, process.env.ACCESS_SECRET);
 
     models.delete(tokenData, (error, result) => {
