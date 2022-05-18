@@ -22,7 +22,6 @@ export default function App() {
   const [signedIn, setSignedIn] = useState(false); //로그인여부????
   const [accessToken, setAccessToken] = useState(null); //엑세스토큰
   const [userinfo, setUserinfo] = useState(null); //유저정보
-  const [cookies] = useCookies([]);
   const navigate = useNavigate();
   const handleInputValue = (e) => {
     setKeyword(e.target.value);
@@ -84,7 +83,7 @@ export default function App() {
       isloading={isloading}
       setIsLoading={setIsLoading}
       signedIn={signedIn}
-      handleLogout={handleLogout}
+      // handleLogout={handleLogout}
       />} />
       <Route path="/records/:id" element={<Item
       getData={getData}
@@ -102,7 +101,7 @@ export default function App() {
         handleKeyPress={handleKeyPress}
         handleSearch={handleSearch}
         data={data}
-        handleLogout={handleLogout}
+        // handleLogout={handleLogout}
       />} />
       <Route path="/mypage" element={<Mypage
         handleInputValue={handleInputValue}
