@@ -18,10 +18,13 @@ module.exports = {
 
             models.post(recordsId, commentsId, content, tokenData, (error, result) => {
                 if (error) {
-                    console.log(error)
                     return res.status(500).send({ 'data': null, 'message': '서버에러' });
                 } else {
-                    res.status(201).send({ 'data': null, 'message': '댓글을 추가했습니다.' })
+                    if (result.length === 0) {
+                        return res.status(401).send({ 'data': null, 'message': '댓글 작성권한이 없습니다.' });
+                    } else {
+                        res.status(201).send({ 'data': null, 'message': '댓글을 추가했습니다.' })
+                    }
                 }
             })
         }

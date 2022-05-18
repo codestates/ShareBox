@@ -1,14 +1,10 @@
-// import Title from "../components/Title";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Subheading from "../components/Subheading";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-
-
-
-
+import Header2 from "../components/Header2";
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,15 +26,13 @@ const Input = styled.input`
   align-content: center;
 `;
 
-function MyPage() {
+function MyPage(props) {
 
   axios.defaults.withCredentials = true;
 const navigate = useNavigate()
 const [cookies] = useCookies([]);
 
 console.log(cookies.accessToken)
-
-
 
   const regions = [
     "지역 선택",
@@ -87,24 +81,23 @@ console.log(cookies.accessToken)
   const [isMobile, setIsMobile] = useState(false);
   const [isCountry, setIsCountry] = useState(false);
 
-  
 const getUserInfo = () => {
     axios.get('http://localhost:4000/userinfo')
       .then((res) => {
-        const userInfo = res.data.data.userInfo
+        const userInfo = res.data.data.userInfo;
         console.log(userInfo);
-        setUserId(userInfo.userId)
+        setUserId(userInfo.userId);
         setEmail(userInfo.email);
         setMobile(userInfo.mobile);
         setCountry(userInfo.country);
-        setIsLoading(true);})
-      .catch((err) => console.log(err))
-  }
+        setIsLoading(true);
+      })
+      .catch((err) => console.log(err));
+  };
 
   useEffect(() => {
-    getUserInfo()
-  },[]);
-
+    getUserInfo();
+  }, []);
 
   const handleUserInfo = () => {
       axios({
@@ -127,11 +120,12 @@ const getUserInfo = () => {
       setPassWordMessage("");
       setIsPassword(true);
     }
-  }
+  };
 
   const onEmailChange = (e) => {
     const value = e.target.value;
-    const emailRegex = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    const emailRegex =
+      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     setEmail(value);
 
     console.log(`Email:${value}`);
@@ -142,14 +136,14 @@ const getUserInfo = () => {
       setEmailMessage("");
       setIsEmail(true);
     }
-  }
+  };
 
   const onMobileChange = (e) => {
-    const value = e.target.value
-      setMobile(value)
-      setMobileMessage('')
-      setIsMobile(true)
-    }
+    const value = e.target.value;
+    setMobile(value);
+    setMobileMessage("");
+    setIsMobile(true);
+  };
 
   const onCountrySelect = (e) => {
     const value = e.target.value;
@@ -164,13 +158,21 @@ const getUserInfo = () => {
       setCountryMessage("");
       setIsCountry(true);
     }
-  }
-  
-
+  };
 
   return (
     <Wrapper>
       {/* <Title /> */}
+      <div className='header2'>
+        <Header2
+          handleInputValue={props.handleInputValue}
+          handleKeyPress={props.handleKeyPress}
+          handleSearch={props.handleSearch}
+          data={props.data}
+          signedIn={props.signedIn}
+          handleLogout={props.handleLogout}
+        />
+      </div>
       <Subheading body=" 내 정보 보기 / 변경" />
       {isLoading ? (
         <div>
@@ -213,20 +215,21 @@ const getUserInfo = () => {
           </div>
 
           <div>
-            지역 : 
-            <Input as="select" key={country} defaultValue={country}  onChange={onCountrySelect}>
-                {regions.map((regions) => (
-                <option key={regions}>
-                  {regions}
-                </option>
+            지역 :
+            <Input as="select" key={country} defaultValue={country} onChange={onCountrySelect}>
+              {regions.map((regions) => (
+                <option key={regions}>{regions}</option>
               ))}
             </Input>
             <div> {countryMessage} </div>
           </div>
-          <button 
+          <button
             onClick={handleUserInfo}
-            disabled={isEmail && isMobile && isPassword && isCountry ? false : true }
-          > 회원정보 수정 </button>
+            disabled={isEmail && isMobile && isPassword && isCountry ? false : true}
+          >
+            {" "}
+            회원정보 수정{" "}
+          </button>
           <div> {errorMessage}</div>
         </div>
       ) : (

@@ -1,56 +1,35 @@
 import Category from "../components/Category";
 import Product from "../components/Product";
-import Header1 from "../components/Header1";
 import LoadingIndicator from "../components/LoadingIndicator";
 import axios from "axios";
 import { useEffect, useState } from "react";
-
-
 import styled from "styled-components";
 import Header2 from "../components/Header2";
+import Header1 from "../components/Header1";
 
 const Wrapper = styled.div`
-  display:block;
-`
-const Header = styled.div`
-  position: fixed;
-  width: 100vw;
-  height: 25vh;
-  background-color: rgba(241 212 202);
-`
+  display: block;
+`;
 
 const Body = styled.div`
   padding-top: 25vh;
-  display : flex;
-  justify-content: center ;
+  display: flex;
+  justify-content: center;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(241 212 202) ;
-`
+  background-color: rgba(241 212 202);
+`;
 
-function Main(props) {  
-  const [isloading, setIsLoaidng] = useState(false);
-  const [data, setData] = useState("");
-
+function Main(props) {
+  const [selectProduct, setSelectProduct] = useState();
   const handleCategory = (e) => {
     const menu = e.target.value;
     axios
       .get(`http://localhost:4000/categorys?category=${menu}`)
       .then((res) => {
-        // console.log(res.data.data);
-        setData(res.data.data);
-        setIsLoaidng(true);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const getData = () => {
-    axios
-      .get("http://localhost:4000/main")
-      .then((res) => {
-        setData(res.data.data);
-        // console.log(res.data.data);
-        setIsLoaidng(true);
+        console.log(res.data.data);
+        props.setData(res.data.data);
+        props.setIsLoaidng(true);
       })
       .catch((err) => console.log(err));
   };
@@ -65,7 +44,7 @@ function Main(props) {
   // };
 
   useEffect(() => {
-    getData();
+    props.getData();
   }, []);
 
   /*
@@ -73,42 +52,54 @@ function Main(props) {
   그럼 카테고리의 값이 변경 되는 경우는 유저가 카테고리를 눌렀을때이다.
   카테고리를 누른 순간 axios를 통해 데이터를 받아오게 된다.
 */
+  useEffect(() => {
+    props.setData(props.data);
+    console.log(props.data);
+  }, [props.data]);
 
   return (
-    <Wrapper>
-      <Header>
-        <Header1 getData={getData} /> {/*타이틀 로고 */}
-        <Header2 handleLogout={props.handleLogout}/> {/*검색 / 로그인 버튼 */}
+
+
+    <div>
+      <Wrapper>
+        <Header1 getData={props.getData} />
+        <Header2
+          handleInputValue={props.handleInputValue}
+          handleKeyPress={props.handleKeyPress}
+          handleSearch={props.handleSearch}
+          signedIn={props.signedIn}
+          handleLogout={props.handleLogout}
+        />
         <Category
           name={["냉동", "신선", "양곡", "축산", "수산", "음료", "스낵", "가공식품", "조미료"]}
           handleCategory={handleCategory}
         />
-      </Header>
-      <Body>
-        {isloading ? (
-          <div>
-            {" "}
-            {data === undefined ? (
-              <h1>게시글이 없습니다.</h1>
-            ) : (
-              data.map((item) => (
-                <Product
-                  id={item.id}
-                  key={item.id}
-                  title={item.title}
-                  image={item.picture}
-                  region={item.country}
-                  createdAt={item.createdDate}
-                />
-              ))
-            )}{" "}
-          </div>
-        ) : (
-          <LoadingIndicator />
-        )}
-      </Body>
-      {/* 테스트버튼 다 날림 */}
-    </Wrapper>
+        <Body>
+          {props.isloading ? (
+            <div>
+              {" "}
+              {props.data === undefined ? (
+                <h1>게시글이 없습니다.</h1>
+              ) : (
+                props.data.map((item) => (
+                  <Product
+                    id={item.id}
+                    key={item.id}
+                    title={item.title}
+                    image={item.image}
+                    region={item.country}
+                    createdAt={item.createdDate}
+                    onClick={() => setSelectProduct(item.id)}
+                  />
+                ))
+              )}{" "}
+            </div>
+          ) : (
+            <LoadingIndicator />
+          )}
+        </Body>
+      </Wrapper>
+    </div>
   );
 }
 
