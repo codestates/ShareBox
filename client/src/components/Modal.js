@@ -59,39 +59,18 @@ export const Modal = (props) => {
   return (
     <>
       <ModalContainer>
-        <ModalBtn onClick={openModalHandler}>
-          {props.handleDropout ? "회원탈퇴" : props.handleDeletion ? "삭제" : "else"}
-        </ModalBtn>
+        <ModalBtn onClick={openModalHandler} />
         {isOpen === true ? (
           <ModalBackdrop onClick={openModalHandler}>
             <ModalView onClick={(e) => e.stopPropagation()}>
-              {/* <span onClick={openModalHandler} className='close-btn'>&times;</span> */}
-              <div className="desc">
-                {props.handleDropout
-                  ? "정말로 탈퇴하시겠습니까?"
-                  : props.handleDeletion
-                  ? "정말로 삭제하시겠습니까?"
-                  : "else"}
-              </div>
+              <div className="desc" />                
               <div>
-                {props.handleDropout || props.handleDeletion
-                  ? [
-                      <button
-                        onClick={
-                          props.handleDropout
-                            ? props.handleDropout
-                            : props.handleDeletion
-                            ? props.handleDeletion
-                            : ""
-                        }
-                      >
-                        네
-                      </button>,
-                      <button onClick={openModalHandler} className="close-btn">
-                        아니오
-                      </button>,
-                    ]
-                  : "else"}
+                <button>
+                  네
+                </button>,
+                <button>
+                  아니오
+                </button>
               </div>
             </ModalView>
           </ModalBackdrop>

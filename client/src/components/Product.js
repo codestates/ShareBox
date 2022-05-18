@@ -1,6 +1,8 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom"
-
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
+import Item from "../pages/Item"
 
 const Wrapper = styled.div`
 
@@ -37,7 +39,6 @@ const Box = styled(Body)`
 
 
 function Product (props) {
-
 
   return (
     <Wrapper>

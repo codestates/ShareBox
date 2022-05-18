@@ -39,7 +39,14 @@ export default function Signin({ accessToken, signinHandler }) {
           console.log(res.data.data.accessToken)
           signinHandler(res.data.data.accessToken)
         })
-        .catch(err => console.log(err));
+        .catch(error => {
+          if (!error.response) {
+              // network error
+              this.errorStatus = 'Error: Network Error';
+          } else {
+              this.errorStatus = error.response.data.message;
+          }
+        });
     }
   };
 

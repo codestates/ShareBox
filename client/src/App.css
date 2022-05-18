@@ -16,6 +16,11 @@
   overflow: auto;
 }
 
+.header2 {
+  position: absolute;
+  top: 6rem;
+}
+
 .App {
   text-align: center;
 }
@@ -29,7 +34,7 @@ form > div > span:first-child {
 
 form > input.ip-search {
   width: 30rem;
-  font-size: 1.1rem;
+  font-size: 1rem;
   padding: 0.4rem;
   margin: 0.4rem;
 }
@@ -44,7 +49,11 @@ input[type="password"] {
   margin: 0.4rem;
 }
 
-textarea {
+.content-editing {
+  height: 10rem;
+}
+
+.ip-comment {
   width: 37rem;
   height: 5rem;
 }

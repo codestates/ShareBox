@@ -1,3 +1,5 @@
+import Title from "../components/Title";
+import Header2 from "../components/Header2";
 import Category from "../components/Category";
 import Product from "../components/Product";
 import Header1 from "../components/Header1";
@@ -8,7 +10,6 @@ import { useEffect, useState } from "react";
 
 
 import styled from "styled-components";
-import Header2 from "../components/Header2";
 
 const Wrapper = styled.div`
   display:block;
@@ -29,10 +30,10 @@ const Body = styled.div`
   background-color: rgba(241 212 202) ;
 `
 
-function Main() {
+function Main(props) {
   const [isloading, setIsLoaidng] = useState(false);
   const [data, setData] = useState("");
-
+  const [selectProduct, setSelectProduct] = useState();
   const handleCategory = (e) => {
     const menu = e.target.value;
     axios
@@ -67,16 +68,14 @@ function Main() {
 */
 
   return (
-    <Wrapper>
-      <Header>
-        <Header1 getData={getData} />
-        {/* <SearchBar /> */}
-        <Header2 />
+    <div>
+      <Wrapper>
+        <Title getData={getData} />
+        <Header2 signedIn={props.signedIn} handleLogout={props.handleLogout} />
         <Category
           name={["냉동", "신선", "양곡", "축산", "수산", "음료", "스낵", "가공식품", "조미료"]}
           handleCategory={handleCategory}
         />
-      </Header>
       <Body>
         {isloading ? (
           <div>
@@ -92,6 +91,7 @@ function Main() {
                   image={item.picture}
                   region={item.country}
                   createdAt={item.createdDate}
+                  onClick={() => setSelectProduct(item.id)}
                 />
               ))
             )}{" "}
@@ -117,6 +117,7 @@ function Main() {
         </Link>
       </div> */}
     </Wrapper>
+    </div>
   );
 }
 
