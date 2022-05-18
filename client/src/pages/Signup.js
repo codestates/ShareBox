@@ -121,10 +121,17 @@ function Signup() {
   
   const onMobileChange = (e) => {
     const value = e.target.value
-      setMobile(value)
-      setMobileMessage('')
-      setIsMobile(true)
+    const mobileRegex = 	/[0-9]{11,12}/
+    setMobile(value)
+
+      if (!mobileRegex.test(value)) {
+        setMobileMessage('휴대폰 번호는 숫자만 입력 해주세요')
+        setIsMobile(false)
+      } else {
+        setMobileMessage('')
+        setIsMobile(true)
     }
+  }
   
   const oncountrySelect = (e) => {
     const value = e.target.value

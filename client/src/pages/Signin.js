@@ -12,7 +12,6 @@ export default function Signin({ accessToken, signinHandler }) {
   const handleOauth = () => {
     window.location.assign(GITHUB_LOGIN_URL);
   };
-  const [cookies, setCookie, removeCookie] = useCookies(["cookie-name"]);
 
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
 

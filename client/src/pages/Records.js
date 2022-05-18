@@ -43,19 +43,7 @@ const Img = styled.img`
   width: 40vh;
   height: 40vh;
 `;
-/*
-! 생각 정리 시간 얍!
-아이디어 :  폼 데이터에 Blob을 통해서 JSON 파일을 넣어줄 수 있다.
-아이디어 2: 사진을 보내기 위해서는 폼 데이터를 전송해야 한다 .
 
-포스트는  텍스트 정보들만 넣어 주기 
-이미지는 별도의 상태를 통해 관리한다. 
-
-
--> 새로운 폼 데이터를 만들고, 폼 데이터에 파일을 넣기
-
-
-*/
 function Record(props) {
   const [post, setPost] = useState({
     title: "",
@@ -113,7 +101,6 @@ function Record(props) {
       console.log(value);
     }
 
-    // axios.post(`http://localhost:8000/api/auth`, form) .then( response => { console.log('response : ', JSON.stringify(response, null, 2)) }).catch( error => { console.log('failed', error) })
 
     axios
       .post("http://localhost:4000/records", data)
