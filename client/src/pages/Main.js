@@ -8,11 +8,14 @@ import LoadingIndicator from "../components/LoadingIndicator";
 
 import styled from "styled-components";
 
+import { useCookies } from "react-cookie";
+
 const Wrapper = styled.div`
   /* position: fixed; */
 `;
 
 function Main() {
+  const [cookies, setCookie, removeCookie] = useCookies(["cookie-name"]);
   const [isloading, setIsLoaidng] = useState(false);
   const [data, setData] = useState("");
 

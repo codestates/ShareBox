@@ -1,47 +1,17 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Apple from "../components/apple.jpg";
-import { Modal } from "../components/Modal";
 import Header1 from "../components/Header1";
 import Header2 from "../components/Header2";
 import LoadingIndicator from "../components/LoadingIndicator";
+import { useCookies } from "react-cookie";
 
 export default function Item() {
-  const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies(["cookie-name"]);
   const [isLoading, setIsLoaidng] = useState(false);
   const [text, setText] = useState();
   const [editingComment, setEditingComment] = useState();
-  let userId = "kimcoding";
-  let dummy = {
-    record: {
-      category: "category",
-      image: "image",
-      title: "title",
-      time: "time",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a varius mi. Fusce luctus faucibus lorem sit amet dictum. Integer ut bibendum sapien. Sed nibh purus, iaculis a tellus vel, consectetur mattis massa. Vestibulum ac sapien vestibulum neque pulvinar iaculis. Aliquam elementum, ipsum ac tempus tristique, libero dolor interdum metus, et cursus lectus magna vel dolor. Nullam felis mi, luctus non vulputate sit amet, volutpat at mi. Cras a mollis risus. Nunc id massa id sem tristique lacinia. Curabitur mattis orci eleifend neque feugiat commodo. Ut feugiat felis vitae felis porttitor ullamcorper. Fusce efficitur massa eget mi dapibus, quis feugiat velit pharetra. Sed ac eros malesuada, suscipit leo id, vestibulum tellus. Donec elit augue, ullamcorper eget sem nec, accumsan eleifend arcu. Duis bibendum neque eu nunc lacinia vestibulum. Nunc pretium sem in ipsum finibus, id tincidunt orci consectetur.",
-      complete: "complete",
-    },
-    comment: [
-      {
-        id: "1",
-        userId: "userId",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a varius mi. Fusce luctus faucibus lorem sit amet dictum. Integer ut bibendum sapien. Sed nibh purus, iaculis a tellus vel, consectetur mattis massa. Vestibulum ac sapien vestibulum neque pulvinar iaculis. Aliquam elementum, ipsum ac tempus tristique, libero dolor interdum metus, et cursus lectus magna vel dolor. Nullam felis mi, luctus non vulputate sit amet, volutpat at mi. Cras a mollis risus. Nunc id massa id sem tristique lacinia. Curabitur mattis orci eleifend neque feugiat commodo. Ut feugiat felis vitae felis porttitor ullamcorper. Fusce efficitur massa eget mi dapibus, quis feugiat velit pharetra. Sed ac eros malesuada, suscipit leo id, vestibulum tellus. Donec elit augue, ullamcorper eget sem nec, accumsan eleifend arcu. Duis bibendum neque eu nunc lacinia vestibulum. Nunc pretium sem in ipsum finibus, id tincidunt orci consectetur.",
-        createdAt: "createdAt",
-        updatedAt: "updatedAt",
-      },
-      {
-        id: "2",
-        userId: "userId",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a varius mi. Fusce luctus faucibus lorem sit amet dictum. Integer ut bibendum sapien. Sed nibh purus, iaculis a tellus vel, consectetur mattis massa. Vestibulum ac sapien vestibulum neque pulvinar iaculis. Aliquam elementum, ipsum ac tempus tristique, libero dolor interdum metus, et cursus lectus magna vel dolor. Nullam felis mi, luctus non vulputate sit amet, volutpat at mi. Cras a mollis risus. Nunc id massa id sem tristique lacinia. Curabitur mattis orci eleifend neque feugiat commodo. Ut feugiat felis vitae felis porttitor ullamcorper. Fusce efficitur massa eget mi dapibus, quis feugiat velit pharetra. Sed ac eros malesuada, suscipit leo id, vestibulum tellus. Donec elit augue, ullamcorper eget sem nec, accumsan eleifend arcu. Duis bibendum neque eu nunc lacinia vestibulum. Nunc pretium sem in ipsum finibus, id tincidunt orci consectetur.",
-        createdAt: "createdAt",
-        updatedAt: "updatedAt",
-      },
-    ],
-  };
+
   const handleArticleEdit = () => {
     const token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcklkIjoia2ltY29kaW5nIiwiZW1haWwiOiJraW1jb2RpbmdAU2hhcmVCb3guY29tIiwiY291bnRyeSI6IuyYgeuTse2PrOq1rCIsImlhdCI6MTY1Mjc5Njg0OCwiZXhwIjoxNjUyODgzMjQ4fQ.l0AzBxbthHHer-VdPSUcqmAw-dgi2kTsYKwEBZITS5M";
@@ -91,7 +61,7 @@ export default function Item() {
   };
   const handleCommentEdit = (commId) => {
     setEditingComment(commId);
-    setText(dummy.comment.filter((comm) => comm.id === commId)[0].content);
+    // setText(dummy.comment.filter((comm) => comm.id === commId)[0].content);
   };
   const handleCommentDeletion = (id) => {
     axios.delete(`https://localhost:4000/records/:${1}/comments/:${id}`);

@@ -7,8 +7,11 @@ import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import Mypage from "./pages/Mypage";
 import Record from "./pages/Records";
+import { useCookies } from "react-cookie";
 
 import "./App.css";
+axios.defaults.withCredentials = true;
+const [cookies, setCookie, removeCookie] = useCookies(["cookie-name"]);
 
 export default function App() {
   const [signedIn, setSignedIn] = useState(false);

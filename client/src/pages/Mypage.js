@@ -3,6 +3,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Subheading from "../components/Subheading";
+import { useCookies } from "react-cookie";
+
+const [cookies, setCookie, removeCookie] = useCookies(["cookie-name"]);
 
 const Wrapper = styled.div`
   display: flex;
@@ -84,7 +87,7 @@ function MyPage() {
   }
 
   useEffect(() => {
-    getUserInfo()
+    getUserInfo();
     test();
   });
 
