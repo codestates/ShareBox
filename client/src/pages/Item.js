@@ -43,46 +43,38 @@ export default function Item(props) {
       .catch((err) => console.log(err));
   };
 
+
   const handleArticleEdit = () => {
     setIsEditingArticle(true);
   };
   const handleArticleDeletion = () => {
-    const token = cookies;
     axios
-      .delete(`http://localhost:4000/records/${id}`, {
-        headers: { authorization: `Bearer ${token}` },
-      })
+      .delete(`http://localhost:4000/records/${id}`, { withCredentials: true })
       .then((res) => console.log(res))
       .catch((err) => console.log(err.response));
   };
   const handleArticleEditComplete = () => {
-    const token = cookies;
-    axios
-      .put(
-        `http://localhost:4000/records/${id}`,
-        {
-          title: post.title,
-          image: post.image,
-          content: post.content,
-          category: post.category,
-          country: post.country,
-        },
-        { headers: { authorization: `Bearer ${token}` } }
-      )
-      .then((res) => console.log(res))
+    axios.put(`http://localhost:4000/records/${id}`, {
+      title: post.title,
+      image: post.image,
+      content: post.content,
+      category: post.category,
+      country: post.country,
+    }, { withCredentials: true })
+      .then(res => console.log(res))
       .catch((err) => console.log(err.response));
-  };
+  }
   const handleInputValue = (key) => (e) => {
     setPost({ ...post, [key]: e.target.value });
-    if (key === "image") {
-      const file = e.target.files[0];
+    if (key === 'image') {
+      const file = e.target.files[0]
       const reader = new FileReader();
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file)
       reader.onload = function (e) {
-        console.log(e.target.result);
-        setPreview(e.target.result);
-        setPost({ ...post, [key]: e.target.result });
-      };
+        console.log(e.target.result)
+        setPreview(e.target.result)
+        setPost({ ...post, [key]: e.target.result })
+      }
     }
   };
   const handleTextValue = (e) => {
@@ -95,25 +87,18 @@ export default function Item(props) {
   };
 
   const handleSubmitButton = () => {
-    const token = cookies;
     if (editingComment) {
-      axios
-        .patch(
-          `http://localhost:4000/comments/${editingComment}`,
-          { content: text },
-          { headers: { authorization: `Bearer ${token}` } }
-        )
-        .then((res) => console.log(res))
+      axios.patch(`http://localhost:4000/comments/${editingComment}`,
+        { content: text }, { withCredentials: true })
+        .then(res => console.log(res))
         .then(setEditingComment())
         .then(setText(""))
         .catch((err) => console.log(err));
     } else {
       axios
-        .post(
-          `http://localhost:4000/comments`,
-          { content: text },
-          { headers: { authorization: `Bearer ${token}` } }
-        )
+        .post(`http://localhost:4000/comments/${editingComment}`,
+          { content: `${text}` },
+          { withCredentials: true })
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
     }
@@ -126,15 +111,19 @@ export default function Item(props) {
   };
 
   const handleCommentDeletion = (commId) => {
-    axios.delete(`http://localhost:4000/comments/${commId}`).then((res) => console.log(res));
+    axios.delete(`http://localhost:4000/comments/${commId}`)
+      .then(res => console.log(res));
   };
 
   useEffect(() => {
     getRecords();
   }, []);
+
   useEffect(() => {
     console.log(editingComment);
   }, [editingComment]);
+
+
   return (
     <center>
       <div className="background">

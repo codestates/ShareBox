@@ -14,6 +14,8 @@ export default function Signin({ accessToken, signinHandler }) {
   };
   const [cookies, setCookie, removeCookie] = useCookies(["cookie-name"]);
 
+  const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
+
   const [signinInfo, setSigninInfo] = useState({
     userId: "",
     password: "",
@@ -31,25 +33,18 @@ export default function Signin({ accessToken, signinHandler }) {
     if (userId === "" || password === "") {
       setErrorMessage("ID와 비밀번호를 입력하세요");
     } else {
-      axios
-        .post(
-          "http://localhost:4000/login",
-          { userId, password },
-          {
-            headers: { "Content-Type": `application/json` },
-          }
-        )
-        .then((res) => {
-          console.log(res.data.data.accessToken);
-          signinHandler(res.data.data.accessToken);
+
+      axios.post('http://localhost:4000/login',
+        { userId, password },
+        {
+          headers: { "Content-Type": `application/json` }
         })
-        .catch((error) => {
-          if (!error.response) {
-            // network error
-            this.errorStatus = "Error: Network Error";
-          } else {
-            this.errorStatus = error.response.data.message;
-          }
+        .then(res => {
+          // console.log(res)
+          // console.log(cookies)
+        })
+        .catch(error => {
+          console.log(error)
         });
     }
   };

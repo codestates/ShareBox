@@ -7,11 +7,12 @@ import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import Mypage from "./pages/Mypage";
 import Record from "./pages/Records";
-
+import { useCookies } from "react-cookie";
 import "./App.css";
 axios.defaults.withCredentials = true;
 
 export default function App() {
+  const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
   const [data, setData] = useState("");
   const [isloading, setIsLoaidng] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
@@ -20,16 +21,11 @@ export default function App() {
   const navigate = useNavigate();
   const signinHandler = (data) => {
     setSignedIn(true);
-    issueAccessToken(data.data.accessToken);
   };
 
-  const issueAccessToken = (token) => {
-    setAccessToken(token);
-  };
+
   const handleLogout = () => {
     axios.post("http://localhost:4000/logout").then((res) => {
-      console.log(res);
-      setUserinfo(null);
       setSignedIn(false);
       navigate("/");
     });
@@ -37,7 +33,6 @@ export default function App() {
 
   const handleDropout = () => {
     axios.post("https://localhost:4000/dropout").then((res) => {
-      setUserinfo(null);
       setSignedIn(false);
       navigate("/");
     });
@@ -83,9 +78,6 @@ export default function App() {
       <Route path="/signup" element={<Signup />} />
       <Route path="/record" element={<Record handleLogout={handleLogout} />} />
       {/* <Route path="/mypage" element={<Mypage
-        userinfo={userinfo}
-        accessToken={accessToken}
-        issueAccessToken={issueAccessToken}
         handleDropout={handleDropout}
       />} /> */}
       <Route
@@ -96,13 +88,7 @@ export default function App() {
         path="/mypage"
         element={
           signedIn ? (
-            <Mypage
-              accessToken={accessToken}
-              issueAccessToken={issueAccessToken}
-              userinfo={userinfo}
-              handleLogout={handleLogout}
-              handleDropout={handleDropout}
-            />
+            <Mypage />
           ) : (
             <Navigate replace to="/" />
           )
