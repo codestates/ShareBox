@@ -13,15 +13,15 @@ module.exports = {
 
     models.post(userId, password, (error, result) => {
       if (error) {
-        return res.status(500).send({ data: null, message: "서버에러" });
+        return res.status(500).send({ 'data': null, 'message': '서버에러' });
       } else {
-        // db돌고나온값
-        // result[0]
-        // console.log(result)
-
-        if (!result) {
-          res.status(401).send({ data: null, message: "회원가입이 되지 않았습니다." });
+        if (result.length === 0) {
+          return res.status(400).send({ data: null, message: "아이디 혹은 비밀번호가 일치하지 않습니다." });
         } else {
+          // db돌고나온값
+          // result[0]
+          // console.log(result)
+
           const payload = {
             id: result[0].id,
             userId: result[0].userId,
@@ -43,8 +43,8 @@ module.exports = {
             .status(201)
             .send({ data: { accessToken: accessToken }, message: "로그인 성공했습니다" });
         }
-      }
-    });
+      };
+    })
   },
 
   //refreshToken

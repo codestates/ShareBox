@@ -33,12 +33,9 @@ const Input = styled.input`
 `;
 
 function MyPage(props) {
+  const [cookies] = useCookies([]);
 
-
-const [cookies] = useCookies([]);
-
-console.log(cookies.accessToken)
-
+  console.log(cookies.accessToken);
 
   const regions = [
     "지역 선택",
@@ -87,35 +84,40 @@ console.log(cookies.accessToken)
   const [isMobile, setIsMobile] = useState(false);
   const [isCountry, setIsCountry] = useState(false);
 
-  const testToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsInVzZXJJZCI6ImN5czExMTEiLCJlbWFpbCI6IjEyMzRATkFWRVIuQ09NIiwiY291bnRyeSI6IuuPmeyekeq1rCIsIm1vYmlsZSI6IjAxMDAwMDAwMDAwIiwiaWF0IjoxNjUyNzk0MTczLCJleHAiOjE2NTI4ODA1NzN9.3uiSWaIfl2ZvE3k1p6zv1EYZNaWeUYFiovolzDLO18o'
+  const testToken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsInVzZXJJZCI6ImN5czExMTEiLCJlbWFpbCI6IjEyMzRATkFWRVIuQ09NIiwiY291bnRyeSI6IuuPmeyekeq1rCIsIm1vYmlsZSI6IjAxMDAwMDAwMDAwIiwiaWF0IjoxNjUyNzk0MTczLCJleHAiOjE2NTI4ODA1NzN9.3uiSWaIfl2ZvE3k1p6zv1EYZNaWeUYFiovolzDLO18o";
 
-const getUserInfo = () => {
-    axios.get('http://localhost:4000/userinfo',{headers: {authorization: `Bearer ${testToken}`}})
+  const getUserInfo = () => {
+    axios
+      .get("http://localhost:4000/userinfo", { headers: { authorization: `Bearer ${testToken}` } })
       .then((res) => {
-        const userInfo = res.data.data.userInfo
+        const userInfo = res.data.data.userInfo;
         console.log(userInfo);
-        setUserId(userInfo.userId)
+        setUserId(userInfo.userId);
         setEmail(userInfo.email);
         setMobile(userInfo.mobile);
         setCountry(userInfo.country);
-        setIsLoading(true);})
-      .catch((err) => console.log(err))
-  }
+        setIsLoading(true);
+      })
+      .catch((err) => console.log(err));
+  };
 
   useEffect(() => {
-    getUserInfo()
-  },[]);
-
+    getUserInfo();
+  }, []);
 
   const handleUserInfo = () => {
-      axios({
-        method : 'put',
-        url : 'http://localhost:4000/userinfo',
-        data : {password, email, country, mobile},
-        headers : {authorization: `Bearer ${testToken}`}
-      }).then((res) => {})
-      .catch((err) =>{ console.log(err) })
-  }
+    axios({
+      method: "put",
+      url: "http://localhost:4000/userinfo",
+      data: { password, email, country, mobile },
+      headers: { authorization: `Bearer ${testToken}` },
+    })
+      .then((res) => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const onPasswordChange = (e) => {
     const value = e.target.value;
@@ -129,11 +131,12 @@ const getUserInfo = () => {
       setPassWordMessage("");
       setIsPassword(true);
     }
-  }
+  };
 
   const onEmailChange = (e) => {
     const value = e.target.value;
-    const emailRegex = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    const emailRegex =
+      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     setEmail(value);
 
     console.log(`Email:${value}`);
@@ -144,19 +147,19 @@ const getUserInfo = () => {
       setEmailMessage("");
       setIsEmail(true);
     }
-  }
+  };
 
   const onMobileChange = (e) => {
-    const value = e.target.value
-      setMobile(value)
-      setMobileMessage('')
-      setIsMobile(true)
-    }
+    const value = e.target.value;
+    setMobile(value);
+    setMobileMessage("");
+    setIsMobile(true);
+  };
 
   const onCountrySelect = (e) => {
     const value = e.target.value;
     setCountry(value);
-    console.log(value)
+    console.log(value);
 
     if (value === "지역 선택") {
       setCountryMessage("지역을 선택해주세요");
@@ -165,9 +168,7 @@ const getUserInfo = () => {
       setCountryMessage("");
       setIsCountry(true);
     }
-  }
-  
-
+  };
 
   return (
     <Wrapper>
@@ -189,29 +190,30 @@ const getUserInfo = () => {
             아이디 : <Input defaultValue={userId} disabled={true} />
           </div>
 
-        <div>
-        비밀번호 : 
-        <Input
-          type='password'
-          placeholder='비밀번호를 입력해주세요'
-          onChange={onPasswordChange}
-          maxLength = {15}
-          required />
-          {isPassword ? null : <div>{passwordMessage}</div>}
-      </div>
-        
-                
-      <div>
-        이메일 : 
-        <Input
-          type='email'
-          placeholder='이메일을 입력 해주세요'
-          onChange={onEmailChange}
-          maxLength = {25}
-          defaultValue={email}
-          required />
-          {isEmail ? null : <div>{emailMessage}</div>}
-      </div>
+          <div>
+            비밀번호 :
+            <Input
+              type="password"
+              placeholder="비밀번호를 입력해주세요"
+              onChange={onPasswordChange}
+              maxLength={15}
+              required
+            />
+            {isPassword ? null : <div>{passwordMessage}</div>}
+          </div>
+
+          <div>
+            이메일 :
+            <Input
+              type="email"
+              placeholder="이메일을 입력 해주세요"
+              onChange={onEmailChange}
+              maxLength={25}
+              defaultValue={email}
+              required
+            />
+            {isEmail ? null : <div>{emailMessage}</div>}
+          </div>
 
           <div>
             이메일 :
@@ -239,20 +241,21 @@ const getUserInfo = () => {
           </div>
 
           <div>
-            지역 : 
-            <Input as="select" key={country} defaultValue={country}  onChange={onCountrySelect}>
-                {regions.map((regions) => (
-                <option key={regions}>
-                  {regions}
-                </option>
+            지역 :
+            <Input as="select" key={country} defaultValue={country} onChange={onCountrySelect}>
+              {regions.map((regions) => (
+                <option key={regions}>{regions}</option>
               ))}
             </Input>
             <div> {countryMessage} </div>
           </div>
-          <button 
+          <button
             onClick={handleUserInfo}
-            disabled={isEmail && isMobile && isPassword && isCountry ? false : true }
-          > 회원정보 수정 </button>
+            disabled={isEmail && isMobile && isPassword && isCountry ? false : true}
+          >
+            {" "}
+            회원정보 수정{" "}
+          </button>
           <div> {errorMessage}</div>
         </div>
       ) : (
