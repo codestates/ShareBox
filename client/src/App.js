@@ -44,29 +44,20 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Main />} />
-      <Route path="/item" element={<Item accessToken={accessToken} userinfo={userinfo} />} />
+
+      <Route path="/item" element={<Item />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/record" element={<Record />} />
-      <Route path="/mypage" element={<Mypage />} />
+      <Route path="/mypage" element={<Mypage
+        userinfo={userinfo}
+        accessToken={accessToken}
+        issueAccessToken={issueAccessToken}
+        handleSignout={handleSignout}
+        handleDropout={handleDropout}
+      />} />
       <Route
         path="/signin"
         element={signedIn ? <Navigate replace to="/" /> : <Signin signinHandler={signinHandler} />}
-      />
-      <Route
-        path="/mypage"
-        element={
-          signedIn ? (
-            <Mypage
-              accessToken={accessToken}
-              issueAccessToken={issueAccessToken}
-              userinfo={userinfo}
-              handleLogout={handleLogout}
-              handleDropout={handleDropout}
-            />
-          ) : (
-            <Navigate replace to="/" />
-          )
-        }
       />
     </Routes>
   );
