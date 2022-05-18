@@ -1,3 +1,6 @@
+/* 
+헤더2 props 추가
+*/
 import React, { useState } from "react";
 import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import axios from "axios";
@@ -7,37 +10,49 @@ import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import Mypage from "./pages/Mypage";
 import Record from "./pages/Records";
+import { useCookies } from "react-cookie";
 
 import "./App.css";
-axios.defaults.withCredentials = true;
 
 export default function App() {
-  const [data, setData] = useState("");
-  const [isloading, setIsLoaidng] = useState(false);
-  const [signedIn, setSignedIn] = useState(false);
-  const [accessToken, setAccessToken] = useState();
-  const [userinfo, setUserinfo] = useState(null);
+  const [keyword, setKeyword] = useState();
+  const [data, setData] = useState();
+  const [isloading, setIsLoading] = useState(false);
+  const [signedIn, setSignedIn] = useState(false); //로그인여부????
+  const [accessToken, setAccessToken] = useState(null); //엑세스토큰
+  const [userinfo, setUserinfo] = useState(null); //유저정보
+  const [cookies] = useCookies([]);
   const navigate = useNavigate();
+  const handleInputValue = (e) => {
+    setKeyword(e.target.value);
+  };
+  const handleKeyPress = (e) => {
+    if (e.type === "keypress" && e.code === "Enter") {
+      handleSearch();
+    }
+  };
+  const handleSearch = () => {
+    if (keyword) {
+      axios
+        .get(`http://localhost:4000/search?search_type=title&title=${keyword}&page=${1}&limit=${1}`)
+        .then((res) => {
+          let data = res.data.data;
+          navigate("/");
+          setData(data);
+        })
+        .catch((err) => console.log(err));
+    }
+  };
   const signinHandler = (data) => {
     setSignedIn(true);
-    issueAccessToken(data.data.accessToken);
   };
 
   const issueAccessToken = (token) => {
     setAccessToken(token);
   };
-  const handleLogout = () => {
-    axios.post("http://localhost:4000/logout").then((res) => {
-      console.log(res);
-      setUserinfo(null);
-      setSignedIn(false);
-      navigate("/");
-    });
-  };
 
   const handleDropout = () => {
     axios.post("https://localhost:4000/dropout").then((res) => {
-      setUserinfo(null);
       setSignedIn(false);
       navigate("/");
     });
@@ -49,65 +64,79 @@ export default function App() {
       .then((res) => {
         setData(res.data.data);
         console.log(res.data.data);
-        setIsLoaidng(true);
+        setIsLoading(true);
       })
       .catch((err) => console.log(err));
   };
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <Main
-            handleLogout={handleLogout}
-            getData={getData}
-            setIsLoaidng={setIsLoaidng}
-            setData={setData}
-            isloading={isloading}
-            data={data}
-          />
-        }
-      />
-      <Route
-        path="/records/:id"
-        element={
-          <Item
-            accessToken={accessToken}
-            signedIn={signedIn}
-            data={data}
-            handleLogout={handleLogout}
-            getData={getData}
-          />
-        }
-      />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/record" element={<Record handleLogout={handleLogout} />} />
-      {/* <Route path="/mypage" element={<Mypage
-        userinfo={userinfo}
-        accessToken={accessToken}
-        issueAccessToken={issueAccessToken}
-        handleDropout={handleDropout}
-      />} /> */}
-      <Route
-        path="/signin"
-        element={signedIn ? <Navigate replace to="/" /> : <Signin signinHandler={signinHandler} />}
-      />
-      <Route
-        path="/mypage"
-        element={
-          signedIn ? (
-            <Mypage
-              accessToken={accessToken}
-              issueAccessToken={issueAccessToken}
-              userinfo={userinfo}
+    <>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Main
+              handleInputValue={handleInputValue}
+              handleKeyPress={handleKeyPress}
+              handleSearch={handleSearch}
+              data={data}
+              getData={getData}
+              setData={setData}
+              isloading={isloading}
+              setIsLoading={setIsLoading}
+              signedIn={signedIn}
               handleLogout={handleLogout}
+            />
+          }
+        />
+        <Route
+          path="/records/:id"
+          element={
+            <Item
+              getData={getData}
+              accessToken={accessToken}
+              handleInputValue={handleInputValue}
+              handleKeyPress={handleKeyPress}
+              handleSearch={handleSearch}
+              data={data}
+              signedIn={signedIn}
+              // handleLogout={handleLogout}
+            />
+          }
+        />
+        <Route path="/signup" element={<Signup />} />
+        <Route
+          path="/record"
+          element={
+            <Record
+              handleInputValue={handleInputValue}
+              handleKeyPress={handleKeyPress}
+              handleSearch={handleSearch}
+              data={data}
+              handleLogout={handleLogout}
+            />
+          }
+        />
+        <Route
+          path="/mypage"
+          element={
+            <Mypage
+              handleInputValue={handleInputValue}
+              handleKeyPress={handleKeyPress}
+              handleSearch={handleSearch}
+              data={data}
+              userinfo={userinfo}
+              accessToken={accessToken}
               handleDropout={handleDropout}
             />
-          ) : (
-            <Navigate replace to="/" />
-          )
-        }
-      />
-    </Routes>
+          }
+        />
+        <Route
+          path="/signin"
+          element={
+            signedIn ? <Navigate replace to="/" /> : <Signin signinHandler={signinHandler} />
+          }
+        />
+      </Routes>
+    </>
   );
 }
