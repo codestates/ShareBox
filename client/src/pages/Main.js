@@ -2,10 +2,8 @@ import Title from "../components/Title";
 import Header2 from "../components/Header2";
 import Category from "../components/Category";
 import Product from "../components/Product";
-import Header1 from "../components/Header1";
 import LoadingIndicator from "../components/LoadingIndicator";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import styled from "styled-components";
@@ -32,8 +30,6 @@ const Body = styled.div`
 `;
 
 function Main(props) {
-  const [isloading, setIsLoaidng] = useState(false);
-  const [data, setData] = useState("");
   const [selectProduct, setSelectProduct] = useState();
   const handleCategory = (e) => {
     const menu = e.target.value;
@@ -41,25 +37,14 @@ function Main(props) {
       .get(`http://localhost:4000/categorys?category=${menu}`)
       .then((res) => {
         console.log(res.data.data);
-        setData(res.data.data);
-        setIsLoaidng(true);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const getData = () => {
-    axios
-      .get("http://localhost:4000/main")
-      .then((res) => {
-        setData(res.data.data);
-        console.log(res.data.data);
-        setIsLoaidng(true);
+        props.setData(res.data.data);
+        props.setIsLoaidng(true);
       })
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    getData();
+    props.getData();
   }, []);
 
   /*
@@ -71,25 +56,25 @@ function Main(props) {
   return (
     <div>
       <Wrapper>
-        <Title getData={getData} />
+        <Title getData={props.getData} />
         <Header2 signedIn={props.signedIn} handleLogout={props.handleLogout} />
         <Category
           name={["냉동", "신선", "양곡", "축산", "수산", "음료", "스낵", "가공식품", "조미료"]}
           handleCategory={handleCategory}
         />
         <Body>
-          {isloading ? (
+          {props.isloading ? (
             <div>
               {" "}
-              {data === undefined ? (
+              {props.data === undefined ? (
                 <h1>게시글이 없습니다.</h1>
               ) : (
-                data.map((item) => (
+                props.data.map((item) => (
                   <Product
                     id={item.id}
                     key={item.id}
                     title={item.title}
-                    image={item.picture}
+                    image={item.image}
                     region={item.country}
                     createdAt={item.createdDate}
                     onClick={() => setSelectProduct(item.id)}

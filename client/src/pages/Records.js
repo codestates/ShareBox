@@ -56,6 +56,7 @@ const Img = styled.img`
 function Record(props) {
   const [post, setPost] = useState({
     title: "",
+    image: "",
     category: "",
     content: "",
     country: "",
@@ -89,6 +90,7 @@ function Record(props) {
 
     const data = {
       title: post.title,
+      image: post.image,
       content: post.content,
       category: post.category,
       country: post.country,
