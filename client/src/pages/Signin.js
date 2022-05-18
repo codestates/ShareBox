@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Header1 from '../components/Header1';
+import { useCookies } from "react-cookie";
 
 axios.defaults.withCredentials = true;
 
@@ -10,6 +11,8 @@ export default function Signin({ accessToken, signinHandler }) {
   const handleOauth = () => {
     window.location.assign(GITHUB_LOGIN_URL);
   }
+
+  const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
 
   const [signinInfo, setSigninInfo] = useState({
     userId: '',
@@ -36,16 +39,11 @@ export default function Signin({ accessToken, signinHandler }) {
           headers: { "Content-Type": `application/json` }
         })
         .then(res => {
-          console.log(res.data.data.accessToken)
-          signinHandler(res.data.data.accessToken)
+          // console.log(res)
+          // console.log(cookies)
         })
         .catch(error => {
-          if (!error.response) {
-              // network error
-              this.errorStatus = 'Error: Network Error';
-          } else {
-              this.errorStatus = error.response.data.message;
-          }
+          console.log(error)
         });
     }
   };

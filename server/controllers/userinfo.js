@@ -6,7 +6,7 @@ module.exports = {
 
   //회원정보불러오기
   get: (req, res) => {
-    
+
     if (!req.cookies["accessToken"]) {
       res.status(404).send({ "data": null, "message": "로그인을 하세요." })
     } else {
@@ -54,21 +54,26 @@ module.exports = {
       if (error) {
         return res.status(500).send({ message: '서버에러' });
       } else {
-        console.log(result)
-        const payload = {
-          id: tokenData.id,
-          userId: tokenData.userId,
-          country: country,
-          email: email,
-          mobile: mobile
+        if (result.length === 0) {
+          res.status(404).send({ data: null, message: '회원 정보가 존재하지않습니다.' })
+        } else {
+          console.log(result)
+          const payload = {
+            id: tokenData.id,
+            userId: tokenData.userId,
+            country: country,
+            email: email,
+            mobile: mobile
+          }
+
+          const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: '1d' });
+          const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, { expiresIn: '2d' });
+
+          res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 14 })
+          res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 14 })
+          res.status(201).send({ data: { 'accessToken': accessToken }, message: '회원 정보가 수정되었습니다.' })
         }
 
-        const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: '1d' });
-        const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, { expiresIn: '2d' });
-
-        res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 14 })
-        res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 14 })
-        res.status(201).send({ data: { 'accessToken': accessToken }, message: '회원 정보가 수정되었습니다.' })
 
       }
     })
