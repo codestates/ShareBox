@@ -1,17 +1,56 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import searchIcon from './SearchIcon.png';
-import Category from './Category';
-import { Link } from 'react-router-dom';
+import { useCookies } from "react-cookie";
+import { useNavigate} from "react-router-dom";
 /* import styled from 'styled-components';
-
 export const Hdr2 = styled.div`
 `; */
 
 axios.defaults.withCredentials = true;
 
-export default function Header2 (props) {
+export default function Header2 () {
   const [keyword, setKeyword] = useState();
+  const [cookies, setCookie, removeCookie] = useCookies([]);
+  const [hasToken, setHasToken] = useState(true);
+  const navigate = useNavigate();
+
+
+  const tokenChaser = () => {
+    if (!cookies.accessToken) {
+      setHasToken(false)
+    }
+  }
+
+  const handleRoute = (e) => {
+    const value = e.target.innerText
+    console.log(value)
+    if (value === '회원 가입'){
+      navigate('/signup')
+    } else if (value === '내 정보'){
+      navigate('/mypage')
+    } else if (value === '로그아웃'){
+      handleLogout() 
+    } else if (value ==='로그인'){
+      navigate('/signin')
+      console.log(hasToken)
+    }
+  }
+
+  const handleLogout = () => {
+    axios.get("http://localhost:4000/logout")
+      .then((res) => {
+        setHasToken(false)
+        console.log(hasToken)
+        removeCookie('accessToken',[])
+        navigate('/')
+    });
+  };
+
+  useEffect(() => {
+    tokenChaser()
+  },[hasToken])
+
   const handleInputValue = (e) => {
     setKeyword(e.target.value);
   }
@@ -32,7 +71,7 @@ export default function Header2 (props) {
     }
   }
   return (
-    <>
+    
       <center>
         <form onSubmit={(e) => e.preventDefault()}>
           <input className='ip-search' type='text' onChange={handleInputValue} onKeyPress={handleKeyPress} />
@@ -40,20 +79,12 @@ export default function Header2 (props) {
             <img src={searchIcon} alt='search button' />
           </button>
         </form>
-        { props.signedIn ? [
-        <span key={1}>
-          <button onClick={() => props.handleLogout}>로그아웃</button>
-        </span>,
-        <button key={2}>
-          <Link to='/mypage'>내 정보 보기</Link>
-        </button>]
-        : [<button key={1}>
-          <Link to='/signin'>로그인</Link>
-        </button>,
-        <button key={2}>
-          <Link to='/signup'>회원가입</Link>
-        </button>] }
+        <button onClick={handleRoute} >{hasToken ? '로그아웃':'로그인'}</button>
+        <button onClick={handleRoute} >{hasToken ? '내 정보':'회원 가입' }</button>
+
+        {/* <button onClick={handleRoute} value={'로그인'}>{hasToken ? '로그아웃':'로그인'}</button>
+        <button onClick={handleRoute} value={'회원가입'}>{hasToken ? '내 정보':'회원 가입' }</button> */}
       </center>
-    </>
+    
   );
 }

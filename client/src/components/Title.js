@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 
+
 const Wrapper = styled.div`
 display: flex ;
 justify-content: center;
@@ -26,8 +27,6 @@ const Img = styled.img`
   margin: 0 ;
   padding: 0 ;
 `
-
-
 
 
 function Title (props) {

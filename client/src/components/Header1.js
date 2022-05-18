@@ -17,15 +17,10 @@ justify-content: flex-start;
 
 export default function Header1 (props) {
   
-
-  const resetData = () => {
-    props.getData()
-}
-
+// fix 
   return (
-
     <Link to ='/'>
-      <Wrapper onClick={resetData}>
+      <Wrapper onClick={props.getData}>
         <img src={ShareBox} alt='logo' />
     
     </Wrapper>

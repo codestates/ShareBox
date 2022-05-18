@@ -12,7 +12,7 @@ module.exports = {
     const { userId, password } = req.body;
 
     models.post(userId, password, (error, result) => {
-      if (error) {
+      if (result.length === 0) {
         return res.status(500).send({ data: null, message: "서버에러" });
       } else {
         // db돌고나온값

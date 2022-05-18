@@ -1,6 +1,5 @@
 import axios from 'axios'
-// import Title from '../components/Title'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import Subheading from '../components/Subheading'
 import Header2 from '../components/Header2'
@@ -41,19 +40,7 @@ const Img = styled.img`
   width: 40vh;
   height: 40vh;
 `
-/*
-! 생각 정리 시간 얍!
-아이디어 :  폼 데이터에 Blob을 통해서 JSON 파일을 넣어줄 수 있다.
-아이디어 2: 사진을 보내기 위해서는 폼 데이터를 전송해야 한다 .
 
-포스트는  텍스트 정보들만 넣어 주기 
-이미지는 별도의 상태를 통해 관리한다. 
-
-
--> 새로운 폼 데이터를 만들고, 폼 데이터에 파일을 넣기
-
-
-*/
 function Record (props) {
   const [post , setPost] = useState({
     title : '',
@@ -65,11 +52,7 @@ function Record (props) {
   const [errorMessage, setErrorMessage] = useState('')
   const [preview , setPreview] = useState('')
 
-  console.log(this.cookies)
-
   const onUploadImage = (e) => {
-
-
     const file = e.target.files
       setImageFile(file)
       console.log(imageFile)
@@ -130,11 +113,7 @@ const onRecords = ()  => {
     console.log(post);
   }
 
-  useEffect(() => {
-    console.log(imageFile)
-
-  },[imageFile])
-
+//  이미지 콘솔 지웠음 
 
   const category = ['선택','냉동', '신선', '양곡', '축산', '수산', '음료', '스낵', '가공식품', '조미료'] 
   const countrys = ['지역 선택','강남구','강동구','강북구','강서구','관악구','광진구','구로구','금천구','노원구','도봉구','동대문구','동작구','마포구','서대문구','서초구','성동구','성북구','송파구','양천구','영등포구','용산구','은평구','종로구','중구','중랑구']

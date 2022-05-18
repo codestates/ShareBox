@@ -1,15 +1,13 @@
-import Title from "../components/Title";
-import Header2 from "../components/Header2";
 import Category from "../components/Category";
 import Product from "../components/Product";
 import Header1 from "../components/Header1";
 import LoadingIndicator from "../components/LoadingIndicator";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 
 import styled from "styled-components";
+import Header2 from "../components/Header2";
 
 const Wrapper = styled.div`
   display:block;
@@ -30,16 +28,16 @@ const Body = styled.div`
   background-color: rgba(241 212 202) ;
 `
 
-function Main(props) {
+function Main(props) {  
   const [isloading, setIsLoaidng] = useState(false);
   const [data, setData] = useState("");
-  const [selectProduct, setSelectProduct] = useState();
+
   const handleCategory = (e) => {
     const menu = e.target.value;
     axios
       .get(`http://localhost:4000/categorys?category=${menu}`)
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setData(res.data.data);
         setIsLoaidng(true);
       })
@@ -51,11 +49,20 @@ function Main(props) {
       .get("http://localhost:4000/main")
       .then((res) => {
         setData(res.data.data);
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setIsLoaidng(true);
       })
       .catch((err) => console.log(err));
   };
+
+  // const handleLogout = () => { //  로그아웃 함수 
+  //   axios.post("http://localhost:4000/logout").then((res) => {
+  //     console.log(res);
+  //     setUserinfo(null);
+  //     setSignedIn(false);
+  //     navigate("/");
+  //   });
+  // };
 
   useEffect(() => {
     getData();
@@ -68,14 +75,15 @@ function Main(props) {
 */
 
   return (
-    <div>
-      <Wrapper>
-        <Title getData={getData} />
-        <Header2 signedIn={props.signedIn} handleLogout={props.handleLogout} />
+    <Wrapper>
+      <Header>
+        <Header1 getData={getData} /> {/*타이틀 로고 */}
+        <Header2 handleLogout={props.handleLogout}/> {/*검색 / 로그인 버튼 */}
         <Category
           name={["냉동", "신선", "양곡", "축산", "수산", "음료", "스낵", "가공식품", "조미료"]}
           handleCategory={handleCategory}
         />
+      </Header>
       <Body>
         {isloading ? (
           <div>
@@ -91,7 +99,6 @@ function Main(props) {
                   image={item.picture}
                   region={item.country}
                   createdAt={item.createdDate}
-                  onClick={() => setSelectProduct(item.id)}
                 />
               ))
             )}{" "}
@@ -100,24 +107,8 @@ function Main(props) {
           <LoadingIndicator />
         )}
       </Body>
-      {/* <button onClick={getData}> 테스트 버튼 </button>
-      <div>
-        <Link to="/signup">
-          <button> 회원가입 </button>
-        </Link>
-        <Link to="/record">
-          <button> 상품등록 </button>
-        </Link>
-        <Link to="/mypage">
-          <button> 내 정보 </button>
-        </Link>
-
-        <Link to="/">
-          <button> 메인 </button>
-        </Link>
-      </div> */}
+      {/* 테스트버튼 다 날림 */}
     </Wrapper>
-    </div>
   );
 }
 
@@ -133,6 +124,4 @@ axios.get 으로 서버의 데이터 받아오기
 Product 컴포넌트는 image , region, title, createdAt 을 prop로 갖게 된다.
 
 axios.get을 통해 받아온 data를 props로 전달을 위해서 상태를 마련해줘야하나 ? 
-
-
 */

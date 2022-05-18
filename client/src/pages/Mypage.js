@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Subheading from "../components/Subheading";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -31,10 +32,12 @@ const Input = styled.input`
 
 function MyPage() {
 
-
+  axios.defaults.withCredentials = true;
+const navigate = useNavigate()
 const [cookies] = useCookies([]);
 
 console.log(cookies.accessToken)
+
 
 
   const regions = [
@@ -84,10 +87,9 @@ console.log(cookies.accessToken)
   const [isMobile, setIsMobile] = useState(false);
   const [isCountry, setIsCountry] = useState(false);
 
-  const testToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsInVzZXJJZCI6ImN5czExMTEiLCJlbWFpbCI6IjEyMzRATkFWRVIuQ09NIiwiY291bnRyeSI6IuuPmeyekeq1rCIsIm1vYmlsZSI6IjAxMDAwMDAwMDAwIiwiaWF0IjoxNjUyNzk0MTczLCJleHAiOjE2NTI4ODA1NzN9.3uiSWaIfl2ZvE3k1p6zv1EYZNaWeUYFiovolzDLO18o'
-
+  
 const getUserInfo = () => {
-    axios.get('http://localhost:4000/userinfo',{headers: {authorization: `Bearer ${testToken}`}})
+    axios.get('http://localhost:4000/userinfo')
       .then((res) => {
         const userInfo = res.data.data.userInfo
         console.log(userInfo);
@@ -109,8 +111,7 @@ const getUserInfo = () => {
         method : 'put',
         url : 'http://localhost:4000/userinfo',
         data : {password, email, country, mobile},
-        headers : {authorization: `Bearer ${testToken}`}
-      }).then((res) => {})
+      }).then((res) => navigate('/'))
       .catch((err) =>{ console.log(err) })
   }
 
@@ -153,6 +154,7 @@ const getUserInfo = () => {
   const onCountrySelect = (e) => {
     const value = e.target.value;
     setCountry(value);
+    setCountryMessage("지역을 선택해주세요");
     console.log(value)
 
     if (value === "지역 선택") {
@@ -185,22 +187,8 @@ const getUserInfo = () => {
           maxLength = {15}
           required />
           {isPassword ? null : <div>{passwordMessage}</div>}
-      </div>
-        
-                
-      <div>
-        이메일 : 
-        <Input
-          type='email'
-          placeholder='이메일을 입력 해주세요'
-          onChange={onEmailChange}
-          maxLength = {25}
-          defaultValue={email}
-          required />
-          {isEmail ? null : <div>{emailMessage}</div>}
-      </div>
-
-          <div>
+        </div>
+        <div>
             이메일 :
             <Input
               type="email"
@@ -211,9 +199,8 @@ const getUserInfo = () => {
               required
             />
             {isEmail ? null : <div>{emailMessage}</div>}
-          </div>
-
-          <div>
+        </div>
+        <div>
             휴대폰 번호 :
             <Input
               type="text"
@@ -248,7 +235,7 @@ const getUserInfo = () => {
     </Wrapper>
   );
 }
-
+//  
 export default MyPage;
 
 /*
