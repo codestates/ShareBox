@@ -1,42 +1,51 @@
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
 
 const TabMenu = styled.ul`
-  background-color: #dcdcdc;
-  color: rgba(73, 73, 73, 0.5);
-  font-weight: bold;
+  
+  
   display: flex;
   flex-direction: row;
-  justify-items: center;
-  align-items: center;
-  list-style: none;
-  margin-bottom: 7rem;
-  position: static;
-
-  .submenu {
-    width: 100%;
-    padding: 15px 10px;
-    cursor: pointer;
+  
+  .menu {
+    background-color: white ;
+    border: 0;
+    outline : 0;
+    font-size: 2vh ;
+    width: 100vw;
+    height: 5vh;
+    padding: 5px 10px;
+  &:hover{
+    background-color : #E48C71;
+    color: white;
+    transition: 0.5s;
   }
-
-  .selected {
-    background-color: #4000c7;
-    color: rgba(255, 255, 255, 1);
-    transition: 0.3s;
-  }
-
-  & div.desc {
-    text-align: center;
-  }
+}
 `;
 
 function Category(props) {
+  const [isLogin, setIsLogin] = useState(false)
+  //  로그인 여부를 체크하는 상태값 
+  
+  const navigate = useNavigate();
+
+  const onRecord = () => {
+    if (isLogin === true){
+      navigate('/record')
+    } else { 
+      navigate('/signin')
+    }
+  } 
+  //  로그인 여부에 따라 보내주는 페이지가 다름 
+
   return (
     <div>
       <TabMenu>
         {props.name.map((menu, index) => (
           <button
             key={index}
-            className={"submenu selected"}
+            className={'menu'}
             onClick={props.handleCategory}
             value={menu}
           >
@@ -44,6 +53,7 @@ function Category(props) {
             {menu}
           </button>
         ))}
+            <button onClick={onRecord} className={'menu'}> 상품 등록 </button>
       </TabMenu>
     </div>
   );

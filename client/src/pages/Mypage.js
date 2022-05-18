@@ -3,6 +3,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Subheading from "../components/Subheading";
+import { useCookies } from "react-cookie";
+
+
+
+
 
 const Wrapper = styled.div`
   display: flex;
@@ -25,6 +30,13 @@ const Input = styled.input`
 `;
 
 function MyPage() {
+
+
+const [cookies] = useCookies([]);
+
+console.log(cookies.accessToken)
+
+
   const regions = [
     "지역 선택",
     "강남구",
