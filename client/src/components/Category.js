@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
-import { useState } from "react";
+import { useCookies } from "react-cookie";
+
 
 const TabMenu = styled.ul`
-  
-  
   display: flex;
   flex-direction: row;
   
@@ -25,16 +24,15 @@ const TabMenu = styled.ul`
 `;
 
 function Category(props) {
-  const [isLogin, setIsLogin] = useState(false)
-  //  로그인 여부를 체크하는 상태값 
-  
+
+  const [cookies] = useCookies([]);
   const navigate = useNavigate();
 
   const onRecord = () => {
-    if (isLogin === true){
-      navigate('/record')
-    } else { 
+    if (!cookies.accessToken){
       navigate('/signin')
+    } else { 
+      navigate('/record')
     }
   } 
   //  로그인 여부에 따라 보내주는 페이지가 다름 

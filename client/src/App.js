@@ -11,10 +11,8 @@ import Signin from "./pages/Signin";
 import Mypage from "./pages/Mypage";
 import Record from "./pages/Records";
 import { useCookies } from "react-cookie";
-import "./App.css";
-import Header2 from "./components/Header2";
 
-axios.defaults.withCredentials = true;
+import "./App.css";
 
 export default function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
@@ -49,13 +47,11 @@ export default function App() {
     setSignedIn(true);
   };
 
-
-  const handleLogout = () => {
-    axios.post("http://localhost:4000/logout").then((res) => {
-      setSignedIn(false);
-      navigate("/");
-    });
+  const issueAccessToken = (token) => {
+    setAccessToken(token);
   };
+
+
 
   const handleDropout = () => {
     axios.post("https://localhost:4000/dropout").then((res) => {
@@ -87,7 +83,7 @@ export default function App() {
       isloading={isloading}
       setIsLoading={setIsLoading}
       signedIn={signedIn}
-      handleLogout={handleLogout}
+      // handleLogout={handleLogout}
       />} />
       <Route path="/records/:id" element={<Item
       getData={getData}
@@ -97,7 +93,7 @@ export default function App() {
       handleSearch={handleSearch}
       data={data}
       signedIn={signedIn}
-      handleLogout={handleLogout}
+      // handleLogout={handleLogout}
       />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/record" element={<Record
@@ -105,7 +101,7 @@ export default function App() {
         handleKeyPress={handleKeyPress}
         handleSearch={handleSearch}
         data={data}
-        handleLogout={handleLogout}
+        // handleLogout={handleLogout}
       />} />
       <Route path="/mypage" element={<Mypage
         handleInputValue={handleInputValue}
@@ -120,16 +116,6 @@ export default function App() {
         path="/signin"
         element={signedIn ? <Navigate replace to="/" /> : <Signin signinHandler={signinHandler} />}
       />
-      {/* <Route
-        path="/mypage"
-        element={
-          signedIn ? (
-            <Mypage />
-          ) : (
-            <Navigate replace to="/" />
-          )
-        }
-      /> */}
     </Routes>
     </>
   );

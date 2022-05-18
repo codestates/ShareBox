@@ -1,12 +1,9 @@
-/* 
-헤더2 추가
-*/
-// import Title from "../components/Title";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Subheading from "../components/Subheading";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 import Header2 from "../components/Header2";
 
 const Wrapper = styled.div`
@@ -30,9 +27,12 @@ const Input = styled.input`
 `;
 
 function MyPage(props) {
-  const [cookies] = useCookies([]);
 
-  console.log(cookies.accessToken);
+  axios.defaults.withCredentials = true;
+const navigate = useNavigate()
+const [cookies] = useCookies([]);
+
+console.log(cookies.accessToken)
 
   const regions = [
     "지역 선택",
@@ -81,12 +81,8 @@ function MyPage(props) {
   const [isMobile, setIsMobile] = useState(false);
   const [isCountry, setIsCountry] = useState(false);
 
-  const testToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsInVzZXJJZCI6ImN5czExMTEiLCJlbWFpbCI6IjEyMzRATkFWRVIuQ09NIiwiY291bnRyeSI6IuuPmeyekeq1rCIsIm1vYmlsZSI6IjAxMDAwMDAwMDAwIiwiaWF0IjoxNjUyNzk0MTczLCJleHAiOjE2NTI4ODA1NzN9.3uiSWaIfl2ZvE3k1p6zv1EYZNaWeUYFiovolzDLO18o";
-
-  const getUserInfo = () => {
-    axios
-      .get("http://localhost:4000/userinfo", { headers: { authorization: `Bearer ${testToken}` } })
+const getUserInfo = () => {
+    axios.get('http://localhost:4000/userinfo')
       .then((res) => {
         const userInfo = res.data.data.userInfo;
         console.log(userInfo);
@@ -104,17 +100,13 @@ function MyPage(props) {
   }, []);
 
   const handleUserInfo = () => {
-    axios({
-      method: "put",
-      url: "http://localhost:4000/userinfo",
-      data: { password, email, country, mobile },
-      headers: { authorization: `Bearer ${testToken}` },
-    })
-      .then((res) => {})
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+      axios({
+        method : 'put',
+        url : 'http://localhost:4000/userinfo',
+        data : {password, email, country, mobile},
+      }).then((res) => navigate('/'))
+      .catch((err) =>{ console.log(err) })
+  }
 
   const onPasswordChange = (e) => {
     const value = e.target.value;
@@ -156,7 +148,8 @@ function MyPage(props) {
   const onCountrySelect = (e) => {
     const value = e.target.value;
     setCountry(value);
-    console.log(value);
+    setCountryMessage("지역을 선택해주세요");
+    console.log(value)
 
     if (value === "지역 선택") {
       setCountryMessage("지역을 선택해주세요");
@@ -187,19 +180,17 @@ function MyPage(props) {
             아이디 : <Input defaultValue={userId} disabled={true} />
           </div>
 
-          <div>
-            비밀번호 :
-            <Input
-              type="password"
-              placeholder="비밀번호를 입력해주세요"
-              onChange={onPasswordChange}
-              maxLength={15}
-              required
-            />
-            {isPassword ? null : <div>{passwordMessage}</div>}
-          </div>
-
-          <div>
+        <div>
+        비밀번호 : 
+        <Input
+          type='password'
+          placeholder='비밀번호를 입력해주세요'
+          onChange={onPasswordChange}
+          maxLength = {15}
+          required />
+          {isPassword ? null : <div>{passwordMessage}</div>}
+        </div>
+        <div>
             이메일 :
             <Input
               type="email"
@@ -210,22 +201,8 @@ function MyPage(props) {
               required
             />
             {isEmail ? null : <div>{emailMessage}</div>}
-          </div>
-
-          <div>
-            이메일 :
-            <Input
-              type="email"
-              placeholder="이메일을 입력 해주세요"
-              onChange={onEmailChange}
-              maxLength={25}
-              defaultValue={email}
-              required
-            />
-            {isEmail ? null : <div>{emailMessage}</div>}
-          </div>
-
-          <div>
+        </div>
+        <div>
             휴대폰 번호 :
             <Input
               type="text"
@@ -261,7 +238,7 @@ function MyPage(props) {
     </Wrapper>
   );
 }
-
+//  
 export default MyPage;
 
 /*

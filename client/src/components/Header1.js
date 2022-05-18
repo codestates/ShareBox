@@ -1,5 +1,5 @@
 import React from 'react';
-import ShareBox from './ShareBox.png';
+import ShareBox from '../assets/ShareBox.png';
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
@@ -17,15 +17,10 @@ justify-content: flex-start;
 
 export default function Header1 (props) {
   
-
-  const resetData = () => {
-    props.getData()
-}
-
+// fix 
   return (
-
     <Link to ='/'>
-      <Wrapper onClick={resetData}>
+      <Wrapper onClick={props.getData}>
         <img src={ShareBox} alt='logo' />
     
     </Wrapper>
@@ -35,3 +30,26 @@ export default function Header1 (props) {
 
 
   
+// const Wrapper = styled.div`
+// display: flex ;
+// justify-content: center;
+//   width : 100%;
+//   height : 20%;
+//   font-size: 7vh ;
+//   position: static ;
+// `
+
+// const Title1 = styled.span`
+//   width : 100vw;
+//   height : 10vh;
+//   font-size: 7vh ;
+//   background-color:  white ;
+//   text-align: center ;
+// `
+
+// const Img = styled.img`
+//   width:  15vw;
+//   height : 10vh;
+//   margin: 0 ;
+//   padding: 0 ;
+// `

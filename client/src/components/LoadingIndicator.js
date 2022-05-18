@@ -1,4 +1,4 @@
-import spinner from './spinner-icon.gif'
+import spinner from '../assets/spinner-icon.gif'
 
 function LoadingIndicator() {
   return (
