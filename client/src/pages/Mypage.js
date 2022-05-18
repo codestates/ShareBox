@@ -9,9 +9,6 @@ import Subheading from "../components/Subheading";
 import { useCookies } from "react-cookie";
 import Header2 from "../components/Header2";
 
-
-
-
 const Wrapper = styled.div`
   display: flex;
   height: 100vh;
