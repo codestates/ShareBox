@@ -29,9 +29,8 @@ module.exports = {
       }
     });
   },
-  post: (req, res) => {
-    const authorization = req.headers["authorization"];
-    const token = authorization.split(" ")[1];
+  post: (req, res, next) => {
+    const token = req.cookies["accessToken"];
     console.log("asdf");
     const tokenData = jwt.verify(token, process.env.ACCESS_SECRET);
     if (!tokenData) {
@@ -47,52 +46,50 @@ module.exports = {
     }
   },
   put: (req, res) => {
-    const authorization = req.headers["authorization"];
-    if (!authorization) {
+    const token = req.cookies["accessToken"];
+    if (!token) {
       res.status(401).send({ message: "로그인이 되지 않았습니다." });
     } else {
-      const token = authorization.split(" ")[1];
       const tokenData = jwt.verify(token, process.env.ACCESS_SECRET);
       // authorization에 값이 있다면 로그인이 되었다는 의미이고, 없다면 로그인이 되지않았다는 의미?
-      // if (!tokenData) {
-      //   res.status(401).send({ message: "로그인이 되지 않았습니다." });
-      // } else {
-      records.put(req.params, req.body, tokenData, (error, result) => {
-        if (error) {
-          res.status(500).send("Internal Server Error");
-        } else {
-          if (result.length === 0) {
-            res.status(401).json({ message: "유저가 일치하지 않습니다." });
+      if (!tokenData) {
+        res.status(401).send({ message: "로그인이 되지 않았습니다." });
+      } else {
+        records.put(req.params, req.body, tokenData, (error, result) => {
+          if (error) {
+            res.status(500).send("Internal Server Error");
           } else {
-            res.status(200).json({ message: "게시물이 수정 되었습니다." });
+            if (result.length === 0) {
+              res.status(401).json({ message: "유저가 일치하지 않습니다." });
+            } else {
+              res.status(200).json({ message: "게시물이 수정 되었습니다." });
+            }
           }
-        }
-      });
-      // }
+        });
+      }
     }
   },
   delete: (req, res) => {
-    const authorization = req.headers["authorization"];
-    if (!authorization) {
+    const token = req.cookies["accessToken"];
+    if (!token) {
       res.status(401).send({ message: "로그인이 되지 않았습니다." });
     } else {
-      const token = authorization.split(" ")[1];
       const tokenData = jwt.verify(token, process.env.ACCESS_SECRET);
-      // if (!tokenData) {
-      //   res.status(401).send({ message: "유저가 일치하지 않습니다." });
-      // } else {
-      records.delete(req.params, tokenData, (error, result) => {
-        if (error) {
-          res.status(500).send("Internal Server Error");
-        } else {
-          if (result.length === 0) {
-            res.status(401).json({ message: "유저가 일치하지 않습니다." });
+      if (!tokenData) {
+        res.status(401).send({ message: "유저가 일치하지 않습니다." });
+      } else {
+        records.delete(req.params, tokenData, (error, result) => {
+          if (error) {
+            res.status(500).send("Internal Server Error");
           } else {
-            res.status(200).json({ message: "게시물이 삭제 되었습니다." });
+            if (result.length === 0) {
+              res.status(401).json({ message: "유저가 일치하지 않습니다." });
+            } else {
+              res.status(200).json({ message: "게시물이 삭제 되었습니다." });
+            }
           }
-        }
-      });
-      // }
+        });
+      }
     }
   },
 };

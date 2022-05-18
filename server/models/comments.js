@@ -6,16 +6,20 @@ module.exports = {
         // INSERT INTO table_name(field1, field2, ...fieldN)
         // VALUES
         // (value1, value2, ...valueN);
+        
 
         const queryString = `INSERT INTO comments (postsId, content) VALUES (${recordsId}, "${content}")`
 
         db.query(queryString, (error, result) => {
             console.log(result.insertId)
+            db.query(`set foreign_key_checks = 0`)
             const queryString2 = `INSERT INTO users_comments (usersId, commentsId) VALUES (${tokenData.id}, ${(result.insertId)})`
             db.query(queryString2, (error, result) => {
                 callback(error, result)
             })
+            db.query(`set foreign_key_checks = 1`)
         })
+
     },
 
     patch: (recordsId, commentsId, content, tokenData, callback) => {

@@ -17,8 +17,9 @@ module.exports = {
   },
   post: (body, tokenData, callback) => {
     const { title, image, content, category, country, complete } = body;
+    console.log(image);
     con.query(
-      `INSERT INTO posts (title, image, content, category, country, complete) VALUES ("${title}","${image}","${content}","${category}","${country}","${complete}")`,
+      `INSERT INTO posts (title, image, content, category, country, complete) VALUES ("${title}","${image}","${content}","${category}","${country}",0)`,
       (err, result) => {
         if (err) {
           return callback(err);
