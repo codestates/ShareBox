@@ -7,11 +7,9 @@ import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import Mypage from "./pages/Mypage";
 import Record from "./pages/Records";
-import { useCookies } from "react-cookie";
 
 import "./App.css";
 axios.defaults.withCredentials = true;
-const [cookies, setCookie, removeCookie] = useCookies(["cookie-name"]);
 
 export default function App() {
   const [signedIn, setSignedIn] = useState(false);
@@ -46,6 +44,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Main />} />
       <Route path="/item" element={<Item userinfo={userinfo} />} />
+      <Route path="/signin" element={<Signin />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/record" element={<Record />} />
       <Route path="/mypage" element={<Mypage />} />
