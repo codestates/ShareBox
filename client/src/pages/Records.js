@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import styled from 'styled-components'
 import Subheading from '../components/Subheading'
+import Header2 from '../components/Header2'
 
 const Wrapper = styled.div`
   display : flex ;
@@ -41,7 +42,7 @@ const Img = styled.img`
   height: 40vh;
 `
 
-function Record () {
+function Record (props) {
   const [post , setPost] = useState({
     title : '',
     image : '',
@@ -114,6 +115,9 @@ const onRecords = ()  => {
   return ( 
   <Wrapper>
     {/* <Title /> */}
+    <div className='header2'>
+    <Header2 signedIn={props.signedIn} handleLogout={props.handleLogout} />
+    </div>
       <div>
         <Subheading content='상품 등록' />
         <div>

@@ -1,4 +1,5 @@
 import Title from "../components/Title";
+import Header2 from "../components/Header2";
 import Category from "../components/Category";
 import Product from "../components/Product";
 import { useEffect, useState } from "react";
@@ -12,10 +13,10 @@ const Wrapper = styled.div`
   /* position: fixed; */
 `;
 
-function Main() {
+function Main(props) {
   const [isloading, setIsLoaidng] = useState(false);
   const [data, setData] = useState("");
-
+  const [selectProduct, setSelectProduct] = useState();
   const handleCategory = (e) => {
     const menu = e.target.value;
     axios
@@ -53,7 +54,7 @@ function Main() {
     <div>
       <Wrapper>
         <Title getData={getData} />
-        {/* <SearchBar /> */}
+        <Header2 signedIn={props.signedIn} handleLogout={props.handleLogout} />
         <Category
           name={["냉동", "신선", "양곡", "축산", "수산", "음료", "스낵", "가공식품", "조미료"]}
           handleCategory={handleCategory}
@@ -74,6 +75,7 @@ function Main() {
                   image={item.picture}
                   region={item.country}
                   createdAt={item.createdDate}
+                  onClick={() => setSelectProduct(item.id)}
                 />
               ))
             )}{" "}

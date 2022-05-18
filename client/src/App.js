@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
+import { Route, Routes, useNavigate, Navigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Main from "./pages/Main";
 import Item from "./pages/Item";
@@ -12,9 +12,8 @@ import "./App.css";
 
 export default function App() {
   const [signedIn, setSignedIn] = useState(false); //로그인여부????
-  const [accessToken, setAccessToken] = useState(); //엑세스토큰
+  const [accessToken, setAccessToken] = useState(null); //엑세스토큰
   const [userinfo, setUserinfo] = useState(null); //유저정보
-  
   const navigate = useNavigate();
   
   const signinHandler = (data) => {
@@ -41,25 +40,27 @@ export default function App() {
       navigate("/");
     });
   };
+  console.log(accessToken);
   return (
     <Routes>
-      <Route path="/" element={<Main />} />
-      <Route path="/item" element={<Item />} />
+      <Route path="/" element={<Main handleLogout={handleLogout} />} />
+      <Route path="/records/:id" element={<Item
+      accessToken={accessToken}
+      signedIn={signedIn}
+      handleLogout={handleLogout}
+      />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/record" element={<Record />} />
-      <Route path="/mypage" element={<Mypage
+      <Route path="/record" element={<Record handleLogout={handleLogout} />} />
+      {/* <Route path="/mypage" element={<Mypage
         userinfo={userinfo}
         accessToken={accessToken}
         issueAccessToken={issueAccessToken}
-        handleSignout={handleSignout}
         handleDropout={handleDropout}
-      />} />
+      />} /> */}
       <Route
         path="/signin"
         element={signedIn ? <Navigate replace to="/" /> : <Signin signinHandler={signinHandler} />}
       />
-<<<<<<< HEAD
-=======
       <Route
         path="/mypage"
         element={
@@ -76,7 +77,6 @@ export default function App() {
           )
         }
       />
->>>>>>> 26a02f4c2aa7ce781d1ba65adf0a28b36a8d818c
     </Routes>
   );
 }
