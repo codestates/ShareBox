@@ -30,7 +30,7 @@ export default function App() {
   const handleSearch = () => {
     if (keyword) {
       let search = axios
-        .get(`http://localhost:4000/search?search_type=title&title=${keyword}&page=${1}&limit=${100}`)
+        .get(`${process.env.EC2}/search?search_type=title&title=${keyword}&page=${1}&limit=${100}`)
         .then(res => {
           let data = res.data.data;
           setTimeout(() => {
@@ -69,7 +69,7 @@ export default function App() {
     axios
       .get("http://localhost:4000/main")
       .then((res) => {
-        console.log('main retrieved');
+        console.log(res);
         setData(res.data.data);
         setIsLoading(true);
       })
