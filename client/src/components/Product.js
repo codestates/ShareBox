@@ -42,8 +42,9 @@ const Box = styled(Body)`
 `;
 
 function Product(props) {
-  return (
-    <Wrapper>
+
+  return (  
+    <Wrapper>      
       <Link to={`/records/${props.id}`}>
         <Box>
           <Img src={props.image} alt="상품사진" title={props.title} />

@@ -1,8 +1,10 @@
+/* 
+로그인 후 리다이렉트 구현
+*/
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Header1 from "../components/Header1";
-import { useCookies } from "react-cookie";
 import styled from "styled-components";
 import Subheading from '../components/Subheading';
 
@@ -21,6 +23,8 @@ const Input = styled.input`
   box-shadow: 3px 4px 0px 0px #8a2a21;
   &::placeholder{
     color: white;
+    font-size: 2vh; 
+    font-weight: 1300;
   }
 `;
 
@@ -60,19 +64,19 @@ const Caution = styled.div`
 `
 
 export default function Signin({ accessToken, signinHandler }) {
-  const GITHUB_LOGIN_URL =
+    const GITHUB_LOGIN_URL =
     "https://github.com/login/oauth/authorize?client_id=5a0ba47d6cec26f64fda";
   const handleOauth = () => {
     window.location.assign(GITHUB_LOGIN_URL);
   };
 
-  const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
-
+  
+  //로그인하기 위해 적어놓을 아이디 비번
   const [signinInfo, setSigninInfo] = useState({
     userId: "",
     password: "",
   });
-
+  //에러메시지
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleInputValue = (key) => (e) => {
@@ -82,23 +86,19 @@ export default function Signin({ accessToken, signinHandler }) {
   const handleSignin = () => {
     const { userId, password } = signinInfo;
 
-    if (userId === "" || password === "") {
-      setErrorMessage("ID와 비밀번호를 입력하세요");
-    } else {
+    axios.post('http://localhost:4000/login',
+      { userId, password },
+      {
+        headers: { "Content-Type": `application/json` }
+      })
+      .then(res => {
+        signinHandler() //로그인여부 setSignedIn을 true로 바꿔줌
+      })
+      .catch(error => {
+        setErrorMessage("ID와 비밀번호를 입력하세요");
+        console.log(error)
+      });
 
-      axios.post('http://localhost:4000/login',
-        { userId, password },
-        {
-          headers: { "Content-Type": `application/json` }
-        })
-        .then(res => {
-          // console.log(res)
-          // console.log(cookies)
-        })
-        .catch(error => {
-          console.log(error)
-        });
-    }
   };
 
   return (
@@ -126,9 +126,11 @@ export default function Signin({ accessToken, signinHandler }) {
             로그인
           </LoginButton>
           <span> </span>
-          <SignupButton className="btn btn-signup">
-            <Link to="/signup">회원가입</Link>
-          </SignupButton>
+          <Link to="/signup">
+            <SignupButton className="btn btn-signup">
+              회원가입
+            </SignupButton>
+          </Link>
         </div>
         <div>
           <OauthButton className="btn btn-oauth" onClick={handleOauth}>

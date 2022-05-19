@@ -23,9 +23,8 @@ export default function Header2 (props) {
   const [hasToken, setHasToken] = useState(true);
   const navigate = useNavigate();
 
-
   const tokenChaser = () => {
-    if (cookies.accessToken.length < 10) {
+    if (!!cookies.accessToken && cookies.accessToken.length < 10) {
       setHasToken(false)
     }
   }
@@ -50,14 +49,15 @@ export default function Header2 (props) {
       .then((res) => {
         setHasToken(false)
         console.log(hasToken)
-        removeCookie('accessToken','')
         navigate('/')
+        console.log(props)
+        props.signoutHandler(); //App -> Main에서 내려받은 props인데 setSignedIn을 false로 바꿔줌
     });
   };
 
   useEffect(() => {
     tokenChaser()
-  },[hasToken])
+  },[])
 
   // const handleInputValue = (e) => {
   //   setKeyword(e.target.value);

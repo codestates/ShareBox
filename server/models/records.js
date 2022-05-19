@@ -17,7 +17,6 @@ module.exports = {
   },
   post: (body, tokenData, callback) => {
     const { title, image, content, category, country, complete } = body;
-    console.log(image);
     con.query(
       `INSERT INTO posts (title, image, content, category, country, complete) VALUES ("${title}","${image}","${content}","${category}","${country}",0)`,
       (err, result) => {
@@ -33,9 +32,11 @@ module.exports = {
       }
     );
   },
-  put: (params, body, tokenData, callback) => {
+  put: (params, body, file, tokenData, callback) => {
     const { recordsId } = params;
-    const { title, image, content, category, country, complete } = body;
+    const { title, content, category, country, complete } = body;
+    const { fieldname, originalname, encoding, mimetype, destination, filename, path, size } = file;
+    const newPath = path.split("/").slice(1).join("/");
     const a = con.query(
       `SELECT * FROM users_posts WHERE users_posts.usersId = ${tokenData.id} AND users_posts.usersId = ${recordsId}`,
       (err, result) => {
@@ -47,7 +48,7 @@ module.exports = {
           } else {
             con.query(`SET foreign_key_checks = 0`);
             con.query(
-              `UPDATE posts SET title = "${title}", image = "${image}", content = "${content}", category = "${category}", country = "${country}", complete = ${complete} WHERE posts.id = ${recordsId}`,
+              `UPDATE posts SET title = "${title}", image = "http://localhost:4000/${newPath}", content = "${content}", category = "${category}", country = "${country}", complete = ${complete} WHERE posts.id = ${recordsId}`,
               (err, result) => {
                 if (err) {
                   return callback(err);

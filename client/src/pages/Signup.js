@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   background: linear-gradient(to bottom,rgba(241 212 202) 80%,white);
   display: inline-block;
   text-align: center;
-  overflow: auto;
+  
   `
 
 const Input = styled.input`

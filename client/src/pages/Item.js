@@ -5,12 +5,11 @@ import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import styled from "styled-components";
 import Header1 from "../components/Header1";
 import Header2 from "../components/Header2";
 import LoadingIndicator from "../components/LoadingIndicator";
-import { Toggle } from "../components/Toggle";
-import styled from "styled-components";
-import Category from '../components/Category';
+import Category from "../components/Category";
 
 const Image = styled.img`
   width: 500px;
@@ -21,15 +20,16 @@ axios.defaults.withCredentials = true;
 
 export default function Item(props) {
   /* const accessToken = ; */
-  const [cookies, setCookie, removeCookie] = useCookies(["cookie-name"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["access"]);
   const [isLoading, setIsLoading] = useState(true);
   const [record, setRecord] = useState(null);
   const [post, setPost] = useState({
     title: "",
-    image: "",
+    complete: false,
     category: "",
     content: "",
     country: "",
+    image: "",
   });
   const [preview, setPreview] = useState(null);
   // const { records, comments } = record;
@@ -37,7 +37,7 @@ export default function Item(props) {
   const [text, setText] = useState();
   const [editingComment, setEditingComment] = useState();
 
-  // 
+  //
   let { id } = useParams();
   const getRecords = () => {
     axios
@@ -49,7 +49,6 @@ export default function Item(props) {
       .catch((err) => console.log(err));
   };
 
-
   const handleArticleEdit = () => {
     setIsEditingArticle(true);
   };
@@ -60,27 +59,43 @@ export default function Item(props) {
       .catch((err) => console.log(err.response));
   };
   const handleArticleEditComplete = () => {
-    axios.put(`http://localhost:4000/records/${id}`, {
-      title: post.title,
-      image: post.image,
-      content: post.content,
-      category: post.category,
-      country: post.country,
-    }, { withCredentials: true })
-      .then(res => console.log(res))
+    const formData = new FormData();
+    formData.append("image", post.image, post.image.name);
+    axios
+      .put(
+        `http://localhost:4000/records/${id}`,
+        {
+          title: post.title,
+          content: post.content,
+          complete: !!post.complete,
+          category: "신선",
+          country: post.country,
+          image: post.image,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      )
+      .then((res) => console.log(res))
       .catch((err) => console.log(err.response));
-  }
+  };
   const handleInputValue = (key) => (e) => {
     setPost({ ...post, [key]: e.target.value });
-    if (key === 'image') {
-      const file = e.target.files[0]
-      const reader = new FileReader();
-      reader.readAsDataURL(file)
-      reader.onload = function (e) {
-        console.log(e.target.result)
-        setPreview(e.target.result)
-        setPost({ ...post, [key]: e.target.result })
-      }
+    if (key === "image") {
+      // const file = e.target.files[0];
+      // const reader = new FileReader();
+      // reader.readAsDataURL(file);
+      // console.log(reader.readAsDataURL(file));
+      const files = e.target.files[0];
+      setPost({ ...post, [key]: files });
+      // reader.onload = function (e) {
+      //   console.log(e.target.result);
+      //   setPreview(e.target.result);
+      //   setPost({ ...post, [key]: e.target.result });
+      // };
     }
   };
   const handleTextValue = (e) => {
@@ -94,19 +109,25 @@ export default function Item(props) {
 
   const handleSubmitButton = () => {
     if (editingComment) {
-      axios.patch(`http://localhost:4000/comments/${editingComment}`,
-        { content: text }, { withCredentials: true })
-        .then(res => console.log(res))
+      axios
+        .patch(
+          `http://localhost:4000/comments/${editingComment}`,
+          { content: text },
+          { withCredentials: true }
+        )
+        .then((res) => console.log(res))
         .then(setEditingComment())
         .then(setText(""))
         .catch((err) => console.log(err));
     } else {
       axios
-        .post(`http://localhost:4000/comments/${editingComment}`,
+        .post(
+          `http://localhost:4000/comments/${id}`,
           { content: `${text}` },
-          { withCredentials: true })
+          { withCredentials: true }
+        )
         .then((res) => console.log(res))
-        .then(setText(''))
+        .then(setText(""))
         .catch((err) => console.log(err));
     }
   };
@@ -117,18 +138,22 @@ export default function Item(props) {
   };
 
   const handleCommentDeletion = (commId) => {
-    axios.delete(`http://localhost:4000/comments/${commId}`)
-      .then(res => console.log(res));
+    axios.delete(`http://localhost:4000/comments/${commId}`).then((res) => console.log(res));
   };
 
   useEffect(() => {
     getRecords();
-  }, []);
+  }, [record]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     console.log(editingComment);
   }, [editingComment]);
 
+  useEffect(() => {
+    console.log(isEditingArticle);
+  }, [isEditingArticle]); */
+    /* console.log(record);
+  }, [record]); */
 
   return (
     <center>
@@ -141,13 +166,16 @@ export default function Item(props) {
           data={props.data}
           handleLogout={props.handleLogout}
         />
-        <Category name={["냉동", "신선", "양곡", "축산", "수산", "음료", "스낵", "가공식품", "조미료"]}
-          handleCategory={props.handleCategory} />
+        <Category
+          name={["냉동", "신선", "양곡", "축산", "수산", "음료", "스낵", "가공식품", "조미료"]}
+          handleCategory={props.handleCategory}
+        />
         {isLoading ? (
           <LoadingIndicator />
         ) : (
           /* 'Hello, World!' */
           <div className="current-post">
+            {/* ====================게시글 영역=============================== */}
             <div className="article">
               <div className="article-left">
                 {isEditingArticle
@@ -155,14 +183,18 @@ export default function Item(props) {
                       <input
                         key={1}
                         className="title"
-                        value={record.record.title}
-                        onChange={handleInputValue}
+                        placeholder={record.record.title}
+                        value={post.title}
+                        onChange={handleInputValue("title")}
                       ></input>,
                       <input
                         key={2}
                         type="file"
+                        name="image"
                         accept="image/*"
                         onChange={handleInputValue("image")}
+                        required
+                        multiple
                       />,
                     ]
                   : [
@@ -178,50 +210,64 @@ export default function Item(props) {
                     ]}
               </div>
               <div className="article-right">
-                {true ? (
-                  <div className="btns btns-article">
-                    <button className="btn btn-revise" onClick={handleArticleEdit}>
-                      수정
-                    </button>
-                    <button className="btn btn-delete" onClick={handleArticleDeletion}>
-                      삭제
-                    </button>
-                  </div>
-                ) : (
-                  ""
-                )}
+                <div className="btns btns-article">
+                  <label>
+                    나눔 완료
+                    <input
+                      type="checkbox"
+                      v-model="toggle"
+                      name="complete"
+                      onClick={handleInputValue("complete")}
+                    />
+                  </label>
+                  <button className="btn btn-revise" onClick={handleArticleEdit}>
+                    수정
+                  </button>
+                  <button className="btn btn-delete" onClick={handleArticleDeletion}>
+                    삭제
+                  </button>
+                </div>
                 {isEditingArticle
                   ? [
-                      <input
-                        key={1}
-                        className="poster-editing" /* value={record.record} onChange={handleInputValue} */
-                      />,
-                      <input
-                        key={2}
-                        className="district-editing"
-                        value={record.record.country}
-                        onChange={handleInputValue}
-                      />,
-                      <textarea
-                        key={3}
-                        className="content-editing"
-                        value={record.record.content}
-                        onChange={handleInputValue}
-                      />,
+                      <div>
+                        <label for="district-editing">거래 지역 :</label>
+                        <input
+                          key={1}
+                          className="district-editing"
+                          onChange={handleInputValue("country")}
+                        />
+                      </div>,
+                      <div>
+                        <label for="content-editing">상세 내용 :</label>
+                        <textarea
+                          key={2}
+                          className="content-editing"
+                          placeholder={record.record.content}
+                          onChange={handleInputValue("content")}
+                        />
+                      </div>,
+
                       <button
-                        key={4}
+                        key={3}
                         className="btn btn-article-edit-complete"
-                        onClick={() => handleArticleEditComplete}
+                        onClick={handleArticleEditComplete}
                       >
                         수정 완료
                       </button>,
+                      <button
+                        key={5}
+                        className="btn btn-article-edit-cancel"
+                        onClick={() => {setIsEditingArticle(false)}}
+                      >
+                        수정 취소
+                      </button>
                     ]
                   : [
                       <p key={1} className="poster">
-                        {record.record.poster}poster
+                        {record.record.userId}
                       </p>,
                       <p key={2} className="district">
-                        {record.record.district}district
+                        거래 지역
                       </p>,
                       <p key={3} className="content">
                         {record.record.content}
@@ -229,6 +275,7 @@ export default function Item(props) {
                     ]}
               </div>
             </div>
+            {/* =================================================== */}
             <div className="comment">
               <div className="write-comment">
                 <textarea
@@ -241,7 +288,7 @@ export default function Item(props) {
                 <button
                   className="btn btn-post-comment"
                   type="submit"
-                  onClick={() => handleSubmitButton}
+                  onClick={handleSubmitButton}
                 >
                   등록
                 </button>
@@ -255,26 +302,20 @@ export default function Item(props) {
                         <span className="comm-createdAt">{ele.createdAt}</span>
                         <span className="comm-updatedAt">{ele.updatedAt}</span>
                       </p>
-                      {true ? (
-                        <div className="btns btns-comment">
-                          <button
-                            className="btn btn-edit-comment"
-                            onClick={() => {
-                              handleCommentEdit(ele.commentsId);
-                            }}
-                          >
-                            수정
-                          </button>
-                          <button
-                            className="btn btn-delete-comment"
-                            onClick={() => handleCommentDeletion(ele.commentsId)}
-                          >
-                            삭제
-                          </button>
-                        </div>
-                      ) : (
-                        ""
-                      )}
+                      <div className="btns btns-comment">
+                        <button
+                          className="btn btn-edit-comment"
+                          onClick={() => handleCommentEdit(ele.commentsId)}
+                        >
+                          수정
+                        </button>
+                        <button
+                          className="btn btn-delete-comment"
+                          onClick={() => handleCommentDeletion(ele.commentsId)}
+                        >
+                          삭제
+                        </button>
+                      </div>
                       <div className="text-comment">{ele.content}</div>
                     </ul>
                   );

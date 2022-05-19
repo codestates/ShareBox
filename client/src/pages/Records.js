@@ -8,6 +8,7 @@ const Wrapper = styled.div`
   margin : 0px;
   height: 96vh;
   width: 100vw;
+  
   justify-content: space-evenly;
   background: linear-gradient(to bottom,rgba(241 212 202) 80%,white);
   text-align: center;
@@ -65,8 +66,7 @@ const Img = styled.img`
   background-image: ${(props) => props.img};
   width: 14.5vw;
   height: 26vh;
-  border-radius: 5vh ;
-  background-color: salmon;
+  border-radius: 3vh ;
 `;
 
 

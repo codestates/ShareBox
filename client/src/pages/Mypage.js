@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Subheading from "../components/Subheading";
-import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import Header1 from "../components/Header1";
 
@@ -206,10 +205,6 @@ const getUserInfo = () => {
     }
   };
 
-  const look = () => {
-    console.log(`password : ${password}, Email : ${email}, Mobile : ${mobile}, Country : ${country}`)
-    console.log(`isPassword : ${isPassword}, isEmail : ${isEmail}, isMobile : ${isMobile}, isCountry : ${isCountry}`)
-  }
   return (
     <Wrapper>
       <Header1 />
