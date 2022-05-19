@@ -20,7 +20,6 @@ export default function Header2 (props) {
   const [hasToken, setHasToken] = useState(true);
   const navigate = useNavigate();
 
-
   const tokenChaser = () => {
     if (!cookies.accessToken) {
       setHasToken(false)

@@ -5,13 +5,11 @@ import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import Apple from "../assets/apple.jpg";
+import styled from "styled-components";
 import Header1 from "../components/Header1";
 import Header2 from "../components/Header2";
-import LoadingIndicator from "../components/LoadingIndicator";
-import { Toggle } from "../components/Toggle";
-import styled from "styled-components";
 import Category from '../components/Category';
+import LoadingIndicator from "../components/LoadingIndicator";
 
 const Image = styled.img`
   width: 500px;
@@ -22,7 +20,7 @@ axios.defaults.withCredentials = true;
 
 export default function Item(props) {
   /* const accessToken = ; */
-  const [cookies, setCookie, removeCookie] = useCookies(["cookie-name"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["access"]);
   const [isLoading, setIsLoading] = useState(true);
   const [record, setRecord] = useState(null);
   const [post, setPost] = useState({
@@ -49,7 +47,6 @@ export default function Item(props) {
       })
       .catch((err) => console.log(err));
   };
-
 
   const handleArticleEdit = () => {
     setIsEditingArticle(true);
@@ -103,7 +100,7 @@ export default function Item(props) {
         .catch((err) => console.log(err));
     } else {
       axios
-        .post(`http://localhost:4000/comments/${editingComment}`,
+        .post(`http://localhost:4000/comments/${id}`,
           { content: `${text}` },
           { withCredentials: true })
         .then((res) => console.log(res))
@@ -126,10 +123,13 @@ export default function Item(props) {
     getRecords();
   }, []);
 
-  useEffect(() => {
+  /* useEffect(() => {
     console.log(editingComment);
   }, [editingComment]);
 
+  useEffect(() => {
+    console.log(isEditingArticle);
+  }, [isEditingArticle]); */
 
   return (
     <center>
@@ -179,7 +179,6 @@ export default function Item(props) {
                     ]}
               </div>
               <div className="article-right">
-                {true ? (
                   <div className="btns btns-article">
                     <button className="btn btn-revise" onClick={handleArticleEdit}>
                       수정
@@ -188,9 +187,6 @@ export default function Item(props) {
                       삭제
                     </button>
                   </div>
-                ) : (
-                  ""
-                )}
                 {isEditingArticle
                   ? [
                       <input
@@ -216,6 +212,13 @@ export default function Item(props) {
                       >
                         수정 완료
                       </button>,
+                      <button
+                        key={5}
+                        className="btn btn-article-edit-cancel"
+                        onClick={setIsEditingArticle(false)}
+                      >
+                        수정 취소
+                      </button>
                     ]
                   : [
                       <p key={1} className="poster">
@@ -242,7 +245,7 @@ export default function Item(props) {
                 <button
                   className="btn btn-post-comment"
                   type="submit"
-                  onClick={() => handleSubmitButton}
+                  onClick={handleSubmitButton}
                 >
                   등록
                 </button>
@@ -256,26 +259,20 @@ export default function Item(props) {
                         <span className="comm-createdAt">{ele.createdAt}</span>
                         <span className="comm-updatedAt">{ele.updatedAt}</span>
                       </p>
-                      {true ? (
-                        <div className="btns btns-comment">
-                          <button
-                            className="btn btn-edit-comment"
-                            onClick={() => {
-                              handleCommentEdit(ele.commentsId);
-                            }}
-                          >
-                            수정
-                          </button>
-                          <button
-                            className="btn btn-delete-comment"
-                            onClick={() => handleCommentDeletion(ele.commentsId)}
-                          >
-                            삭제
-                          </button>
-                        </div>
-                      ) : (
-                        ""
-                      )}
+                      <div className="btns btns-comment">
+                        <button
+                          className="btn btn-edit-comment"
+                          onClick={() => handleCommentEdit(ele.commentsId)}
+                        >
+                          수정
+                        </button>
+                        <button
+                          className="btn btn-delete-comment"
+                          onClick={() => handleCommentDeletion(ele.commentsId)}
+                        >
+                          삭제
+                        </button>
+                      </div>
                       <div className="text-comment">{ele.content}</div>
                     </ul>
                   );

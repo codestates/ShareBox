@@ -1,8 +1,8 @@
 /* 
 헤더2 props 추가
 */
-import React, { useState } from "react";
-import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Route, Routes, useNavigate, Navigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Main from "./pages/Main";
 import Item from "./pages/Item";
@@ -33,14 +33,24 @@ export default function App() {
   }
   const handleSearch = () => {
     if (keyword) {
-      axios
-      .get(`http://localhost:4000/search?search_type=title&title=${keyword}&page=${1}&limit=${1}`)
-      .then(res => {
-        let data = res.data.data;
-        navigate('/');
-        setData(data);
-      })
-      .catch(err => console.log(err));
+      let search = axios
+        .get(`http://localhost:4000/search?search_type=title&title=${keyword}&page=${1}&limit=${100}`)
+        .then(res => {
+          let data = res.data.data;
+          setTimeout(() => {
+            setData(data);
+          }, '100');
+        })
+        .catch(err => {
+          console.log('search error', err);
+          if (err.response.data.message === '검색 결과 게시물이 존재하지 않습니다.')
+            setTimeout(() => {
+              setData([]);
+              console.log('검색 결과 게시물이 존재하지 않습니다.');
+            }, '100');
+        });
+      if (window.location.pathname !== '/') navigate('/', { state: { keyword: keyword } });
+      return search;
     }
   }
   const signinHandler = (data) => {
@@ -51,8 +61,6 @@ export default function App() {
     setAccessToken(token);
   };
 
-
-
   const handleDropout = () => {
     axios.post("https://localhost:4000/dropout").then((res) => {
       setSignedIn(false);
@@ -61,15 +69,20 @@ export default function App() {
   };
 
   const getData = () => {
+    console.log('starting main retrieval');
     axios
       .get("http://localhost:4000/main")
       .then((res) => {
+        console.log('main retrieved');
         setData(res.data.data);
-        console.log(res.data.data);
         setIsLoading(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log('main not retrieved', err));
   };
+  useEffect(() => {
+    console.log('App data:')
+    console.log(data);
+  }, [data]);
   return (
     <>
     <Routes>

@@ -1,5 +1,8 @@
+/* 
+로그인 후 리다이렉트 구현
+*/
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header1 from "../components/Header1";
 import { useCookies } from "react-cookie";
@@ -7,6 +10,7 @@ import { useCookies } from "react-cookie";
 axios.defaults.withCredentials = true;
 
 export default function Signin({ accessToken, signinHandler }) {
+  const navigate = useNavigate();
   const GITHUB_LOGIN_URL =
     "https://github.com/login/oauth/authorize?client_id=5a0ba47d6cec26f64fda";
   const handleOauth = () => {
@@ -32,7 +36,6 @@ export default function Signin({ accessToken, signinHandler }) {
     if (userId === "" || password === "") {
       setErrorMessage("ID와 비밀번호를 입력하세요");
     } else {
-
       axios.post('http://localhost:4000/login',
         { userId, password },
         {
@@ -41,10 +44,12 @@ export default function Signin({ accessToken, signinHandler }) {
         .then(res => {
           // console.log(res)
           // console.log(cookies)
+          navigate('/');
         })
         .catch(error => {
           console.log(error)
         });
+      
     }
   };
 

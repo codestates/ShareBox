@@ -32,7 +32,7 @@ function MyPage(props) {
 const navigate = useNavigate()
 const [cookies] = useCookies([]);
 
-console.log(cookies.accessToken)
+// console.log(cookies.accessToken)
 
   const regions = [
     "지역 선택",

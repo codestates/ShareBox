@@ -56,7 +56,7 @@ function Record(props) {
   const [errorMessage, setErrorMessage] = useState("");
   const [preview, setPreview] = useState("");
 
-  console.log(this.cookies);
+  // console.log(this.cookies);
 
   const onUploadImage = (e) => {
     const file = e.target.files;
@@ -121,9 +121,9 @@ function Record(props) {
     console.log(post);
   };
 
-  useEffect(() => {
+/*   useEffect(() => {
     console.log(imageFile);
-  }, [imageFile]);
+  }, [imageFile]); */
 
   const category = [
     "선택",
