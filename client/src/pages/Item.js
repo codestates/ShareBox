@@ -54,6 +54,7 @@ export default function Item(props) {
   const handleArticleEdit = () => {
     setIsEditingArticle(true);
   };
+
   const handleArticleDeletion = () => {
     axios
       .delete(`http://localhost:4000/records/${id}`, { withCredentials: true })
@@ -146,14 +147,17 @@ export default function Item(props) {
   useEffect(() => {
     getRecords();
   }, [record]);
-
   useEffect(() => {
-    console.log(editingComment);
-  }, [editingComment]);
+    console.log(isEditingArticle);
+  }, [isEditingArticle]);
 
-  useEffect(() => {
-    console.log(record);
-  }, [record]);
+  // useEffect(() => {
+  //   console.log(editingComment);
+  // }, [editingComment]);
+
+  // useEffect(() => {
+  //   console.log(record);
+  // }, [record]);
 
   return (
     <center>

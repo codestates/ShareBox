@@ -10,7 +10,6 @@ import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import Mypage from "./pages/Mypage";
 import Record from "./pages/Records";
-import { useCookies } from "react-cookie";
 
 import "./App.css";
 
@@ -48,10 +47,6 @@ export default function App() {
 
   const signoutHandler = () => {
     setSignedIn(false);
-  };
-
-  const issueAccessToken = (token) => {
-    setAccessToken(token);
   };
 
   const handleDropout = () => {

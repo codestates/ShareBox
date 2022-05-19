@@ -22,26 +22,7 @@ const Body = styled.div`
 
 function Main(props) {
   const [selectProduct, setSelectProduct] = useState();
-  const handleCategory = (e) => {
-    const menu = e.target.value;
-    axios
-      .get(`http://localhost:4000/categorys?category=${menu}`)
-      .then((res) => {
-        console.log(res.data.data);
-        props.setData(res.data.data);
-        props.setIsLoaidng(true);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  // const handleLogout = () => { //  로그아웃 함수 
-  //   axios.post("http://localhost:4000/logout").then((res) => {
-  //     console.log(res);
-  //     setUserinfo(null);
-  //     setSignedIn(false);
-  //     navigate("/");
-  //   });
-  // };
+  const [hasCategory, setHasCategory] = useState(true);
 
   useEffect(() => {
     props.getData();
@@ -54,12 +35,23 @@ function Main(props) {
 */
   useEffect(() => {
     props.setData(props.data);
-    console.log(props.data);
   }, [props.data]);
 
+  const handleCategory = (e) => {
+    const menu = e.target.value;
+    axios
+      .get(`http://localhost:4000/categorys?category=${menu}`)
+      .then((res) => {
+        setHasCategory(true);
+        props.setData(res.data.data);
+        props.setIsLoading(true);
+      })
+      .catch((err) => {
+        setHasCategory(false);
+      });
+  };
+
   return (
-
-
     <div>
       <Wrapper>
         <Header1 getData={props.getData} />
@@ -78,10 +70,7 @@ function Main(props) {
         <Body>
           {props.isloading ? (
             <div>
-              {" "}
-              {props.data === undefined ? (
-                <h1>게시글이 없습니다.</h1>
-              ) : (
+              {hasCategory ? (
                 props.data.map((item) => (
                   <Product
                     id={item.id}
@@ -93,7 +82,9 @@ function Main(props) {
                     onClick={() => setSelectProduct(item.id)}
                   />
                 ))
-              )}{" "}
+              ) : (
+                <h1>게시글이 없습니다.</h1>
+              )}
             </div>
           ) : (
             <LoadingIndicator />
