@@ -20,14 +20,14 @@ const Body = styled.div`
   width: 100vw;
   height: 100vh;
   padding-left: 3vw;
-  background: linear-gradient(to bottom ,rgba(241 212 202) 90%, white);
+  background: linear-gradient(to bottom, rgba(241 212 202) 90%, white);
 `;
 
 function Main(props) {
   const [selectProduct, setSelectProduct] = useState();
   const [hasCategory, setHasCategory] = useState(true);
 
-const handleCategory = (e) => {
+  const handleCategory = (e) => {
     const menu = e.target.value;
     axios
       .get(`http://localhost:4000/categorys?category=${menu}`)
@@ -45,7 +45,7 @@ const handleCategory = (e) => {
 
   useEffect(() => {
     props.getData();
-    console.log('getData begun');
+    console.log("getData begun");
   }, []);
 
   /*
@@ -54,7 +54,7 @@ const handleCategory = (e) => {
   카테고리를 누른 순간 axios를 통해 데이터를 받아오게 된다.
 */
   useEffect(() => {
-    console.log('props.data:')
+    console.log("props.data:");
     console.log(props.data);
     props.setData(props.data);
   }, [props.data]);
@@ -75,7 +75,6 @@ const handleCategory = (e) => {
           handleCategory={handleCategory}
         />
         <Body>
-          
           {props.isloading ? (
             <div>
               {" "}
@@ -93,7 +92,7 @@ const handleCategory = (e) => {
                     onClick={() => setSelectProduct(item.id)}
                   />
                 ))
-              )}{" "}
+              )}
             </div>
           ) : (
             <LoadingIndicator />
@@ -132,6 +131,9 @@ axios.get 으로 서버의 데이터 받아오기
 Product 컴포넌트는 image , region, title, createdAt 을 prop로 갖게 된다.
 
 axios.get을 통해 받아온 data를 props로 전달을 위해서 상태를 마련해줘야하나 ? 
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> 915f76c994f69e741fd3c185751db0fda9eaae32
 */
