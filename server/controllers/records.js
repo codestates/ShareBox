@@ -31,7 +31,6 @@ module.exports = {
   },
   post: (req, res, next) => {
     const token = req.cookies["accessToken"];
-    console.log("asdf");
     const tokenData = jwt.verify(token, process.env.ACCESS_SECRET);
     if (!tokenData) {
       res.status(401).send({ message: "로그인이 되지 않았습니다." });

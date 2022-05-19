@@ -124,7 +124,7 @@ export default function Item(props) {
     } else {
       axios
         .post(
-          `http://localhost:4000/comments/${editingComment}`,
+          `http://localhost:4000/comments/${id}`,
           { content: `${text}` },
           { withCredentials: true }
         )
@@ -145,11 +145,15 @@ export default function Item(props) {
 
   useEffect(() => {
     getRecords();
-  }, []);
+  }, [record]);
 
   useEffect(() => {
     console.log(editingComment);
   }, [editingComment]);
+
+  useEffect(() => {
+    console.log(record);
+  }, [record]);
 
   return (
     <center>
@@ -274,11 +278,7 @@ export default function Item(props) {
                   onChange={handleTextValue}
                   onKeyPress={handleKeyPress}
                 />
-                <button
-                  className="btn btn-post-comment"
-                  type="submit"
-                  onClick={() => handleSubmitButton}
-                >
+                <button className="btn btn-post-comment" type="submit" onClick={handleSubmitButton}>
                   등록
                 </button>
               </div>

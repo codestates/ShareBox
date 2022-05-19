@@ -41,10 +41,19 @@ export default function App() {
         })
         .catch((err) => console.log(err));
     }
+<<<<<<< HEAD
   };
   const signinHandler = (data) => {
+=======
+  }
+  const signinHandler = () => {
+>>>>>>> 2d1df1921515ba444bdb5c117bdc01ceaa531bda
     setSignedIn(true);
   };
+
+  const signoutHandler = () =>{
+    setSignedIn(false);
+  }
 
   const issueAccessToken = (token) => {
     setAccessToken(token);
@@ -69,6 +78,7 @@ export default function App() {
   };
   return (
     <>
+<<<<<<< HEAD
       <Routes>
         <Route
           path="/"
@@ -136,6 +146,55 @@ export default function App() {
           }
         />
       </Routes>
+=======
+    <Routes>
+      <Route path="/" element={<Main
+      handleInputValue={handleInputValue}
+      handleKeyPress={handleKeyPress}
+      handleSearch={handleSearch}
+      data={data}
+      getData={getData}
+      setData={setData}
+      isloading={isloading}
+      setIsLoading={setIsLoading}
+      signedIn={signedIn}
+      // handleLogout={handleLogout}
+      signoutHandler={signoutHandler} //메인에 내려주고 다시 Header2로 내려주는 함수
+
+      />} />
+      <Route path="/records/:id" element={<Item
+      getData={getData}
+      accessToken={accessToken}
+      handleInputValue={handleInputValue}
+      handleKeyPress={handleKeyPress}
+      handleSearch={handleSearch}
+      data={data}
+      signedIn={signedIn}
+      // handleLogout={handleLogout}
+      />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/record" element={<Record
+        handleInputValue={handleInputValue}
+        handleKeyPress={handleKeyPress}
+        handleSearch={handleSearch}
+        data={data}
+        // handleLogout={handleLogout}
+      />} />
+      <Route path="/mypage" element={<Mypage
+        handleInputValue={handleInputValue}
+        handleKeyPress={handleKeyPress}
+        handleSearch={handleSearch}
+        data={data}
+        userinfo={userinfo}
+        accessToken={accessToken}
+        handleDropout={handleDropout}
+      />} />
+      <Route
+        path="/signin"
+        element={signedIn ? <Navigate replace to="/" /> : <Signin signinHandler={signinHandler} />}
+      />
+    </Routes>
+>>>>>>> 2d1df1921515ba444bdb5c117bdc01ceaa531bda
     </>
   );
 }
