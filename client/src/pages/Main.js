@@ -1,14 +1,23 @@
+/* 
+검색 기능 구현
+*/
+import Header2 from "../components/Header2";
 import Category from "../components/Category";
 import Product from "../components/Product";
 import LoadingIndicator from "../components/LoadingIndicator";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import Header2 from "../components/Header2";
 import Header1 from "../components/Header1";
 
 const Wrapper = styled.div`
   display: block;
+`;
+const Header = styled.div`
+  position: fixed;
+  width: 100vw;
+  height: 25vh;
+  background-color: rgba(241 212 202);
 `;
 
 const Body = styled.div`
@@ -34,17 +43,9 @@ function Main(props) {
       .catch((err) => console.log(err));
   };
 
-  // const handleLogout = () => { //  로그아웃 함수 
-  //   axios.post("http://localhost:4000/logout").then((res) => {
-  //     console.log(res);
-  //     setUserinfo(null);
-  //     setSignedIn(false);
-  //     navigate("/");
-  //   });
-  // };
-
   useEffect(() => {
     props.getData();
+    console.log('getData begun');
   }, []);
 
   /*
@@ -53,16 +54,14 @@ function Main(props) {
   카테고리를 누른 순간 axios를 통해 데이터를 받아오게 된다.
 */
   useEffect(() => {
-    props.setData(props.data);
+    console.log('props.data:')
     console.log(props.data);
+    props.setData(props.data);
   }, [props.data]);
-
   return (
-
-
     <div>
       <Wrapper>
-        <Header1 getData={props.getData} />
+        <Header1 />
         <Header2
           handleInputValue={props.handleInputValue}
           handleKeyPress={props.handleKeyPress}
@@ -99,6 +98,22 @@ function Main(props) {
             <LoadingIndicator />
           )}
         </Body>
+        {/* <button onClick={getData}> 테스트 버튼 </button>
+      <div>
+        <Link to="/signup">
+          <button> 회원가입 </button>
+        </Link>
+        <Link to="/record">
+          <button> 상품등록 </button>
+        </Link>
+        <Link to="/mypage">
+          <button> 내 정보 </button>
+        </Link>
+
+        <Link to="/">
+          <button> 메인 </button>
+        </Link>
+      </div> */}
       </Wrapper>
     </div>
   );
@@ -116,4 +131,6 @@ axios.get 으로 서버의 데이터 받아오기
 Product 컴포넌트는 image , region, title, createdAt 을 prop로 갖게 된다.
 
 axios.get을 통해 받아온 data를 props로 전달을 위해서 상태를 마련해줘야하나 ? 
+
+
 */

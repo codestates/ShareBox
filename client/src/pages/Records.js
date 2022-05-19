@@ -132,9 +132,9 @@ function Record(props) {
     console.log(post);
   };
 
-  useEffect(() => {
+/*   useEffect(() => {
     console.log(imageFile);
-  }, [imageFile]);
+  }, [imageFile]); */
 
   const category = [
     "선택",
