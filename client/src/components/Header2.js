@@ -48,6 +48,7 @@ export default function Header2 (props) {
         console.log(hasToken)
         removeCookie('accessToken',[])
         navigate('/')
+        props.signoutHandler(); //App -> Main에서 내려받은 props인데 setSignedIn을 false로 바꿔줌
     });
   };
 

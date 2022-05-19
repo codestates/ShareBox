@@ -31,7 +31,6 @@ module.exports = {
   },
   post: (req, res, next) => {
     const token = req.cookies["accessToken"];
-    console.log("asdf");
     const tokenData = jwt.verify(token, process.env.ACCESS_SECRET);
     if (!tokenData) {
       res.status(401).send({ message: "로그인이 되지 않았습니다." });
@@ -55,7 +54,7 @@ module.exports = {
       if (!tokenData) {
         res.status(401).send({ message: "로그인이 되지 않았습니다." });
       } else {
-        records.put(req.params, req.body, tokenData, (error, result) => {
+        records.put(req.params, req.body, req.file, tokenData, (error, result) => {
           if (error) {
             res.status(500).send("Internal Server Error");
           } else {

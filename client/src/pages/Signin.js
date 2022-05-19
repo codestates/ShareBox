@@ -17,13 +17,14 @@ export default function Signin({ accessToken, signinHandler }) {
     window.location.assign(GITHUB_LOGIN_URL);
   };
 
+  //쿠키에 저장된 엑세스 토큰
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
-
+  //로그인하기 위해 적어놓을 아이디 비번
   const [signinInfo, setSigninInfo] = useState({
     userId: "",
     password: "",
   });
-
+  //에러메시지
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleInputValue = (key) => (e) => {
@@ -33,24 +34,19 @@ export default function Signin({ accessToken, signinHandler }) {
   const handleSignin = () => {
     const { userId, password } = signinInfo;
 
-    if (userId === "" || password === "") {
-      setErrorMessage("ID와 비밀번호를 입력하세요");
-    } else {
-      axios.post('http://localhost:4000/login',
-        { userId, password },
-        {
-          headers: { "Content-Type": `application/json` }
-        })
-        .then(res => {
-          // console.log(res)
-          // console.log(cookies)
-          navigate('/');
-        })
-        .catch(error => {
-          console.log(error)
-        });
-      
-    }
+    axios.post('http://localhost:4000/login',
+      { userId, password },
+      {
+        headers: { "Content-Type": `application/json` }
+      })
+      .then(res => {
+        signinHandler() //로그인여부 setSignedIn을 true로 바꿔줌
+      })
+      .catch(error => {
+        setErrorMessage("ID와 비밀번호를 입력하세요");
+        console.log(error)
+      });
+
   };
 
   return (
@@ -79,9 +75,11 @@ export default function Signin({ accessToken, signinHandler }) {
           <button className="btn btn-oauth" onClick={handleOauth}>
             GitHub ID로 가입/로그인
           </button>
-          <button className="btn btn-signup">
-            <Link to="/signup">회원가입</Link>
-          </button>
+          <Link to="/signup">
+            <button className="btn btn-signup">
+              회원가입
+            </button>
+          </Link>
         </div>
         <div className="alert-box">{errorMessage}</div>
       </form>
