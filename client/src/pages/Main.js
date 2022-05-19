@@ -13,34 +13,34 @@ import Header1 from "../components/Header1";
 const Wrapper = styled.div`
   display: block;
 `;
-const Header = styled.div`
-  position: fixed;
-  width: 100vw;
-  height: 25vh;
-  background-color: rgba(241 212 202);
-`;
 
 const Body = styled.div`
-  padding-top: 25vh;
   display: flex;
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(241 212 202);
+  padding-left: 3vw;
+  background: linear-gradient(to bottom ,rgba(241 212 202) 90%, white);
 `;
 
 function Main(props) {
   const [selectProduct, setSelectProduct] = useState();
-  const handleCategory = (e) => {
+  const [hasCategory, setHasCategory] = useState(true);
+
+const handleCategory = (e) => {
     const menu = e.target.value;
     axios
       .get(`http://localhost:4000/categorys?category=${menu}`)
       .then((res) => {
+        setHasCategory(true);
         console.log(res.data.data);
         props.setData(res.data.data);
-        props.setIsLoaidng(true);
+        props.setIsLoading(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setHasCategory(false);
+        console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -75,10 +75,11 @@ function Main(props) {
           handleCategory={handleCategory}
         />
         <Body>
+          
           {props.isloading ? (
             <div>
               {" "}
-              {props.data === undefined ? (
+              {!hasCategory ? (
                 <h1>게시글이 없습니다.</h1>
               ) : (
                 props.data.map((item) => (

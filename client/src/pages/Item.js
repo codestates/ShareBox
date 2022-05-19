@@ -257,7 +257,7 @@ export default function Item(props) {
                       <button
                         key={5}
                         className="btn btn-article-edit-cancel"
-                        onClick={setIsEditingArticle(false)}
+                        onClick={() => {setIsEditingArticle(false)}}
                       >
                         수정 취소
                       </button>

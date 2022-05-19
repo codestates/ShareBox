@@ -29,7 +29,7 @@ function Category(props) {
   const navigate = useNavigate();
 
   const onRecord = () => {
-    if (!cookies.accessToken){
+    if (!cookies.accessToken || cookies.accessToken.length < 10){
       navigate('/signin')
     } else { 
       navigate('/record')

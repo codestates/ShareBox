@@ -1,8 +1,5 @@
-/* 
-헤더2 props 추가
-*/
 import React, { useEffect, useState } from "react";
-import { Route, Routes, useNavigate, Navigate, useParams } from "react-router-dom";
+import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import axios from "axios";
 import Main from "./pages/Main";
 import Item from "./pages/Item";
@@ -10,7 +7,7 @@ import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import Mypage from "./pages/Mypage";
 import Record from "./pages/Records";
-import { useCookies } from "react-cookie";
+
 
 import "./App.css";
 
@@ -60,10 +57,6 @@ export default function App() {
     setSignedIn(false);
   };
 
-  const issueAccessToken = (token) => {
-    setAccessToken(token);
-  };
-
   const handleDropout = () => {
     axios.post("https://localhost:4000/dropout").then((res) => {
       setSignedIn(false);
@@ -82,10 +75,12 @@ export default function App() {
       })
       .catch((err) => console.log('main not retrieved', err));
   };
+  
   useEffect(() => {
     console.log('App data:')
     console.log(data);
   }, [data]);
+
   return (
     <>
       <Routes>

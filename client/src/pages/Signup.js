@@ -1,29 +1,58 @@
 import { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-// import Title from '../components/Title';
+import Header1 from '../components/Header1';
 import Subheading from '../components/Subheading';
 import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
   display : flex ;
-  height: 100vh;
+  height: 96vh;
   width: 100vw;
   justify-content: center;
   align-items: center;
-  background-color: rgb(241 212 202 );
+  background: linear-gradient(to bottom,rgba(241 212 202) 80%,white);
+  display: inline-block;
+  text-align: center;
+  
   `
 
 const Input = styled.input`
+  display: inline-block;
   height: 6vh;
-  width: 20vw;
+  width: 16vw;
+  text-align: center ;
   background-color: rgb(228 140 113);
   border-radius: 3vh;
-  margin : 1vh;
-  font-size: 2vh ;
-  color : white;
-  align-content: center ;
-  `
+  margin: 1vh;
+  font-size: 2vh;
+  color: white;
+  box-shadow: 3px 4px 0px 0px #8a2a21;
+  &::placeholder{
+    color: white;
+  }
+`;
+
+const Button = styled.button`
+  width: 10vw;
+  height: 7vh;
+  margin-top : 7vh;
+  box-shadow:inset 0px 1px 0px 0px #f9eca0;
+  background:linear-gradient(to bottom, #f9eca0 5%, #f2ab1e 100%);
+  border-radius:1vw;
+  cursor:pointer;
+  color:#c92200;
+  font-size: 1.5vh;
+  font-weight:bold;
+  
+  &:active {
+  position:relative;
+  top:1px;
+  }
+`
+const Caution = styled.div`
+  color: red;
+`
 
 /* !회원가입 > 응답의 status가 409인 경우 중복 된 아이디임이 팝업
 ! 회원가입을 위한 input의 갯수는 총 5개 + 지역은 select 태그로 구현
@@ -90,7 +119,6 @@ function Signup() {
   const onPasswordChange = (e) => {
     const value = e.target.value
     setPassword(value)
-    console.log(`비밀번호1:${value}`)
   
     if (value.length < 4) {
       setPassWordMessage('비밀번호는 4글자 이상이여야 합니다.')
@@ -121,17 +149,19 @@ function Signup() {
   
   const onMobileChange = (e) => {
     const value = e.target.value
-    const mobileRegex = 	/[0-9]{11,12}/
     setMobile(value)
 
-      if (!mobileRegex.test(value)) {
-        setMobileMessage('휴대폰 번호는 숫자만 입력 해주세요')
-        setIsMobile(false)
-      } else {
-        setMobileMessage('')
-        setIsMobile(true)
+    if (value.includes('-')){
+      setIsMobile(false)
+      setMobileMessage('하이픈(-)은  제외하고 입력해주세요')
+    } else if (value.length > 12 || value.length < 9){
+      setIsMobile(false)
+      setMobileMessage('올바르지 못 한 번호입니다.')
+    } else {
+      setMobileMessage("");
+      setIsMobile(true);
     }
-  }
+  };
   
   const oncountrySelect = (e) => {
     const value = e.target.value
@@ -147,17 +177,20 @@ function Signup() {
     }
   };
   
+
+
   
     return ( 
       <Wrapper>
+        <Header1 />
         {/* <Title /> */}
-        <Subheading body='회원가입' />
+       
       <form onSubmit={(e) => 
         {e.preventDefault()
           if(password !== password2) {
             setPassWordMessage2('비밀번호가 일치하지 않습니다.')
           }}}>
-          
+           <Subheading body='회 원 가 입' />
         <div>
           <Input 
             type="text"
@@ -165,7 +198,7 @@ function Signup() {
             onChange={onUserIdChange} 
             maxLength = {11}
             required />
-            {isUserId ? null : <div>{userIdMessage}</div>}
+            {isUserId ? null : <Caution>{userIdMessage}</Caution>}
           </div>
         
         <div>
@@ -176,7 +209,7 @@ function Signup() {
             value={password}
             maxLength = {15}
             required />
-            {isPassword ? null : <div>{passwordMessage}</div>}
+            {isPassword ? null : <Caution>{passwordMessage}</Caution>}
         </div>
           
         <div>
@@ -187,7 +220,7 @@ function Signup() {
             value={password2}
             maxLength = {15}
             required />
-            {isPassword2 ? null : <div>{passwordMessage2}</div>}
+            {isPassword2 ? null : <Caution>{passwordMessage2}</Caution>}
         </div>
           
                   
@@ -199,7 +232,7 @@ function Signup() {
             maxLength = {25}
             value={email}
             required />
-            {isEmail ? null : <div>{emailMessage}</div>}
+            {isEmail ? null : <Caution>{emailMessage}</Caution>}
         </div>
         
         
@@ -211,7 +244,7 @@ function Signup() {
             onChange={onMobileChange}
             value={mobile}
             required />
-            {isMobile ? null : <div>{mobileMessage}</div>}
+            {isMobile ? null : <Caution>{mobileMessage}</Caution>}
         </div>
           
         
@@ -221,16 +254,16 @@ function Signup() {
             value={country}
           >{country}</option>)}
           </Input>
-          {isCountry ? null : <div>{countryMessage}</div>}
+          {isCountry ? null : <Caution>{countryMessage}</Caution>}
           
           
           
         <div>
-          <Input as="button" 
+          <Button
             onClick={handleSignup} 
             disabled={isUserId && isEmail && isMobile && isPassword && isCountry ? false : true }
             > 회원가입 
-          </Input>
+          </Button>
         </div>
           
       </form>
