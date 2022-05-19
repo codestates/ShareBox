@@ -1,0 +1,28 @@
+const router = require("express").Router();
+const controller = require("../controllers/records");
+const multer = require("multer");
+const path = require("path");
+// const upload = multer({ dest: "public/images/" });
+const upload = multer({
+  storage: multer.diskStorage({
+    // 저장한공간 정보 : 하드디스크에 저장
+    destination(req, file, done) {
+      // 저장 위치
+      done(null, "public/images/"); // uploads라는 폴더 안에 저장
+    },
+    filename(req, file, done) {
+      // 파일명을 어떤 이름으로 올릴지
+      const ext = path.extname(file.originalname); // 파일의 확장자
+      done(null, file.originalname); // 파일이름 + 날짜 + 확장자 이름으로 저장
+    },
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5메가로 용량 제한
+});
+
+// GET /items Router와 Controller를 연결합니다.
+router.get("/:recordsId", controller.get);
+router.post("/", controller.post);
+router.put("/:recordsId", upload.single(`image`), controller.put);
+router.delete("/:recordsId", controller.delete);
+
+module.exports = router;
