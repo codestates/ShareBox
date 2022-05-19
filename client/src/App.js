@@ -15,7 +15,6 @@ import { useCookies } from "react-cookie";
 import "./App.css";
 
 export default function App() {
-  const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
   const [keyword, setKeyword] = useState();
   const [data, setData] = useState();
   const [isloading, setIsLoading] = useState(false);
@@ -25,25 +24,30 @@ export default function App() {
   const navigate = useNavigate();
   const handleInputValue = (e) => {
     setKeyword(e.target.value);
-  }
+  };
   const handleKeyPress = (e) => {
     if (e.type === "keypress" && e.code === "Enter") {
       handleSearch();
     }
-  }
+  };
   const handleSearch = () => {
     if (keyword) {
       axios
-      .get(`http://localhost:4000/search?search_type=title&title=${keyword}&page=${1}&limit=${1}`)
-      .then(res => {
-        let data = res.data.data;
-        navigate('/');
-        setData(data);
-      })
-      .catch(err => console.log(err));
+        .get(`http://localhost:4000/search?search_type=title&title=${keyword}&page=${1}&limit=${1}`)
+        .then((res) => {
+          let data = res.data.data;
+          navigate("/");
+          setData(data);
+        })
+        .catch((err) => console.log(err));
     }
+<<<<<<< HEAD
+  };
+  const signinHandler = (data) => {
+=======
   }
   const signinHandler = () => {
+>>>>>>> 2d1df1921515ba444bdb5c117bdc01ceaa531bda
     setSignedIn(true);
   };
 
@@ -54,8 +58,6 @@ export default function App() {
   const issueAccessToken = (token) => {
     setAccessToken(token);
   };
-
-
 
   const handleDropout = () => {
     axios.post("https://localhost:4000/dropout").then((res) => {
@@ -76,6 +78,75 @@ export default function App() {
   };
   return (
     <>
+<<<<<<< HEAD
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Main
+              handleInputValue={handleInputValue}
+              handleKeyPress={handleKeyPress}
+              handleSearch={handleSearch}
+              data={data}
+              getData={getData}
+              setData={setData}
+              isloading={isloading}
+              setIsLoading={setIsLoading}
+              signedIn={signedIn}
+              // handleLogout={handleLogout}
+            />
+          }
+        />
+        <Route
+          path="/records/:id"
+          element={
+            <Item
+              getData={getData}
+              accessToken={accessToken}
+              handleInputValue={handleInputValue}
+              handleKeyPress={handleKeyPress}
+              handleSearch={handleSearch}
+              data={data}
+              signedIn={signedIn}
+              // handleLogout={handleLogout}
+            />
+          }
+        />
+        <Route path="/signup" element={<Signup />} />
+        <Route
+          path="/record"
+          element={
+            <Record
+              handleInputValue={handleInputValue}
+              handleKeyPress={handleKeyPress}
+              handleSearch={handleSearch}
+              data={data}
+              // handleLogout={handleLogout}
+            />
+          }
+        />
+        <Route
+          path="/mypage"
+          element={
+            <Mypage
+              handleInputValue={handleInputValue}
+              handleKeyPress={handleKeyPress}
+              handleSearch={handleSearch}
+              data={data}
+              userinfo={userinfo}
+              accessToken={accessToken}
+              handleDropout={handleDropout}
+            />
+          }
+        />
+        <Route
+          path="/signin"
+          element={
+            signedIn ? <Navigate replace to="/" /> : <Signin signinHandler={signinHandler} />
+          }
+        />
+      </Routes>
+=======
     <Routes>
       <Route path="/" element={<Main
       handleInputValue={handleInputValue}
@@ -123,6 +194,7 @@ export default function App() {
         element={signedIn ? <Navigate replace to="/" /> : <Signin signinHandler={signinHandler} />}
       />
     </Routes>
+>>>>>>> 2d1df1921515ba444bdb5c117bdc01ceaa531bda
     </>
   );
 }

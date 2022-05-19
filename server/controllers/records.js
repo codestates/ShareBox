@@ -54,7 +54,7 @@ module.exports = {
       if (!tokenData) {
         res.status(401).send({ message: "로그인이 되지 않았습니다." });
       } else {
-        records.put(req.params, req.body, tokenData, (error, result) => {
+        records.put(req.params, req.body, req.file, tokenData, (error, result) => {
           if (error) {
             res.status(500).send("Internal Server Error");
           } else {
