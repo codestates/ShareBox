@@ -16,15 +16,12 @@ const Wrapper = styled.div`
 `
 
 export default function Header2 (props) {
-  // const [data, setData] = useState();
-  // const [accessToken, setAccessToken] = useCookies(['accessToken']);
-  // const [keyword, setKeyword] = useState();
   const [cookies, removeCookie] = useCookies([]);
   const [hasToken, setHasToken] = useState(true);
   const navigate = useNavigate();
 
   const tokenChaser = () => {
-    if (!!cookies.accessToken && cookies.accessToken.length < 10) {
+    if (cookies.accessToken === undefined || cookies.accessToken.length < 10) {
       setHasToken(false)
     }
   }
@@ -51,34 +48,14 @@ export default function Header2 (props) {
         console.log(hasToken)
         navigate('/')
         console.log(props)
-        props.signoutHandler(); //App -> Main에서 내려받은 props인데 setSignedIn을 false로 바꿔줌
+        props.signoutHandler(); 
     });
   };
 
   useEffect(() => {
     tokenChaser()
-  },[])
+  },[hasToken])
 
-  // const handleInputValue = (e) => {
-  //   setKeyword(e.target.value);
-  // }
-  // const handleKeyPress = (e) => {
-  //   if (e.type === "keypress" && e.code === "Enter") {
-  //     handleSearch();
-  //   }
-  // }
-  // const handleSearch = () => {
-  //   if (keyword) {
-  //     axios
-  //     .get(`http://localhost:4000/search?search_type=title&title=${keyword}&page=${1}&limit=${1}`)
-  //     .then(res => {
-  //       let data = res.data.data;
-  //       console.log(data);
-  //       setData(data);
-  //     })
-  //     .catch(err => console.log(err));
-  //   }
-  // } 
 
   return (
     <Wrapper>

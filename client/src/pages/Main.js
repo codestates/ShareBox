@@ -1,6 +1,4 @@
-/* 
-검색 기능 구현
-*/
+
 import Header2 from "../components/Header2";
 import Category from "../components/Category";
 import Product from "../components/Product";
@@ -45,7 +43,6 @@ function Main(props) {
 
   useEffect(() => {
     props.getData();
-    console.log("getData begun");
   }, []);
 
   /*
