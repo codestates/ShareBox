@@ -6,15 +6,13 @@ import { Link } from 'react-router-dom'
 
 const Wrapper = styled.div`
 display: flex ;
-justify-content: flex-start;
-  width : 100%;
+justify-content: center;
+  width : 100vw;
   height : 10vh;
-  font-size: 7vh ;
+  
   position: static ;
-  background-color: white ;
+  background: linear-gradient(to top,rgba(241 212 202),white);
 `
-
-
 export default function Header1 (props) {
   
 // fix 
@@ -22,8 +20,7 @@ export default function Header1 (props) {
     <Link to ='/'>
       <Wrapper onClick={props.getData}>
         <img src={ShareBox} alt='logo' />
-    
-    </Wrapper>
+      </Wrapper>
     </Link>
   );
 }

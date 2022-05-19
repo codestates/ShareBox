@@ -1,48 +1,76 @@
-/* 
-헤더2 props 추가
-*/
 import axios from 'axios'
-// import Title from '../components/Title'
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Subheading from "../components/Subheading";
-import Header2 from "../components/Header2";
+import Header1 from '../components/Header1';
 
 const Wrapper = styled.div`
-  display: flex;
-  height: 100vh;
+  margin : 0px;
+  height: 96vh;
   width: 100vw;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(241 212 202);
-`;
+  justify-content: space-evenly;
+  background: linear-gradient(to bottom,rgba(241 212 202) 80%,white);
+  text-align: center;
+
+  `
 
 const Input = styled.input`
   height: 6vh;
-  width: 20vw;
+  width: 16vw;
+  text-align: center ;
   background-color: rgb(228 140 113);
   border-radius: 3vh;
   margin: 1vh;
-  font-size: 2vh;
+  font-size: 1vw;
   color: white;
-  align-content: center;
+  box-shadow: 3px 4px 0px 0px #8a2a21;
+
+	
+  &::placeholder{
+    color: white;
+  }
 `;
 
+const ImageInput = styled.input`
+`
+
 const Button = styled.button`
+  width: 10vw;
   height: 7vh;
-  width: 20vw;
-  background-color: white;
-  font-size: 2vw;
-  align-content: center;
-  color: black;
-  border: 0;
+  margin-top : 7vh;
+  box-shadow:inset 0px 1px 0px 0px #f9eca0;
+  background:linear-gradient(to bottom, #f9eca0 5%, #f2ab1e 100%);
+  border-radius:1vw;
+  cursor:pointer;
+  color:#c92200;
+  font-size: 1.5vh;
+  font-weight:bold;
+  
+  &:active {
+  position:relative;
+  top:1px;
+  }
+`
+const Textarea = styled(Input)`
+  width: 22vw;
+  height: 10vh ;
+`
+
+const Selector = styled(Input)`
+  width: 10vw;
+  border-radius: 0vh ;
 `;
 
 const Img = styled.img`
   background-image: ${(props) => props.img};
-  width: 40vh;
-  height: 40vh;
+  width: 14.5vw;
+  height: 26vh;
+  border-radius: 5vh ;
+  background-color: salmon;
 `;
+
+
+
 
 function Record(props) {
   const [post, setPost] = useState({
@@ -55,8 +83,6 @@ function Record(props) {
   const [imageFile, setImageFile] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [preview, setPreview] = useState("");
-
-  console.log(this.cookies);
 
   const onUploadImage = (e) => {
     const file = e.target.files;
@@ -167,16 +193,14 @@ function Record(props) {
   ];
 
   return (
-    <Wrapper>
-      {/* <Title /> */}
-      <div className="header2">
-        <Header2 signedIn={props.signedIn} handleLogout={props.handleLogout} />
-      </div>
+    
+    
+      <Wrapper>
+      <Header1 /> 
       <div>
         <Subheading body="상품 등록" />
         <div>
           <Input
-            type="text"
             accept="image/*"
             onChange={handleInputValue("title")}
             placeholder="상품 명을 등록해주세요"
@@ -185,42 +209,40 @@ function Record(props) {
         {preview ? <Img alt="상품 사진" src={preview} /> : ""}
 
         <div>
-          <input type="file" accept="image/*" onChange={onUploadImage} />
+          <ImageInput type="file" accept="image/*" onChange={onUploadImage} />
         </div>
 
         <div>
-          <select onChange={handleInputValue("category")}>
+          <Selector as="select" onChange={handleInputValue("category")}>
             {category.map((menu) => (
               <option key={menu} value={menu}>
                 {menu}
               </option>
             ))}
-          </select>
-        </div>
+          </Selector>
 
-        <div>
-          <select onChange={handleInputValue("country")}>
+          <Selector as="select" onChange={handleInputValue("country")}>
             {countrys.map((country) => (
               <option key={country} value={country}>
                 {country}
               </option>
             ))}
-          </select>
+          </Selector>
         </div>
 
         <div>
-          <Input
-            as="textarea"
+          <Textarea as="textarea"
             type="text"
             onChange={handleInputValue("content")}
-            placeholder="상품에 대한 설명과 거래시간을 알려주세요"
+            placeholder="상품에 대한 설명을 알려주세요"
           />
         </div>
         <div>{errorMessage}</div>
 
-        <button onClick={onRecords}> 등록 </button>
+        <Button onClick={onRecords}> 등록 </Button>
       </div>
     </Wrapper>
+ 
   );
 }
 

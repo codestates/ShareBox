@@ -1,16 +1,19 @@
-/* 
-검색 기능 구현
-*/
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import searchIcon from '../assets/SearchIcon.png'
 import { useCookies } from "react-cookie";
 import { useNavigate} from "react-router-dom";
-/* import styled from 'styled-components';
-export const Hdr2 = styled.div`
-`; */
-
+import styled from 'styled-components';
+import "../App.css";
 axios.defaults.withCredentials = true;
+
+const Wrapper = styled.div`
+  display: inline-block ;
+  justify-content: space-between;
+  width: 100vw ;
+  background-color: rgba(241 212 202);
+  padding-bottom: 1vw;
+`
 
 export default function Header2 (props) {
   // const [data, setData] = useState();
@@ -22,7 +25,7 @@ export default function Header2 (props) {
 
 
   const tokenChaser = () => {
-    if (!cookies.accessToken) {
+    if (cookies.accessToken.length < 10) {
       setHasToken(false)
     }
   }
@@ -47,7 +50,7 @@ export default function Header2 (props) {
       .then((res) => {
         setHasToken(false)
         console.log(hasToken)
-        removeCookie('accessToken',[])
+        removeCookie('accessToken','')
         navigate('/')
     });
   };
@@ -78,7 +81,7 @@ export default function Header2 (props) {
   // } 
 
   return (
-    
+    <Wrapper>
       <center>
         <form onSubmit={(e) => e.preventDefault()}>
           <input className='ip-search' type='text' onChange={props.handleInputValue} onKeyPress={props.handleKeyPress} />
@@ -86,11 +89,9 @@ export default function Header2 (props) {
             <img src={searchIcon} alt='search button' />
           </button>
         </form>
-        <button onClick={handleRoute} >{hasToken ? '로그아웃':'로그인'}</button>
-        <button onClick={handleRoute} >{hasToken ? '내 정보':'회원 가입' }</button>
-
-
+        <button className='logbtn' onClick={handleRoute} >{hasToken ? '로그아웃':'로그인'}</button>
+        <button className='logbtn' onClick={handleRoute} >{hasToken ? '내 정보':'회원 가입' }</button>
       </center>
-    
+    </Wrapper>
   );
 }

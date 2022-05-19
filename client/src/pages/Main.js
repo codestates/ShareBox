@@ -12,12 +12,12 @@ const Wrapper = styled.div`
 `;
 
 const Body = styled.div`
-  padding-top: 25vh;
   display: flex;
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(241 212 202);
+  padding-left: 3vw;
+  background: linear-gradient(to bottom ,rgba(241 212 202) 90%, white);
 `;
 
 function Main(props) {
