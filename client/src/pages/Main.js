@@ -69,6 +69,7 @@ function Main(props) {
           handleSearch={props.handleSearch}
           signedIn={props.signedIn}
           handleLogout={props.handleLogout}
+          signoutHandler={props.signoutHandler} //App.js에서 받아서 다시 Header2로 내려줌
         />
         <Category
           name={["냉동", "신선", "양곡", "축산", "수산", "음료", "스낵", "가공식품", "조미료"]}

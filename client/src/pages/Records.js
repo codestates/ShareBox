@@ -45,6 +45,7 @@ const Img = styled.img`
 `;
 
 function Record(props) {
+
   const [post, setPost] = useState({
     title: "",
     image: "",
@@ -56,7 +57,7 @@ function Record(props) {
   const [errorMessage, setErrorMessage] = useState("");
   const [preview, setPreview] = useState("");
 
-  console.log(this.cookies);
+  // console.log(this.cookies);
 
   const onUploadImage = (e) => {
     const file = e.target.files;
@@ -81,39 +82,49 @@ function Record(props) {
 
     const data = {
       title: post.title,
-      image: post.image,
       content: post.content,
       category: post.category,
-      country: post.country,
+      country: post.country
     };
 
+
+    console.log(imageFile)
     const formData = new FormData();
-    formData.append("image", imageFile[0]);
-    formData.append("data", new Blob([JSON.stringify(data)], { type: "application/json" }));
-
-    // formData.append("data", new Blob([JSON.stringify(variables)], {type: "application/json"}))
-    for (let key of formData.keys()) {
-      console.log(`formData Key 값 : ${key}`);
-    }
-
-    /* value 확인하기 */
-    for (let value of formData.values()) {
-      console.log(value);
-    }
+    formData.append("img", imageFile[0]);
+    formData.append("title", post.title);
+    formData.append("content", post.content);
+    formData.append("category", post.category);
+    formData.append("country", post.country);
 
 
-    axios
-      .post("http://localhost:4000/records", data)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // const formData = new FormData();
+    // formData.append("image", imageFile[0]);
+    // formData.append("data", new Blob([JSON.stringify(data)], { type: "application/json" }));
 
-    // axios.post ('http://localhost:4000/records',formData,{headers: { "Content-Type": "multipart/form-data" }})
-    // .then((res) => { console.log('response : ', JSON.stringify(res, null, 2)) })
-    // .catch( error => { console.log('failed', error) })
+
+    // // formData.append("data", new Blob([JSON.stringify(variables)], {type: "application/json"}))
+    // for (let key of formData.keys()) {
+    //   console.log(`formData Key 값 : ${key}`);
+    // }
+
+    // /* value 확인하기 */
+    // for (let value of formData.values()) {
+    //   console.log(value);
+    // }
+
+
+    // axios
+    //   .post("http://localhost:4000/records", data)
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+
+    axios.post('http://localhost:4000/upload', formData, { headers: { "Content-Type": "multipart/form-data" } })
+      .then((res) => { console.log(res) })
+      .catch(error => { console.log('failed', error) })
   };
 
   const handleInputValue = (key) => (e) => {

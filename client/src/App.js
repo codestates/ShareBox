@@ -43,9 +43,13 @@ export default function App() {
       .catch(err => console.log(err));
     }
   }
-  const signinHandler = (data) => {
+  const signinHandler = () => {
     setSignedIn(true);
   };
+
+  const signoutHandler = () =>{
+    setSignedIn(false);
+  }
 
   const issueAccessToken = (token) => {
     setAccessToken(token);
@@ -84,6 +88,8 @@ export default function App() {
       setIsLoading={setIsLoading}
       signedIn={signedIn}
       // handleLogout={handleLogout}
+      signoutHandler={signoutHandler} //메인에 내려주고 다시 Header2로 내려주는 함수
+
       />} />
       <Route path="/records/:id" element={<Item
       getData={getData}

@@ -103,7 +103,7 @@ export default function Item(props) {
         .catch((err) => console.log(err));
     } else {
       axios
-        .post(`http://localhost:4000/comments/${editingComment}`,
+        .post(`http://localhost:4000/comments/${id}`,
           { content: `${text}` },
           { withCredentials: true })
         .then((res) => console.log(res))
@@ -124,11 +124,16 @@ export default function Item(props) {
 
   useEffect(() => {
     getRecords();
-  }, []);
+  }, [record]);
 
   useEffect(() => {
     console.log(editingComment);
   }, [editingComment]);
+
+  useEffect(() => {
+    console.log(record);
+  }, [record]);
+
 
 
   return (
@@ -242,7 +247,7 @@ export default function Item(props) {
                 <button
                   className="btn btn-post-comment"
                   type="submit"
-                  onClick={() => handleSubmitButton}
+                  onClick={handleSubmitButton}
                 >
                   등록
                 </button>
