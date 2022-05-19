@@ -1,20 +1,76 @@
+/* 
+로그인 후 리다이렉트 구현
+*/
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Header1 from "../components/Header1";
-import { useCookies } from "react-cookie";
+import styled from "styled-components";
+import Subheading from '../components/Subheading';
 
 axios.defaults.withCredentials = true;
 
-export default function Signin({ signinHandler }) {
-  const GITHUB_LOGIN_URL =
+const Input = styled.input`
+  display: inline-block;
+  height: 6vh;
+  width: 16vw;
+  text-align: center ;
+  background-color: rgb(228 140 113);
+  border-radius: 3vh;
+  margin: 1vh;
+  font-size: 2vh;
+  color: white;
+  box-shadow: 3px 4px 0px 0px #8a2a21;
+  &::placeholder{
+    color: white;
+    font-size: 2vh; 
+    font-weight: 1300;
+  }
+`;
+
+const LoginButton = styled.button`
+  width: 8vw;
+  height: 4vh;
+
+  box-shadow:inset 0px 1px 0px 0px #f9eca0;
+  background:linear-gradient(to bottom, #f9eca0 5%, #f2ab1e 100%);
+  border-radius:1vw;
+  cursor:pointer;
+  color:#c92200;
+  font-size: 1.5vh;
+  font-weight:bold;
+  text-decoration: none;
+  
+  &:active {
+  position:relative;
+  top:1px;
+  }
+`
+const SignupButton = styled(LoginButton)`
+  margin-right: 0vh;
+`
+
+const OauthButton = styled(LoginButton)`
+  width: 17vw;
+`
+
+const Caution = styled.div`
+  color: red;
+  border-color: #f5c6cb;
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+`
+
+export default function Signin({ accessToken, signinHandler }) {
+    const GITHUB_LOGIN_URL =
     "https://github.com/login/oauth/authorize?client_id=5a0ba47d6cec26f64fda";
   const handleOauth = () => {
     window.location.assign(GITHUB_LOGIN_URL);
   };
 
-  //쿠키에 저장된 엑세스 토큰
-  const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
+  
   //로그인하기 위해 적어놓을 아이디 비번
   const [signinInfo, setSigninInfo] = useState({
     userId: "",
@@ -49,35 +105,39 @@ export default function Signin({ signinHandler }) {
     <div className="background">
       <Header1 />
       <form className="signinContainer" onSubmit={(e) => e.preventDefault()}>
-        <h1>로그인</h1>
+      <Subheading body="로그인" />
         <div className="signin-top">
           <div className="inputFields">
             <div className="inputField">
-              <input type="text" onChange={handleInputValue("userId")} placeholder="ID" />
+              <Input type="text" onChange={handleInputValue("userId")} placeholder="ID" />
             </div>
             <div className="inputField">
-              <input
+              <Input
                 type="password"
                 onChange={handleInputValue("password")}
                 placeholder="비밀번호"
               />
             </div>
           </div>
-          <button className="btn btn-signin" type="submit" onClick={handleSignin}>
-            로그인
-          </button>
         </div>
+        <Caution className="alert-box">{errorMessage}</Caution>
         <div>
-          <button className="btn btn-oauth" onClick={handleOauth}>
-            GitHub ID로 가입/로그인
-          </button>
+          <LoginButton className="btn btn-signin" type="submit" onClick={handleSignin}>
+            로그인
+          </LoginButton>
+          <span> </span>
           <Link to="/signup">
-            <button className="btn btn-signup">
+            <SignupButton className="btn btn-signup">
               회원가입
-            </button>
+            </SignupButton>
           </Link>
         </div>
-        <div className="alert-box">{errorMessage}</div>
+        <div>
+          <OauthButton className="btn btn-oauth" onClick={handleOauth}>
+            GitHub ID로 가입/로그인
+          </OauthButton>
+        </div>
+     
       </form>
     </div>
   );

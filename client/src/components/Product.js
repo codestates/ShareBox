@@ -6,6 +6,8 @@ const Wrapper = styled.div`
   justify-content: space-evenly;
   float: left;
   margin: 2vw;
+  border-radius: 5vh ;
+
   &:hover {
     color: black;
     transform: scale(1.1);
@@ -16,6 +18,7 @@ const Wrapper = styled.div`
 const Img = styled.img`
   width: 14.5vw;
   height: 26vh;
+  border-radius: 5vh ;
   background-image: ${(props) => props.image};
   background-color: salmon;
   display: grid;
@@ -35,11 +38,13 @@ const TextRight = styled.div`
 const Box = styled(Body)`
   width: 14.5vw;
   height: 26vh;
+  border-radius: 5vh ;
 `;
 
 function Product(props) {
-  return (
-    <Wrapper>
+
+  return (  
+    <Wrapper>      
       <Link to={`/records/${props.id}`}>
         <Box>
           <Img src={props.image} alt="상품사진" title={props.title} />
