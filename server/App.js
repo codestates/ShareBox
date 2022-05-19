@@ -7,7 +7,7 @@ const port = 4000;
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://sharebox-s3.s3-website.ap-northeast-2.amazonaws.com/"],
     credentials: true,
     methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
   })

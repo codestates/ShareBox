@@ -53,7 +53,7 @@ INSERT INTO
 VALUES
     (
         "닭가슴살 필요하신분 계신가요?",
-        "http://localhost:4000/images/닭가슴살.jpg",
+        "http://ec2-3-34-122-9.ap-northeast-2.compute.amazonaws.com/images/닭가슴살.jpg",
         "ㅈㄱㄴ",
         "축산",
         "영등포구",
@@ -61,7 +61,7 @@ VALUES
     ),
     (
         "빵 필요하신분~????",
-        "http://localhost:4000/images/빵.jpg",
+        "http://ec2-3-34-122-9.ap-northeast-2.compute.amazonaws.com/images/빵.jpg",
         "오늘 사왔습니다!!",
         "빵",
         "마포구",
@@ -69,7 +69,7 @@ VALUES
     ),
     (
         "오늘 저녁 삼겹살 필요하신 분??",
-        "http://localhost:4000/images/삼겹살.jpg",
+        "http://ec2-3-34-122-9.ap-northeast-2.compute.amazonaws.com/images/삼겹살.jpg",
         "요즘 돼지고기 비싸요 ㅠ",
         "축산",
         "영등포구",
@@ -77,7 +77,7 @@ VALUES
     ),
     (
         "고등어 필요하신 분있나요??",
-        "http://localhost:4000/images/고등어.jpg",
+        "http://ec2-3-34-122-9.ap-northeast-2.compute.amazonaws.com/images/고등어.jpg",
         "오늘 사서 신선합니다.",
         "수산",
         "강서구",
@@ -85,7 +85,7 @@ VALUES
     ),
     (
         "치킨 필요하신 분?",
-        "http://localhost:4000/images/치킨.jpg",
+        "http://ec2-3-34-122-9.ap-northeast-2.compute.amazonaws.com/images/치킨.jpg",
         "얼능가져가세요",
         "가공식품",
         "마포구",
@@ -93,7 +93,7 @@ VALUES
     ),
     (
         "배추 필요하신분 계신가요?",
-        "http://localhost:4000/images/배추.jpg",
+        "http://ec2-3-34-122-9.ap-northeast-2.compute.amazonaws.com/images/배추.jpg",
         "요즘 야채 비싸요",
         "신선",
         "강서구",

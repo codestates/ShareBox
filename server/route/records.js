@@ -21,7 +21,7 @@ const upload = multer({
 
 // GET /items Router와 Controller를 연결합니다.
 router.get("/:recordsId", controller.get);
-router.post("/", controller.post);
+router.post("/", upload.single(`image`), controller.post);
 router.put("/:recordsId", upload.single(`image`), controller.put);
 router.delete("/:recordsId", controller.delete);
 

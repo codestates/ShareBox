@@ -52,6 +52,7 @@ export default function Item(props) {
   const handleArticleEdit = () => {
     setIsEditingArticle(true);
   };
+
   const handleArticleDeletion = () => {
     axios
       .delete(`http://localhost:4000/records/${id}`, { withCredentials: true })
@@ -152,7 +153,7 @@ export default function Item(props) {
   useEffect(() => {
     console.log(isEditingArticle);
   }, [isEditingArticle]); */
-    /* console.log(record);
+  /* console.log(record);
   }, [record]); */
 
   return (
@@ -257,10 +258,12 @@ export default function Item(props) {
                       <button
                         key={5}
                         className="btn btn-article-edit-cancel"
-                        onClick={() => {setIsEditingArticle(false)}}
+                        onClick={() => {
+                          setIsEditingArticle(false);
+                        }}
                       >
                         수정 취소
-                      </button>
+                      </button>,
                     ]
                   : [
                       <p key={1} className="poster">
@@ -285,11 +288,7 @@ export default function Item(props) {
                   onChange={handleTextValue}
                   onKeyPress={handleKeyPress}
                 />
-                <button
-                  className="btn btn-post-comment"
-                  type="submit"
-                  onClick={handleSubmitButton}
-                >
+                <button className="btn btn-post-comment" type="submit" onClick={handleSubmitButton}>
                   등록
                 </button>
               </div>

@@ -48,7 +48,7 @@ module.exports = {
           } else {
             con.query(`SET foreign_key_checks = 0`);
             con.query(
-              `UPDATE posts SET title = "${title}", image = "http://localhost:4000/${newPath}", content = "${content}", category = "${category}", country = "${country}", complete = ${complete} WHERE posts.id = ${recordsId}`,
+              `UPDATE posts SET title = "${title}", image = "http://ec2-3-34-122-9.ap-northeast-2.compute.amazonaws.com/${newPath}", content = "${content}", category = "${category}", country = "${country}", complete = ${complete} WHERE posts.id = ${recordsId}`,
               (err, result) => {
                 if (err) {
                   return callback(err);

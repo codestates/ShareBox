@@ -8,7 +8,6 @@ import Signin from "./pages/Signin";
 import Mypage from "./pages/Mypage";
 import Record from "./pages/Records";
 
-
 import "./App.css";
 
 export default function App() {
@@ -30,22 +29,24 @@ export default function App() {
   const handleSearch = () => {
     if (keyword) {
       let search = axios
-        .get(`${process.env.EC2}/search?search_type=title&title=${keyword}&page=${1}&limit=${100}`)
-        .then(res => {
+        .get(
+          `http://localhost:4000/search?search_type=title&title=${keyword}&page=${1}&limit=${100}`
+        )
+        .then((res) => {
           let data = res.data.data;
           setTimeout(() => {
             setData(data);
-          }, '100');
+          }, "100");
         })
-        .catch(err => {
-          console.log('search error', err);
-          if (err.response.data.message === '검색 결과 게시물이 존재하지 않습니다.')
+        .catch((err) => {
+          console.log("search error", err);
+          if (err.response.data.message === "검색 결과 게시물이 존재하지 않습니다.")
             setTimeout(() => {
               setData([]);
-              console.log('검색 결과 게시물이 존재하지 않습니다.');
-            }, '100');
+              console.log("검색 결과 게시물이 존재하지 않습니다.");
+            }, "100");
         });
-      if (window.location.pathname !== '/') navigate('/', { state: { keyword: keyword } });
+      if (window.location.pathname !== "/") navigate("/", { state: { keyword: keyword } });
       return search;
     }
   };
@@ -65,19 +66,19 @@ export default function App() {
   };
 
   const getData = () => {
-    console.log('starting main retrieval');
+    console.log("starting main retrieval");
     axios
       .get("http://localhost:4000/main")
       .then((res) => {
-        console.log(res);
+        console.log("main retrieved");
         setData(res.data.data);
         setIsLoading(true);
       })
-      .catch((err) => console.log('main not retrieved', err));
+      .catch((err) => console.log("main not retrieved", err));
   };
-  
+
   useEffect(() => {
-    console.log('App data:')
+    console.log("App data:");
     console.log(data);
   }, [data]);
 
